@@ -1,18 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>hello ejs</h1>
-</body>
-</html> -->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,73 +12,67 @@
 </head>
 <body>
     <%- include('navbar') %>
-  <div class="container bg-primary">
-    <div class="row">
-      <div class="col-sm-6">
-    <div class="card" style="width: 18rem;">
+    <div class="container-sm-width bg-dark ">
+  <div class="container bg-primary px-4">
+    <div class="row gx-5">
+      <div class="col-3 p-4 border bg-light">
+       
+    <div class="card  text-center" style="width: 15rem;">
       <img class="card-img-top" src="./image/AIS.png" alt="Card image cap">
       <div class="card-body">
         <p class="card-text">NameCompany</p>
       </div>
     </div>
+  
   </div>
-  </div>
-    <div class="col-sm-6">
+  
+    <div class="col-sm-8 p-4 border bg-light">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <p class="card-text">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWith supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary ">Go somewhere</a>
         </div>
       </div>
     </div>
   </div>
+  </div>
 
 
-  <div class="container bg-primary">
-    <div class="row">
-      <div class="col-sm-6">
-    <div class="card" style="width: 18rem;">
+
+
+  <div class="container bg-light px-4">
+    <div class="row gx-5">
+      <div class="col-3 p-4 border bg-light">
+       
+    <div class="card text-center  " style="width: 15rem;">
       <img class="card-img-top" src="./image/AIS.png" alt="Card image cap">
       <div class="card-body">
         <p class="card-text">NameCompany</p>
       </div>
     </div>
+  
   </div>
-  </div>
-    <div class="col-sm-6">
+  
+    <div class="col-sm-8 p-4 border bg-light">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <p class="card-text">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWith supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary ">Go somewhere</a>
         </div>
       </div>
     </div>
   </div>
+  </div>
+  
 
 
-  <div class="container bg-primary">
-    <div class="row">
-      <div class="col-sm-6">
-    <div class="card" style="width: 18rem;">
-      <img class="card-img-top" src="./image/AIS.png" alt="Card image cap">
-      <div class="card-body">
-        <p class="card-text">NameCompany</p>
-      </div>
-    </div>
-  </div>
-  </div>
-    <div class="col-sm-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  <%- include('hotcompany') %>
+
+  <%- include('hotjob') %>
+  
 <%- include('Footer') %>
 </body>
 </html>

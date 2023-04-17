@@ -20,6 +20,16 @@ router.get('/registercompany',(req,res)=>{
     res.render('registercompany')
 })
 
+router.get('/resume',(req,res)=>{
+    
+    res.render('resume')
+})
+
+router.get('/payment',(req,res)=>{
+    
+    res.render('payment')
+})
+
 
 
 module.exports = router 
