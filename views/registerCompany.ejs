@@ -12,6 +12,7 @@
 </head>
 <body>
   <%- include('navbar') %>
+  <form>
    <!-- Name input -->
    <div class="form-outline mb-4">
     <label class="form-label" for="login-Name">name</label>
@@ -26,15 +27,15 @@
   </div>
    <!-- currentpass input -->
  <div class="form-outline mb-4">
-    <label class="form-label" for="login-CurrentPassWord">Email or username</label>
+    <label class="form-label" for="login-CurrentPassWord">CurrentPassWord</label>
     <input type="CurrentPassWord" id="login-CurrentPassWord" class="form-control" />
     
   </div>
 
  <!-- Email input -->
  <div class="form-outline mb-4">
-    <label class="form-label" for="loginName">Email or username</label>
-    <input type="email" id="loginName" class="form-control" />
+    <label class="form-label" for="login-Email">Email</label>
+    <input type="email" id="login-Email" class="form-control" />
     
   </div>
 
@@ -47,15 +48,15 @@
 
   <!-- NameCompany input -->
  <div class="form-outline mb-4">
-    <label class="form-label" for="login-Tell">Tell</label>
-    <input type="Tell" id="login-Tell" class="form-control" />
+    <label class="form-label" for="login-NameCompany">NameCompany</label>
+    <input type="Tell" id="login-NameCompany" class="form-control" />
     
   </div>
 
   <!-- typeCompany input -->
  <div class="form-outline mb-4">
-    <label class="form-label" for="login-Tell">Tell</label>
-    <input type="Tell" id="login-Tell" class="form-control" />
+    <label class="form-label" for="login-TypeCompany">TypeCompany</label>
+    <input type="Tell" id="login-TypeCompany" class="form-control" />
     
   </div>
   <!-- NameFormCompany input -->
@@ -64,6 +65,7 @@
     <input type="Tell" id="login-Tell" class="form-control" />
     
   </div>
+  </form>
 </body>
 <%- include('Footer') %>
 </html>
