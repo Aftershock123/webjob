@@ -25,12 +25,8 @@ router.get('/resume',(req,res)=>{
     res.render('resume')
 })
 
-router.get('/payment',(req,res)=>{
-    
-    res.render('payment')
-})
 
 
 
 
-module.exports = router 
+module.exports = router ;

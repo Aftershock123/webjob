@@ -1,33 +1,29 @@
 const express =require('express')
-// const path = require('path')
-const mysql =require('mysql2');
-// const router =require('./Router/myrouter')
+const path =require('path')
+
+const bodyParser=require('body-parser')
+const db =require("./Router/db-config")
 const app = express()
+require('dotenv').config();
+
+const Port =process.env.Port || 3000;
+
+app.use(express.urlencoded({extended:false}))
+app.use(express.json());
+//Set view engine
+
+app.set('views',path.join(__dirname,'views'))
+app.set('view engine','ejs')
+
+//define router
+app.use('/' ,require ('./Router/myrouter'))
+app.use('/auth' ,require ('./Router/auth'))
 
 
+//static file
+app.use(express.static(path.join(__dirname,'public')))
 
-const connection = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    database:'projectweb',
-    port:'3307'
-
-})
-connection.connect((err)=>{
-    if(err){
-        console.log('Error connect to mysql database = ',err)
-        return;
-    }
-    console.log('Mysql successfully connected');
-})
-
-// app.set('views',path.join(__dirname,'views'))
-// app.set('view engine','ejs')
-// app.use(router)
-// app.use(express.static(path.join(__dirname,'public')))
-
-
-
-app.listen(8080,()=>{
-    console.log("server port 3030 ")
+//connect port
+app.listen(Port,()=>{  
+    console.log("server port : "+Port);
 })

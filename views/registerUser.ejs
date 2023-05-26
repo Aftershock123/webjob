@@ -11,46 +11,59 @@
     <script src="js/bootstrap.min.js"></script> -->
 </head>
 <body>
-  <%- include('navbar') %>
-  <form class="bg-primary text-center  a">
+ 
+  <div class="container">
+    <% if (locals.msg){ %>
+      <ul>
+        <li>
+          <%= msg %>
+        </li>
+      </ul>
+    <% } %>
+  
+    <p>{{msg}}</p>
+  
+  <form action="/auth/registerUser" method="POST">
      <!-- Name input -->
      <div class="row mb-3">
-      <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
+      <label for="name" >Name</label>
       <div class="col-sm-5">
-        <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
+        <input type="text" class="form-control" id="name" name="name" placeholder="col-form-label">
       </div>
     </div>
        <!-- Password input -->
        <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
+        <label for="password" >Password</label>
         <div class="col-sm-5">
-          <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
+          <input type="Password" class="form-control" id="password" name="password" placeholder="col-form-label">
         </div>
       </div>
        <!-- currentpass input -->
        <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
+        <label for="currentpass" class="col-sm-2 col-form-label">currentpass</label>
         <div class="col-sm-5">
-          <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
+          <input type="currentpass" class="form-control" id="currentpass" name ="currentpass" placeholder="col-form-label">
         </div>
       </div>
 
      <!-- Email input -->
      <div class="row mb-3">
-      <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
+      <label for="email" class="col-sm-2 col-form-label">Email</label>
       <div class="col-sm-5">
-        <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
+        <input type="email" class="form-control" id="email" name="email" placeholder="col-form-label">
       </div>
     </div>
 
        <!-- tell input -->
        <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
+        <label for="colFormLabel" class="col-sm-2 col-form-label">tell</label>
         <div class="col-sm-5">
-          <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
+          <input type="tell" class="form-control" id="tell" name="tell" placeholder="col-form-label">
         </div>
       </div>
+      <button type="submit" class="btn btn-primary">RegisterCompany</button>
       </form>
+      </div>
 </body>
-<%- include('Footer') %>
+
 </html>
