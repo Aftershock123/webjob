@@ -1,0 +1,23 @@
+const db =require("../Router/db-config")
+const bcrypt =require("bcryptjs")
+
+const register = async (req,res)=>{
+    const { email,password: Npassword} =req.body
+    if(!email || !Npassword) return res.json({status:"error",error:"Please Enter your email and password"});
+    else{
+        console.log(email)
+        db.query('SELECT EMAIL FROM USER WHERE email = ? ',[email],async(err,result)=>{
+            if(err) throw err;
+            if(result[0])return res.json({status: "error", error: "Email has already been registered"})
+            else {
+                console.log(password)
+                const password = bcrypt.hash(Npassword, 8);
+                db.query('INSERT INTO users SET ?', {email:email,password:password},(error,result)=>{
+                    if(error) throw error;
+                    return res.json({status:"sucess", sucess:"User has been registered"})
+                })
+            }
+        })
+    }
+}
+module.exports= register;
