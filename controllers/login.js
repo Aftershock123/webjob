@@ -8,7 +8,7 @@ const login = async (req,res)=>{
     else{
         db.query('SELECT email FROM users WHERE email = ? ', [email], async(Err,result)=>{
             if(Err) throw Err;
-            if(!result[0] || !await bcrypt.compare(password,result[0].password))return res.json({status:"error",error:"Incorrect Email or password"})
+            if(!result.length || !await bcrypt.compare(password,result[0].password))return res.json({status:"error",error:"Incorrect Email or password"})
             else{
                 const token =jwt.sign(result[0].id, process.env.JWT_SECRET,{
                     expiresIn:process.env.JWT_EXPIRES
@@ -18,7 +18,7 @@ const login = async (req,res)=>{
                     httpOnly:true
                 }
                 res.cookie("userRegistered",token,cookieOptions);
-                return res.json({status:"sucess" , sucess:"User has been logged in"});
+                return res.json({status:"success" , success:"User has been logged in"});
             }
         })
     }

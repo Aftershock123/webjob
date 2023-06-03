@@ -1,9 +1,7 @@
 form.addEvenListener("submit",()=>{
     const register ={
-        password:password.value,
         email: email.value,
-       
-        
+        password:password.value,
 
     }
     fetch("/api/register",{
