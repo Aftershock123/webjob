@@ -1,29 +1,45 @@
 const express = require('express')
-const router = express.Router()
+const logout =require("../controllers/logout")
 
-router.get('/',(req,res)=>{
-    const name ="Non"
-    res.render('index.ejs',{data:name})
-})
+const loggedIn =require('../controllers/loggedin');
+const router = express.Router()
+router.get('/', loggedIn, (req, res) => {
+    let status;
+    let user;
+  
+    if (req.user) {
+      status = "loggedIn";
+      user = req.user;
+    } else {
+      status = "no";
+      user = "nothing";
+    }
+  
+    res.render('index.ejs', { status, user }); // Pass the 'status' variable to the view
+  });
+  
+  
 
 
 router.get('/login',(req,res)=>{
     res.render('login')
 })
 
+
 router.get('/registeruser',(req,res)=>{
     
     res.render('registeruser')
 })
-router.get('/registercompany',(req,res)=>{
+// router.get('/registercompany',(req,res)=>{
     
-    res.render('registercompany')
-})
+//     res.render('registercompany')
+// })
 
-router.get('/resume',(req,res)=>{
+// router.get('/resume',(req,res)=>{
     
-    res.render('resume')
-})
+//     res.render('resume')
+// })
+router.get("/logout",logout)
 
 
 
