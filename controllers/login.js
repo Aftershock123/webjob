@@ -7,7 +7,7 @@ const login = async (req, res) => {
     if (!email || !password) {
         return res.status(400).json({ status: "error", error: "Please enter your email and password" });
     } else {
-        db.query('SELECT * FROM users WHERE email = ?', [email], async (err, result) => {
+        db.query('SELECT * FROM members WHERE email = ?', [email], async (err, result) => {
             if (err) throw err;
             if (!result.length || !await bcrypt.compare(password, result[0].password)) {
                 return res.json({ status: "error", error: "Incorrect email or password" });
@@ -16,7 +16,7 @@ const login = async (req, res) => {
                 console.log(password);
                 
                 // Generating JWT token
-                const token = jwt.sign({ id: result[0].id }, process.env.JWT_SECRET, {
+                const token = jwt.sign({ id_member: result[0].id_member }, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRES
                 })
 
@@ -29,6 +29,7 @@ const login = async (req, res) => {
                 return res.status(200).json({ status: "success", success: "User has been logged in" });
             }
         });
+        
     }
 };
 

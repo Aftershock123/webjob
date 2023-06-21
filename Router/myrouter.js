@@ -6,11 +6,14 @@ const router = express.Router()
 router.get('/', loggedIn, (req, res) => {
     let status;
     let user;
+    
   
     if (req.user) {
       status = "loggedIn";
       user = req.user;
-    } else {
+    } 
+   
+    else {
       status = "no";
       user = "nothing";
     }
@@ -30,10 +33,10 @@ router.get('/registeruser',(req,res)=>{
     
     res.render('registeruser')
 })
-// router.get('/registercompany',(req,res)=>{
+router.get('/registercompany',(req,res)=>{
     
-//     res.render('registercompany')
-// })
+    res.render('registercompany')
+})
 
 // router.get('/resume',(req,res)=>{
     

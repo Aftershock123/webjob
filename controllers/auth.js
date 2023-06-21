@@ -1,8 +1,10 @@
 const express =require("express");
-const register =require("./register")
+const registeruser =require("./registeruser")
+const registercompany =require("./registercompany")
 const login =require("./login")
 const router =express.Router();
 
-router.post("/register",register)
+router.post("/registeruser",registeruser)
+router.post("/registercompany",registercompany)
 router.post("/login",login)
 module.exports =router;

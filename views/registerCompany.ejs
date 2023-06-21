@@ -12,63 +12,56 @@
 </head>
 <body>
   <%- include('navbar') %>
-  <form>
+  <form action="/api/registercompany" method="post">
    <!-- Name input -->
-   <div class="form-outline mb-4">
-    <label class="form-label" for="login-Name">name</label>
-    <input type="Name" id="login-Name" class="form-control" />
+   <div  class="data">
+    <label  for="name">name</label>
+    <input type="text"  name ="name" id="name"  />
     
   </div>
    <!-- Password input -->
-  <div class="form-outline mb-4">
-    <label class="form-label" for="login-Password">Password</label>
-    <input type="password" id="login-Password" class="form-control" >
-    
-  </div>
-   <!-- currentpass input -->
- <div class="form-outline mb-4">
-    <label class="form-label" for="login-CurrentPassWord">CurrentPassWord</label>
-    <input type="CurrentPassWord" id="login-CurrentPassWord" class="form-control" />
+  <div  class="data">
+    <label for="password">Password</label>
+    <input type="password" name ="password" id="password" >
     
   </div>
 
+
  <!-- Email input -->
- <div class="form-outline mb-4">
-    <label class="form-label" for="login-Email">Email</label>
-    <input type="email" id="login-Email" class="form-control" />
+ <div  class="data">
+    <label  for="email">Email</label>
+    <input type="email"  name ="email" id="email" />
     
   </div>
 
    <!-- tell input -->
- <div class="form-outline mb-4">
-    <label class="form-label" for="login-Tell">Tell</label>
-    <input type="Tell" id="login-Tell" class="form-control" />
+ <!-- <div class="form-outline mb-4">
+    <label class="form-label" for="tell_company">Tell</label>
+    <input type="tell_company" name ="tell_company" id="tell_company" class="form-control" />
     
-  </div>
+  </div> -->
 
-  <!-- NameCompany input -->
- <div class="form-outline mb-4">
-    <label class="form-label" for="login-NameCompany">NameCompany</label>
-    <input type="Tell" id="login-NameCompany" class="form-control" />
+  
+  <!-- userCompany input -->
+ <!-- <div class="form-outline mb-4">
+    <label class="form-label" for="user_company">NameCompany</label>
+    <input type="user_company" name ="user_company" id="user_company" class="form-control" />
     
-  </div>
+  </div> -->
 
   <!-- typeCompany input -->
- <div class="form-outline mb-4">
-    <label class="form-label" for="login-TypeCompany">TypeCompany</label>
-    <input type="Tell" id="login-TypeCompany" class="form-control" />
+ <!-- <div class="form-outline mb-4">
+    <label class="form-label" for="type_company">TypeCompany</label>
+    <input type="type_company" name ="type_company" id="type_company" class="form-control" />
     
-  </div>
+  </div> -->
   <!-- NameFormCompany input -->
- <div class="form-outline mb-4">
-    <label class="form-label" for="login-Tell">Tell</label>
-    <input type="Tell" id="login-Tell" class="form-control" />
-    
-  </div>
+  <div class="alert alert-danger" role="alert" id="error" style="display:none;"></div>
+      <div class="alert alert-success" role="alert" id="success" style="display:none;"></div>
   <button type="submit" class="btn btn-primary">RegisterCompany</button>
   
   </form>
-  <script> src ="js/registerCompany.js"</script>
+  
 </body>
 
 </html>
