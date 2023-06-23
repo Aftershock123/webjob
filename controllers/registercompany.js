@@ -20,7 +20,7 @@ const registercompany = async (req, res) => {
                     // Hashing the password
                     const password = await bcrypt.hash(Npassword, 8);
                     
-                    db.query('INSERT INTO members SET ?', { email: email, password: password }, (error, results) => {
+                    db.query('INSERT INTO members SET ?', { name:name_company, email: email, password: password }, (error, results) => {
                         if (error) {
                             console.log("Insert member error");
                             throw error;

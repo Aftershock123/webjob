@@ -16,7 +16,7 @@
 
 <body>
   <%- include('navbar') %>
-    <section>
+    <section class="sectionforlogin">
       <div class="form-box">
         <div class="form-value">
           <form onsubmit="submitLoginForm(event)">
@@ -61,7 +61,7 @@
           .then(response => {
             // Successful response
             console.log(response.data);
-            // window.location.href = '/'; // Redirect to the profile page
+            window.location.href = '/'; // Redirect to the profile page
 
           })
           .catch(error => {

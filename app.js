@@ -16,7 +16,6 @@ app.set('view engine','ejs')
 
 
 
-
 //static file
 app.use(express.static(path.join(__dirname,'public')))
 app.use("/js" , express.static(__dirname+'./public/js'))

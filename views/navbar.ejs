@@ -16,31 +16,33 @@
         <li class="nav-item me-auto">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
+        
         <li class="nav-item dropdown me-auto ms-auto">
-          <% if (locals.status==="loggedIn" ) { %>
+          <li class="nav-item dropdown me-auto ms-auto">
+            <% if (status === "loggedIn") { %> <!-- Check if the status is "loggedIn" -->
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-            <%= locals.user.name %>
+            <%= member.name %> <!-- Access the email property of the member -->
             </a>
-            <% } else { %>
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                login
-              </a>
-              <% } %>
-                <% if (locals.status==="loggedIn" ) { %> <!-- Access the 'status' variable from locals -->
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                  </ul>
-                  <% } else { %>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                      <!-- Comment: Displayed if the user is not logged in -->
-                      <li><a class="dropdown-item" href="/login">Login</a></li>
-                      <li><a class="dropdown-item" href="/registerUser">RegisterUser</a></li>
-                      <li><a class="dropdown-item" href="/registerCompany">RegisterCompany</a></li>
-                    </ul>
-                    <% } %>
+          <% } else { %>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Login
+            </a>
+          <% } %>
+          <% if (status === "loggedIn") { %> <!-- Check if the status is "loggedIn" -->
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/profile">Profile</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            </ul>
+          <% } else { %>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+              <!-- Comment: Displayed if the user is not logged in -->
+              <li><a class="dropdown-item" href="/login">Login</a></li>
+              <li><a class="dropdown-item" href="/registerUser">RegisterUser</a></li>
+              <li><a class="dropdown-item" href="/registerCompany">RegisterCompany</a></li>
+            </ul>
+          <% } %>
         </li>
       </ul>
     </div>
