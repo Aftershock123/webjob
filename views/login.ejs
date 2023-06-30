@@ -19,16 +19,21 @@
     <section class="sectionforlogin">
       <div class="form-box">
         <div class="form-value">
-          <form onsubmit="submitLoginForm(event)">
+          <form action='/api/login' method="post">
             <h2>Login</h2>
             <div class="inputbox">
               <ion-icon name="mail-outline"></ion-icon>
-              <input type="email" id="email" autocomplete="off" required>
+              <input type="email" name="email" id="email"  autocomplete="off" required/>
               <label for="email">Email</label>
+
+
+              
+
+
             </div>
             <div class="inputbox">
               <ion-icon name="lock-closed-outline"></ion-icon>
-              <input type="password" id="password" autocomplete="off" required>
+              <input type="password"  name="password" id="password" autocomplete="off" required/>
               <label for="password">Password</label>
             </div>
             <div class="forget">
@@ -48,7 +53,7 @@
     </section>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script>
+    <!-- <script>
       function submitLoginForm(event) {
         event.preventDefault(); // Prevent page refresh on form submit
 
@@ -71,7 +76,7 @@
             document.getElementById('error-message').style.display = 'block';
           });
       }
-    </script>
+    </script> -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>

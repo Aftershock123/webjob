@@ -9,8 +9,8 @@ router.post('/registeruser' , async (req, res) => {
     if (!email || !Npassword) {
         return res.status(401).json({ status: "error", error: "Please enter your email and password" });
     } else {
-        console.log(email);
-        console.log(username);
+        // console.log(email);
+        // console.log(username);
         db.query('SELECT email FROM members WHERE email = ?', [email], async (err, result) => {
             if (err) throw err;
             if (result[0]) {
@@ -18,7 +18,7 @@ router.post('/registeruser' , async (req, res) => {
             } else {
                 try {
                     // Logging the original password before hashing
-                    console.log(Npassword);
+                    // console.log(Npassword);
                 
                     // Hashing the password
                     const password = await bcrypt.hash(Npassword, 8);
@@ -31,9 +31,9 @@ router.post('/registeruser' , async (req, res) => {
                         // const memberId = results.insertId; // Get the inserted member ID
                     
                         db.query('INSERT INTO users SET ?', { username: username, email: email, password: password, id_member: results.insertId }, (error, results) => {
-                            console.log(username);
-                            console.log(email);
-                            console.log(password);
+                            // console.log(username);
+                            // console.log(email);
+                            // console.log(password);
                             if (error) {
                                 console.log("insert user error");
                                 throw error;

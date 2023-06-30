@@ -15,7 +15,7 @@ router.post("/login", async (req, res) => {
         return res.json({ status: "error", error: "Incorrect email or password" });
       } else {
         // Logging the password before hashing
-        console.log(password);
+        // console.log(password);
         
         // Generating JWT token
         const token = jwt.sign({ id_member: result[0].id_member }, process.env.JWT_SECRET, {
@@ -28,7 +28,7 @@ router.post("/login", async (req, res) => {
         };
 
         res.cookie("userRegistered", token, cookieOptions);
-        return res.status(200).json({ status: "success", success: "User has been logged in" });
+        return res.status(200).redirect('/');
       }
     });
   }

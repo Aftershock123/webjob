@@ -80,10 +80,7 @@ router.get('/registercompany',(req,res)=>{
     res.render('registercompany')
 })
 
-router.get('/profile',(req,res)=>{
-    
-    res.render('profile')
-})
+
 router.get("/logout",logout)
 
 

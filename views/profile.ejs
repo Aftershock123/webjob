@@ -15,9 +15,9 @@
     <section class="sectionregister">
             <div class="form-box-regis">
                 <div class="form-value">
-                    <form action="/id" method="post">
+                    <form action="/users/:id" method="post">
                         <div class="inputbox-regis">
-                          
+                          <%= user.id_user.email%>
                             <input type="email" id="email" autocomplete="off" required>
                             <label for="email">Email</label>
                           </div>
