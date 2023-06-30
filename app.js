@@ -34,10 +34,11 @@ db.connect((err)=>{
 
 //define router
 
-// app.use('/auth' ,require ('./Router/auth'))
-app.use('/' ,require ('./Router/myrouter'))
-app.use("/api",require("./controllers/auth"))
 
+app.use('/' ,require ('./Router/myrouter'))
+app.use("/api",require("./controllers/login"))
+app.use("/company",require("./controllers/company"))
+app.use("/user",require("./controllers/user"))
 
 
 

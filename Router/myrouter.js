@@ -2,8 +2,8 @@ const express = require('express')
 const logout =require("../controllers/logout")
 const db = require('../Router/db-config');
 const jwt = require('jsonwebtoken');
-// const loggedIn =require('../controllers/loggedin');
 const router = express.Router()
+
 const loggedIn = (req, res, next) => {
   if (!req.cookies.userRegistered) {
     res.locals.status = "no";

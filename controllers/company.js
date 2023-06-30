@@ -1,13 +1,15 @@
-const db = require("../Router/db-config");
+const db =require("../Router/db-config");
 const bcrypt = require("bcryptjs");
+const express =require("express");
+const router =express.Router();
 
-const registercompany = async (req, res) => {
-    const { name: name_company, email, password: Npassword, user_company, type_company, namecontact_company, address_company, province_company, county_company, district_company, zipcode_company, tell_company } = req.body;
+router.post('/registercompany' , async (req, res) => {
+    const { username: username, password: Npassword, name_company, type_company, namecontact_company, address_company, province_company, county_company, district_company, zipcode_company, tell_company , email} = req.body;
     if (!email || !Npassword) {
         return res.status(401).json({ status: "error", error: "Please enter your email and password" });
     } else {
         console.log(email);
-        console.log(name_company);
+        console.log(username);
         db.query('SELECT email FROM members WHERE email = ?', [email], async (err, result) => {
             if (err) throw err;
             if (result[0]) {
@@ -20,7 +22,7 @@ const registercompany = async (req, res) => {
                     // Hashing the password
                     const password = await bcrypt.hash(Npassword, 8);
                     
-                    db.query('INSERT INTO members SET ?', { name:name_company, email: email, password: password }, (error, results) => {
+                    db.query('INSERT INTO members SET ?', { username:username, email: email, password: password }, (error, results) => {
                         if (error) {
                             console.log("Insert member error");
                             throw error;
@@ -28,7 +30,7 @@ const registercompany = async (req, res) => {
                         
                         // const memberId = memberResult.insertId;
                         
-                        db.query('INSERT INTO companys SET ?', { user_company: user_company, password: password, name_company: name_company, type_company: type_company, namecontact_company: namecontact_company, address_company: address_company, province_company: province_company, county_company: county_company, district_company: district_company, zipcode_company: zipcode_company, tell_company: tell_company, email: email, id_member:  results.insertId }, (error, companyResult) => {
+                        db.query('INSERT INTO companys SET ?', { username: username, password: password, name_company: name_company, type_company: type_company, namecontact_company: namecontact_company, address_company: address_company, province_company: province_company, county_company: county_company, district_company: district_company, zipcode_company: zipcode_company, tell_company: tell_company, email: email, id_member:  results.insertId }, (error, companyResult) => {
                             if (error) {
                                 console.log("Insert company error");
                                 throw error;
@@ -48,6 +50,7 @@ const registercompany = async (req, res) => {
             }
         });
     }
-};
+});
 
-module.exports = registercompany;
+
+module.exports= router;

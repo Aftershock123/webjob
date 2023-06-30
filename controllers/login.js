@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
 const db = require('../Router/db-config');
 const bcrypt = require('bcryptjs');
+const express =require("express");
+const router =express.Router();
 
-const login = async (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ status: "error", error: "Please enter your email and password" });
@@ -30,6 +32,6 @@ const login = async (req, res) => {
       }
     });
   }
-};
+});
 
-module.exports = login;
+module.exports = router;

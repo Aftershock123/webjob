@@ -1,14 +1,16 @@
 const db =require("../Router/db-config");
 const bcrypt = require("bcryptjs");
+const express =require("express");
+const router =express.Router();
 
 
-const registeruser = async (req, res) => {
-    const { name,email, password: Npassword } = req.body;
+router.post('/registeruser' , async (req, res) => {
+    const { username,email, password: Npassword } = req.body;
     if (!email || !Npassword) {
         return res.status(401).json({ status: "error", error: "Please enter your email and password" });
     } else {
         console.log(email);
-        console.log(name);
+        console.log(username);
         db.query('SELECT email FROM members WHERE email = ?', [email], async (err, result) => {
             if (err) throw err;
             if (result[0]) {
@@ -20,7 +22,7 @@ const registeruser = async (req, res) => {
                 
                     // Hashing the password
                     const password = await bcrypt.hash(Npassword, 8);
-                    db.query('INSERT INTO members SET ?', { name: name ,email: email, password: password }, (error, results) => {
+                    db.query('INSERT INTO members SET ?', { username: username ,email: email, password: password }, (error, results) => {
                         if (error) {
                             console.log("insert member error");
                             throw error;
@@ -28,8 +30,8 @@ const registeruser = async (req, res) => {
                     
                         // const memberId = results.insertId; // Get the inserted member ID
                     
-                        db.query('INSERT INTO users SET ?', { name: name, email: email, password: password, id_member: results.insertId }, (error, results) => {
-                            console.log(name);
+                        db.query('INSERT INTO users SET ?', { username: username, email: email, password: password, id_member: results.insertId }, (error, results) => {
+                            console.log(username);
                             console.log(email);
                             console.log(password);
                             if (error) {
@@ -48,5 +50,11 @@ const registeruser = async (req, res) => {
             }
         });
     }
-};
-module.exports= registeruser;
+});
+
+
+ 
+
+
+
+module.exports= router;
