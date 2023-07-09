@@ -53,4 +53,92 @@ router.post('/registercompany' , async (req, res) => {
 });
 
 
+//พอเริ่มมีคำสั่งที่วับซ้อนจะต้องใช้promise ในที่นี้คือinner joinและใช้async
+router.get('/profile/:id', async (req, res) => {
+    try {
+      const {id} = req.params;
+      console.log(id);
+  
+      const [rows] = await db.promise().query('SELECT * FROM members INNER JOIN companys ON members.id_member = companys.id_member where members.id_member = ?', [id]);
+      console.log(rows);
+      if (rows.length === 0) {
+        return res.status(404).send('User not found');
+      }
+  
+      res.render('profile', { user: rows[0] });
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+
+
+  router.post('/updateprofile/:id', async (req, res) => {
+    try {
+      const {id} = req.params;
+      console.log(id);
+      const {username,email}= req.body;
+      console.log(req.body);
+      
+      const [rows] = await db.promise().query('UPDATE companys SET username = ?, email = ? WHERE users.id_member = ?', [username, email, id]);
+      console.log(rows);
+      const [rows2] = await db.promise().query('UPDATE members SET username = ?, email = ? WHERE members.id_member = ?', [username, email, id]);
+      if (rows.length === 0 && rows2.length === 0) {
+        return res.status(404).send('User not found');
+      }
+  
+      res.redirect('/user/profile/' + id);
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+
+
+
+  router.post('/job_company/:id', async (req, res) => {
+    try {
+      const {id} = req.params;
+      console.log(id);
+      const {username,email}= req.body;
+      console.log(req.body);
+      
+      const [rows] = await db.promise().query('INSERT INTO job_companys SET ?', { username: username, email: email, password: password, id_member: results.insertId }, (error, results) => {  
+    });
+      if (rows.length === 0) {
+        return res.status(404).send('User not found');
+      }
+  
+      res.redirect('/user/job_company/' + id);
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+
+
+//เหมือนกับ resume
+  router.get('/job_company/:id', async (req, res) => {
+    try {
+      const {id} = req.params;
+      console.log(id);
+  
+      const [rows] = await db.promise().query('SELECT * FROM job_companys INNER JOIN companys ON members.id_member = companys.id_member where members.id_member = ?', [id]);
+      console.log(rows);
+      if (rows.length === 0) {
+        return res.status(404).send('User not found');
+      }
+  
+      res.render('jobcompany', { job: rows[0] });
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+
+
 module.exports= router;

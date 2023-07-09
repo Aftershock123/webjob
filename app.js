@@ -35,10 +35,10 @@ db.connect((err)=>{
 //define router
 
 app.use('/' ,require ('./Router/myrouter'))
-app.use('/user/:id' ,require ('./Router/user'))
+app.use('/user' ,require ('./Router/user'))
 app.use("/api",require("./controllers/login"))
-app.use("/company",require("./controllers/company"))
-app.use("/user",require("./controllers/user"))
+app.use("/company",require("./Router/company"))
+
 
 
 

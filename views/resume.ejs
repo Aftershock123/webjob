@@ -12,28 +12,27 @@
 </head>
 <body>
   <%- include('navbar') %>
-  <form class="bg-primary text-center  a">
-     <!-- Name input -->
-     <div class="row mb-3">
-      <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
-      <div class="col-sm-5">
-        <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
-      </div>
+  <form action="/user/resume/<%= user.id_user %>" method="post">
+
+    <div class="inputbox-regis">
+      <input type="text" id="username"  name="username" value="<%= user.username %>" />
+      <label for="username">username</label>
     </div>
-       <!-- Password input -->
-       <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-5">
-          <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
-        </div>
+    <div class="inputbox-regis">
+     <ion-icon name="mail-outline"></ion-icon>
+     <input type="email" id="email" name= "email"value="<%= user.email %>" />
+     <label for="email">Email</label>
       </div>
-       <!-- currentpass input -->
-       <div class="row mb-3">
-        <label for="colFormLabel" class="col-sm-2 col-form-label">Email</label>
-        <div class="col-sm-5">
-          <input type="email" class="form-control" id="colFormLabel" placeholder="col-form-label">
-        </div>
-      </div>
+        <!-- <div class="inputbox-regis">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input type="password" id="password" autocomplete="off" required>
+          <label for="password">Password</label>
+        </div> -->
+        <button type="submit" class="btn btn-primary">save</button>
+
+        
+
+  
 
      <!-- Email input -->
      <div class="row mb-3">

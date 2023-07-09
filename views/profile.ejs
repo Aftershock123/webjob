@@ -15,53 +15,29 @@
     <section class="sectionregister">
             <div class="form-box-regis">
                 <div class="form-value">
-                    <form action="/users/:id" method="post">
-                        <div class="inputbox-regis">
-                          <%= user.id_user.email%>
-                            <input type="email" id="email" autocomplete="off" required>
-                            <label for="email">Email</label>
-                          </div>
-                          <div class="inputbox-regis">
+                  
+                  <form action="/user/updateprofile/<%= user.id_member %>" method="post">
 
+                      <div class="inputbox-regis">
+                        <input type="text" id="username"  name="username" value="<%= user.username %>" />
+                        <label for="username">username</label>
+                      </div>
+                      <div class="inputbox-regis">
+                       <ion-icon name="mail-outline"></ion-icon>
+                       <input type="email" id="email" name= "email"value="<%= user.email %>" />
+                       <label for="email">Email</label>
+                        </div>
+                          <!-- <div class="inputbox-regis">
                             <ion-icon name="mail-outline"></ion-icon>
-                            
-                            <input type="text" id="username" autocomplete="off" required>
-                            <label for="username">username</label>
-                          </div>
-                          <div class="inputbox-regis">
-                            <ion-icon name="mail-outline"></ion-icon>
-                            <input type="email" id="email" autocomplete="off" required>
-                            <label for="email">Email</label>
-                          </div>
-                          <div class="inputbox-regis">
-                            <ion-icon name="mail-outline"></ion-icon>
-                            <input type="email" id="email" autocomplete="off" required>
-                            <label for="email">Email</label>
-                          </div>
-                          <div class="inputbox-regis">
-                           
-                            <input type="email" id="email" autocomplete="off" required>
-                            <label for="email">Email</label>
-                          </div>
-                          <div class="inputbox-regis">
-                            <ion-icon name="mail-outline"></ion-icon>
-                            <input type="email" id="email" autocomplete="off" required>
-                            <label for="email">Email</label>
-                          </div>
-                          <div class="inputbox-regis">
-                            <ion-icon name="mail-outline"></ion-icon>
-                            <input type="email" id="email" autocomplete="off" required>
-                            <label for="email">Email</label>
-                          </div>
-                          <div class="inputbox-regis">
-                            <ion-icon name="mail-outline"></ion-icon>
-                            <input type="email" id="email" autocomplete="off" required>
-                            <label for="email">Email</label>
-                          </div>
+                            <input type="password" id="password" autocomplete="off" required>
+                            <label for="password">Password</label>
+                          </div> -->
+                          <button type="submit" class="btn btn-primary">save</button>
 
                           
 
                     </form>
+                    
                 </div>
                 </div>
             
