@@ -103,7 +103,7 @@ router.get('/profile/:id', async (req, res) => {
       const {id} = req.params;
       console.log(id);
   
-      const [rows] = await db.promise().query('SELECT * FROM s INNER JOIN users ON members.id_member = users.id_member where members.id_member = ?', [id]);
+      const [rows] = await db.promise().query('SELECT * FROM members INNER JOIN users ON members.id_member = users.id_member where members.id_member = ?', [id]);
       console.log(rows);
       if (rows.length === 0) {
         return res.status(404).send('User not found');

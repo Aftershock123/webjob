@@ -10,16 +10,20 @@ const router = express.Router()
 router.get('/', loggedIn, (req, res) => {
   let status;
   let member;
+  let user;
+  let company;
   
   if (res.locals.members) {
     status = "loggedIn";
     member = res.locals.members;
+    user = res.locals.users;
+    company = res.locals.companys;
   } else {
     status = "no";
     member = "nothing";
   }
 
-  res.render('index.ejs', { status, member }); // Pass the 'status' variable to the view
+  res.render('index.ejs', { status, member,user,company }); // Pass the 'status' variable to the view
 });
 
   

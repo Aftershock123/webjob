@@ -33,7 +33,7 @@
           <% if (status === "loggedIn") { %> <!-- Check if the status is "loggedIn" -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="/user/profile/<%= member.id_member %>">Profile</a></li>
-              <li><a class="dropdown-item" href="/user/resume/<%= locals.user.id_user %>">Resume</a></li>
+              <li><a class="dropdown-item" href="/user/resume/<%= users.id_user %>">Resume</a></li>
               <li><a class="dropdown-item" href="/logout">Logout</a></li>
             </ul>
           <% } else { %>
