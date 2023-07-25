@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>registerUser</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href=".css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script> -->
+</head>
+<body>
+  
+
+  <form action="/company/addjob_company/<%= company.id_company %>" method="post">
+    <!-- value="<%= job.name_job %>" -->
+    <div class="inputbox-regis">
+      <input type="text" id="name_job"  name="name_job" />
+      <label for="name_job">name_job</label>
+    </div>
+    <div class="inputbox-regis">
+      <!-- value="<%= job.role %>" -->
+     <ion-icon name="mail-outline"></ion-icon>
+     <input type="text" id="role" name= "role" />
+     <label for="role">role</label>
+      </div>
+
+
+
+
+      <!-- <div class="inputbox-regis">
+        <input type="text" id="detail_work"  name="detail_work" value="<%= job.detail_work %>" />
+        <label for="detail_work">detail_work</label>
+      </div>
+      <div class="inputbox-regis">
+       <ion-icon name="mail-outline"></ion-icon>
+       <input type="text" id="experience" name= "experience"value="<%= job.experience %>" />
+       <label for="experience">experience</label>
+        </div>
+
+
+
+        <div class="inputbox-regis">
+          <input type="text" id="gender"  name="gender" value="<%= job.gender %>" />
+          <label for="gender">gender</label>
+        </div>
+        <div class="inputbox-regis">
+         <ion-icon name="mail-outline"></ion-icon>
+         <input type="text" id="education" name= "education"value="<%= job.education %>" />
+         <label for="education">education</label>
+          </div>
+
+          <div class="inputbox-regis">
+            <input type="text" id="welfare"  name="welfare" value="<%= job.welfare %>" />
+            <label for="welfare">welfare</label>
+          </div>
+        
+          <div class="inputbox-regis">
+            <input type="text" id="salary"  name="salary" value="<%= job.salary %>" />
+            <label for="salary">salary</label>
+          </div>
+          <div class="inputbox-regis">
+           <ion-icon name="mail-outline"></ion-icon>
+           <input type="text" id="workday" name= "workday"value="<%= job.workday %>" />
+           <label for="workday">workday</label>
+            </div>
+  
+            <div class="inputbox-regis">
+              <input type="text" id="day_off"  name="day_off" value="<%= job.day_off %>" />
+              <label for="day_off">day_off</label>
+            </div>
+
+
+            <div class="inputbox-regis">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="text" id="deadline_offer" name= "deadline_offer"value="<%= job.deadline_offer %>" />
+                <label for="deadline_offer">deadline_offer</label>
+                 </div>
+        -->
+            
+        <button type="submit" class="btn btn-wanning">save</button>
+    
+      </form>
+</body>
+
+</html>

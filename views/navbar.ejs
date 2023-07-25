@@ -24,19 +24,46 @@
               aria-expanded="false">
             <%= member.username %> <!-- Access the email property of the member -->
             </a>
-          <% } else { %>
+          <% }
+          
+          
+          else { %>
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               Login
             </a>
           <% } %>
-          <% if (status === "loggedIn") { %> <!-- Check if the status is "loggedIn" -->
+          <% if (status === "loggedIn" && company.id_company!=undefined) { %> <!-- Check if the status is "loggedIn" -->
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <!-- <li><a class="dropdown-item" href="/user/profile/<%= member.id_member %>">Profile</a></li>
+              <li><a class="dropdown-item" href="/user/resume/<%= users.id_user %>">Resume</a></li> -->
+              <li><a class="dropdown-item" href="/company/profile/<%= member.id_member %>">Profile</a></li>
+              <li><a class="dropdown-item" href="/company/job_company/<%= company.id_company %>">Job</a></li>
+              <li><a class="dropdown-item" href="/forgetpassword/<%= company.id_company %>">forget</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            </ul>
+          <% } 
+
+           if (status === "loggedIn" && user.id_user!=undefined) { %> <!-- Check if the status is "loggedIn" -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="/user/profile/<%= member.id_member %>">Profile</a></li>
               <li><a class="dropdown-item" href="/user/resume/<%= users.id_user %>">Resume</a></li>
+              <!-- <li><a class="dropdown-item" href="/company/profile/<%= member.id_member %>">Profile</a></li>
+              <li><a class="dropdown-item" href="/company/job_company/<%= company.id_company %>">Job</a></li> -->
+              <li><a class="dropdown-item" href="/forgetpassword/<%= users.id_user  %>">forget</a></li>
               <li><a class="dropdown-item" href="/logout">Logout</a></li>
             </ul>
-          <% } else { %>
+          <% } 
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          else { %>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
               <!-- Comment: Displayed if the user is not logged in -->
               <li><a class="dropdown-item" href="/login">Login</a></li>

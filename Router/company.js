@@ -98,20 +98,41 @@ router.get('/profile/:id', async (req, res) => {
 
 
 
-  router.post('/job_company/:id', async (req, res) => {
+  
+  //เหมือนกับ resume
+    router.get('/job_company/:id', async (req, res) => {
+      try {
+        const {id} = req.params;
+        console.log(id);
+    
+        const [rows] = await db.promise().query('SELECT * FROM job_company INNER JOIN companys ON job_company.id_company = companys.id_company where job_company.id_company = ?', [id]);
+        console.log(rows);
+        if (rows.length === 0) {
+          return res.status(404).send('User not found');
+        }
+    
+        res.render('jobcompany', { job: rows[0] ,company: rows[0] });
+    
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+  
+  router.post('/addjob_company/:id', async (req, res) => {
     try {
       const {id} = req.params;
       console.log(id);
-      const {username,email}= req.body;
+      const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
       console.log(req.body);
-      
-      const [rows] = await db.promise().query('INSERT INTO job_companys SET ?', { username: username, email: email, password: password, id_member: results.insertId }, (error, results) => {  
+      // const [rows] = await db.promise().query('UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ?,id = ? WHERE  idjob_company and job_company.id_company = ?', [ name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer,id]);
+      const [rows] = await db.promise().query('INSERT INTO job_company SET ?', { name_job: name_job, role: role, detail_work: detail_work, experience: experience, gender: gender, education: education, welfare: welfare, salary: salary, workday: workday, day_off: day_off, deadline_offer: deadline_offer,id_company: id}, (error, results) => {  
     });
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
   
-      res.redirect('/user/job_company/' + id);
+      res.redirect('/company/job_company/' + id);
   
     } catch (error) {
       console.error(error);
@@ -120,25 +141,75 @@ router.get('/profile/:id', async (req, res) => {
   });
 
 
-//เหมือนกับ resume
-  router.get('/job_company/:id', async (req, res) => {
+
+  router.post('/updatejob_company/:id', async (req, res) => {
     try {
       const {id} = req.params;
       console.log(id);
-  
-      const [rows] = await db.promise().query('SELECT * FROM job_companys INNER JOIN companys ON members.id_member = companys.id_member where members.id_member = ?', [id]);
-      console.log(rows);
+      const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
+      console.log(req.body);
+      const [rows] = await db.promise().query('UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ?,id = ? WHERE  idjob_company and job_company.id_company = ?', [ name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer,id]);
+    //   const [rows] = await db.promise().query('INSERT INTO job_company SET ?', { name_job: name_job, role: role, detail_work: detail_work, experience: experience, gender: gender, education: education, welfare: welfare, salary: salary, workday: workday, day_off: day_off, deadline_offer: deadline_offer,id_company: id}, (error, results) => {  
+    // });
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
   
-      res.render('jobcompany', { job: rows[0] });
+      res.redirect('/company/job_company/' + id);
   
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
     }
   });
+
+
+
+
+
+
+//ทำค้นหาด้วยชื่อcompany and job by id 
+  // router.get('/companyandjob/', async (req, res) => {
+  //   try {
+  //     const {id} = req.params;
+  //     console.log(id);
+  
+  //     const [rows] = await db.promise().query('SELECT * FROM job_company INNER JOIN companys ON members.id_member = companys.id_member where members.id_member = ?', [id]);
+  //     console.log(rows);
+  //     if (rows.length === 0) {
+  //       return res.status(404).send('User not found');
+  //     }
+  
+  //     res.render('jobcompany', { job: rows[0] });
+  
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).send('Internal Server Error');
+  //   }
+  // });
+
+
+
+
+  //ค้นหาตำแหน่งงาน
+    // router.get('/companyandjob/:id', async (req, res) => {
+  //   try {
+  //     const {id} = req.params;
+  //     console.log(id);
+  
+  //     const [rows] = await db.promise().query('SELECT * FROM job_company INNER JOIN companys ON members.id_member = companys.id_member where members.id_member = ?', [id]);
+  //     console.log(rows);
+  //     if (rows.length === 0) {
+  //       return res.status(404).send('User not found');
+  //     }
+  
+  //     res.render('jobcompany', { job: rows[0] });
+  
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).send('Internal Server Error');
+  //   }
+  // });
 
 
 module.exports= router;

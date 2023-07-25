@@ -9,8 +9,9 @@ const loggedIn = (req, res, next) => {
   //ต้องแยกactor โดยinner join ทุกactor  If (member ที่ล็อคอินเข้ามามีไทป์เป็น user) ให้ ทำการจอยแค่ user & member ; if else (member ที่ล็ออินเป็นไมป? Costumer) ให้ทำการจอยแค่ customer &member
     try {
       const decoded = jwt.verify(req.cookies.userRegistered, process.env.JWT_SECRET);
+      ///มีปันหาคือถ้าเอาuser.*ขึ่นก่อนก็จะเรียกข้อมูลcompanyได้แต่ถ้าcompanyขึ้นก่อนก้จะเรียกuserไม่ได้
       db.query('SELECT companys.*,users.* FROM members left JOIN users ON members.id_member = users.id_member left join companys on members.id_member = companys.id_member WHERE members.id_member = ?', [decoded.id_member], (err, result) => {
-        if (err) {
+      if (err) {
           console.error('Database query error:', err);
           return next(err); // Pass the error to the error handling middleware
         }
@@ -26,9 +27,9 @@ const loggedIn = (req, res, next) => {
         res.locals.users = result[0];
         res.locals.companys = result[0];
         res.locals.status = "loggedIn";
-        console.log(res.locals.members);
+        // console.log(res.locals.members);
         console.log(res.locals.companys);
-        console.log(res.locals.users);
+        // console.log(res.locals.users);
         return next();
       });
     } catch (err) {
