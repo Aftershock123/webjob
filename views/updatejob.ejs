@@ -13,7 +13,7 @@
 <body>
   
 
-  <form action="/company/updatejob_company/<%= company.id_company %>" method="post">
+  <form action="/company/updatejob_company/<%= job.idjob_company %>/<%= company.id_company %>" method="post">
     <!-- value="<%= job.name_job %>" -->
     <div class="inputbox-regis">
       <input type="text" id="name_job"  name="name_job"  value="<%= job.name_job %>"/>
@@ -29,7 +29,7 @@
 
 
 
-      <!-- <div class="inputbox-regis">
+      <div class="inputbox-regis">
         <input type="text" id="detail_work"  name="detail_work" value="<%= job.detail_work %>" />
         <label for="detail_work">detail_work</label>
       </div>
@@ -77,7 +77,7 @@
                 <input type="text" id="deadline_offer" name= "deadline_offer"value="<%= job.deadline_offer %>" />
                 <label for="deadline_offer">deadline_offer</label>
                  </div>
-        -->
+       
             
         <button type="submit" class="btn btn-wanning">save</button>
     

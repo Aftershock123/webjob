@@ -131,11 +131,13 @@ router.get('/', loggedIn, (req, res) => {
   let member;
   let user;
   let company;
+  let job;
   
   if (res.locals.members) {
     status = "loggedIn";
     member = res.locals.members;
     user = res.locals.users;
+   
     company = res.locals.companys;
     console.log(company);
     console.log(user);

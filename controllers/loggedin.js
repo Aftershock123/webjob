@@ -10,7 +10,7 @@ const loggedIn = (req, res, next) => {
     try {
       const decoded = jwt.verify(req.cookies.userRegistered, process.env.JWT_SECRET);
       ///มีปันหาคือถ้าเอาuser.*ขึ่นก่อนก็จะเรียกข้อมูลcompanyได้แต่ถ้าcompanyขึ้นก่อนก้จะเรียกuserไม่ได้
-      db.query('SELECT companys.*,users.* FROM members left JOIN users ON members.id_member = users.id_member left join companys on members.id_member = companys.id_member WHERE members.id_member = ?', [decoded.id_member], (err, result) => {
+      db.query('SELECT users.*,companys.* FROM members left JOIN users ON members.id_member = users.id_member left join companys on members.id_member = companys.id_member WHERE members.id_member = ?', [decoded.id_member], (err, result) => {
       if (err) {
           console.error('Database query error:', err);
           return next(err); // Pass the error to the error handling middleware

@@ -38,7 +38,8 @@
               <!-- <li><a class="dropdown-item" href="/user/profile/<%= member.id_member %>">Profile</a></li>
               <li><a class="dropdown-item" href="/user/resume/<%= users.id_user %>">Resume</a></li> -->
               <li><a class="dropdown-item" href="/company/profile/<%= member.id_member %>">Profile</a></li>
-              <li><a class="dropdown-item" href="/company/job_company/<%= company.id_company %>">Job</a></li>
+              <li><a class="dropdown-item" href="/company/addjob_company/<%= company.id_company %>">Job</a></li>
+              <li><a class="dropdown-item" href="/company/getjoball/<%= company.id_company %>">historysumitjob</a></li>
               <li><a class="dropdown-item" href="/forgetpassword/<%= company.id_company %>">forget</a></li>
               <li><a class="dropdown-item" href="/logout">Logout</a></li>
             </ul>
@@ -47,7 +48,8 @@
            if (status === "loggedIn" && user.id_user!=undefined) { %> <!-- Check if the status is "loggedIn" -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="/user/profile/<%= member.id_member %>">Profile</a></li>
-              <li><a class="dropdown-item" href="/user/resume/<%= users.id_user %>">Resume</a></li>
+              <li><a class="dropdown-item" href="/user/addresume/<%= users.id_user %>">Resume</a></li>
+              <li><a class="dropdown-item" href="/user/updateresume/<%= users.id_user %>">historysumitjob</a></li>
               <!-- <li><a class="dropdown-item" href="/company/profile/<%= member.id_member %>">Profile</a></li>
               <li><a class="dropdown-item" href="/company/job_company/<%= company.id_company %>">Job</a></li> -->
               <li><a class="dropdown-item" href="/forgetpassword/<%= users.id_user  %>">forget</a></li>
