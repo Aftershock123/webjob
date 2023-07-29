@@ -5,38 +5,38 @@ const loggedIn =require("../controllers/loggedin")
 const router = express.Router()
 const nodemailer = require('nodemailer'); 
 
-const sendMail_ForgotPassword = async (email, mailSubject,content) => {
-  try {
+// const sendMail_ForgotPassword = await db.promise().query('SELECT users.*,companys.* from members LEFT JOIN users ON members.id_member = users.id_member LEFT JOIN companys on members.id_member = companys.id_member WHERE members.id_member', (email, mailSubject,content) => {
+//   try {
 
-      const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth : {
-              user: "nonjirawat2506@gmail.com",
-              pass: "vxqnqdqqnpxlsciq"
+//       const transporter = nodemailer.createTransport({
+//           service: "gmail",
+//           auth : {
+//               user: email,
+//               pass: "vxqnqdqqnpxlsciq"
               
-          }
-      });
+//           }
+//       });
       
-      const option = {
-          from : "nonjirawat2506@gmail.com",
-          to : email,
-          subject: mailSubject,
-          html : content
+//       const option = {
+//           from : email,
+//           to : email,
+//           subject: mailSubject,
+//           html : content
       
-      };
+//       };
       
-      transporter.sendMail(option, function(err, info)  {
-          if (err) {
-              console.log(err);
-              return;
-          } 
-          console.log("Sent: " + info.response);
-      });
+//       transporter.sendMail(option, function(err, info)  {
+//           if (err) {
+//               console.log(err);
+//               return;
+//           } 
+//           console.log("Sent: " + info.response);
+//       });
 
-  } catch(err) {
-      console.log(error.message);
-  }
-}
+//   } catch(err) {
+//       console.log(error.message);
+//   }
+// })
 
 
 
@@ -51,7 +51,7 @@ router.get('/forgetpassword',(req,res)=>{
 router.post('/forgetpassword/:id', async (req, res) => {
   try {
     const {id} = req.params;
-    console.log(id);   
+    // console.log(id);   
     
     const gpc =require('generate-pincode');
     const pin =gpc(4);

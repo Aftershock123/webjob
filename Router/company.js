@@ -8,8 +8,8 @@ router.post('/registercompany' , async (req, res) => {
     if (!email || !Npassword) {
         return res.status(401).json({ status: "error", error: "Please enter your email and password" });
     } else {
-        console.log(email);
-        console.log(username);
+        // console.log(email);
+        // console.log(username);
         db.query('SELECT email FROM members WHERE email = ?', [email], async (err, result) => {
             if (err) throw err;
             if (result[0]) {
@@ -17,7 +17,7 @@ router.post('/registercompany' , async (req, res) => {
             } else {
                 try {
                     // Logging the original password before hashing
-                    console.log(Npassword);
+                    // console.log(Npassword);
                 
                     // Hashing the password
                     const password = await bcrypt.hash(Npassword, 8);
@@ -36,9 +36,9 @@ router.post('/registercompany' , async (req, res) => {
                                 throw error;
                             }
                             
-                            console.log(name_company);
-                            console.log(email);
-                            console.log(password);
+                            // console.log(name_company);
+                            // console.log(email);
+                            // console.log(password);
                             
                             return res.status(200).json({ status: "success", success: "User has been registered" });
                         });
@@ -57,10 +57,10 @@ router.post('/registercompany' , async (req, res) => {
 router.get('/profile/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
   
       const [rows] = await db.promise().query('SELECT * FROM members INNER JOIN companys ON members.id_member = companys.id_member where members.id_member = ?', [id]);
-      console.log(rows);
+      // console.log(rows);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
@@ -77,12 +77,12 @@ router.get('/profile/:id', async (req, res) => {
   router.post('/updateprofile/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
       const {username,email}= req.body;
-      console.log(req.body);
+      // console.log(req.body);
       
       const [rows] = await db.promise().query('UPDATE companys SET username = ?, email = ? WHERE users.id_member = ?', [username, email, id]);
-      console.log(rows);
+      // console.log(rows);
       const [rows2] = await db.promise().query('UPDATE members SET username = ?, email = ? WHERE members.id_member = ?', [username, email, id]);
       if (rows.length === 0 && rows2.length === 0) {
         return res.status(404).send('User not found');
@@ -103,10 +103,10 @@ router.get('/profile/:id', async (req, res) => {
     router.get('/addjob_company/:id', async (req, res) => {
       try {
         const {id} = req.params;
-        console.log(id);
+        // console.log(id);
     
         const [rows] = await db.promise().query('SELECT * FROM companys  where id_company = ?', [id]);
-        console.log(rows);
+        // console.log(rows);
         if (rows.length === 0) {
           return res.status(404).send('User not found');
         }
@@ -122,9 +122,9 @@ router.get('/profile/:id', async (req, res) => {
   router.post('/addjob_company/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
       const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
-      console.log(req.body);
+      // console.log(req.body);
       const [rows] = await db.promise().query('INSERT INTO job_company SET ?', { name_job: name_job, role: role, detail_work: detail_work, experience: experience, gender: gender, education: education, welfare: welfare, salary: salary, workday: workday, day_off: day_off, deadline_offer: deadline_offer,id_company: id}, (error, results) => {  
     });
       if (rows.length === 0) {
@@ -143,12 +143,12 @@ router.get('/profile/:id', async (req, res) => {
   router.get('/updatejob_company/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
   
 
       const [rows] = await db.promise().query('SELECT * FROM job_company  INNER JOIN companys ON job_company.id_company = companys.id_company where job_company.id_company = ?', [id]);
       
-      console.log(rows);
+      // console.log(rows);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
@@ -164,7 +164,7 @@ router.get('/profile/:id', async (req, res) => {
   router.post('/updatejob_company/:id/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
       const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
       
       const [rows] = await db.promise().query('UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ?,id = ? WHERE  idjob_company job_company.id_company = ?', [ name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer,id]);
@@ -187,7 +187,7 @@ router.get('/profile/:id', async (req, res) => {
   router.get('/getjoball/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
   
 
       const [rows] = await db.promise().query('SELECT * FROM job_company  INNER JOIN companys ON job_company.id_company = companys.id_company where job_company.id_company = ?', [id]);
@@ -197,7 +197,7 @@ router.get('/profile/:id', async (req, res) => {
         return res.status(404).send('User not found');
       }
       
-      res.render('jobgetall',{company:rows[0],job:rows[0]});
+      res.render('jobgetall',{company:rows[0],job:rows});
   
     } catch (error) {
       console.error(error);

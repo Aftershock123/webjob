@@ -21,7 +21,7 @@
     "express-validator": "^7.0.1",
     "generate-pincode": "^6.0.0",
     "jsonwebtoken": "^9.0.0",
-    "mysql2": "^3.3.0",
+    "mysql2": "^3.5.2",
     "nodemailer": "^6.9.4",
     "nodemon": "^2.0.22"
   }

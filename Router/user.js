@@ -57,10 +57,10 @@ router.post('/registeruser' , async (req, res) => {
 router.get('/profile/:id', loggedIn,async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
   
       const [rows] = await db.promise().query('SELECT * FROM members INNER JOIN users ON members.id_member = users.id_member where members.id_member = ?', [id]);
-      console.log(rows);
+      // console.log(rows);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
@@ -76,12 +76,12 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   router.post('/updateprofile/:id', loggedIn,async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
       const {username,email}= req.body;
-      console.log(req.body);
+      // console.log(req.body);
       
       const [rows] = await db.promise().query('UPDATE users SET username = ?, email = ? WHERE users.id_member = ?', [username, email, id]);
-      console.log(rows);
+      // console.log(rows);
       const [rows2] = await db.promise().query('UPDATE members SET username = ?, email = ? WHERE members.id_member = ?', [username, email, id]);
       if (rows.length === 0 && rows2.length === 0) {
         return res.status(404).send('User not found');
@@ -107,7 +107,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 
       // // const [rows] = await db.promise().query('SELECT * FROM users  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
       
-      console.log(rows);
+      // console.log(rows);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
@@ -124,12 +124,12 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   router.get('/updateresume/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);
+      // console.log(id);
   
 
       const [rows] = await db.promise().query('SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
       
-      console.log(rows);
+      // console.log(rows);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
@@ -145,13 +145,13 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
     router.post('/addresume/:id', async (req, res) => {
       try {
         const {id} = req.params;
-        console.log(id);   
+        // console.log(id);   
   
         const {professional_summary,work_experience,skills,education,languages,interests,contact}= req.body;
        
         const [rows] = await db.promise().query('INSERT INTO resume SET ?', { professional_summary: professional_summary, work_experience: work_experience, skills: skills, education: education ,languages: languages ,interests: interests ,contact: contact ,id_user:id}, (error, results) => {    
       });
-        console.log(rows);
+        // console.log(rows);
         
         if (rows.length === 0 ) {
           return res.status(404).send('User not found');
@@ -168,11 +168,11 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   router.post('/updateresume/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      console.log(id);   
+      // console.log(id);   
       const {professional_summary,work_experience,skills,education,languages,interests,contact}= req.body;
       const [rows] = await db.promise().query('UPDATE resume SET professional_summary = ?, work_experience = ?, skills = ?, education = ?, languages = ?, interests = ?, contact = ? WHERE resume.id_user = ?', [ professional_summary,work_experience, skills,education ,languages ,interests ,contact ,id]);    
     
-      console.log(rows);
+      // console.log(rows);
       
       if (rows.length === 0 ) {
         return res.status(404).send('User not found');

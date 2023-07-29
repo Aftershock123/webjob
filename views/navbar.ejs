@@ -33,7 +33,7 @@
               Login
             </a>
           <% } %>
-          <% if (status === "loggedIn" && company.id_company!=undefined) { %> <!-- Check if the status is "loggedIn" -->
+          <% if (status == "loggedIn" && company.id_company!=undefined) { %> <!-- Check if the status is "loggedIn" -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <!-- <li><a class="dropdown-item" href="/user/profile/<%= member.id_member %>">Profile</a></li>
               <li><a class="dropdown-item" href="/user/resume/<%= users.id_user %>">Resume</a></li> -->
@@ -45,7 +45,7 @@
             </ul>
           <% } 
 
-           if (status === "loggedIn" && user.id_user!=undefined) { %> <!-- Check if the status is "loggedIn" -->
+           if (status == "loggedIn" && user.id_user!=undefined) { %> <!-- Check if the status is "loggedIn" -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="/user/profile/<%= member.id_member %>">Profile</a></li>
               <li><a class="dropdown-item" href="/user/addresume/<%= users.id_user %>">Resume</a></li>
