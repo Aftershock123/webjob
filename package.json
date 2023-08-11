@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.5.2",
     "nodemailer": "^6.9.4",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "uuid": "^9.0.0"
   }
 }

@@ -11,7 +11,7 @@ router.post('/registeruser' , async (req, res) => {
     } else {
         // console.log(email);
         // console.log(username);
-        db.query('SELECT email FROM members WHERE email = ?', [email], async (err, result) => {
+        db.query('SELECT email FROM users WHERE email = ?', [email], async (err, result) => {
             if (err) throw err;
             if (result[0]) {
                 return res.json({ status: "error", error: "Email has already been registered" });
@@ -21,15 +21,15 @@ router.post('/registeruser' , async (req, res) => {
                     // console.log(Npassword);
                 
                     // Hashing the password
-                    const password = await bcrypt.hash(Npassword, 8);
-                    db.query('INSERT INTO members SET ?', { username: username ,email: email, password: password }, (error, results) => {
-                        if (error) {
-                            console.log("insert member error");
-                            throw error;
-                        }
+                    const password = await bcrypt.hash(Npassword, 8); 
                     
                         // const memberId = results.insertId; // Get the inserted member ID
                     
+                        db.query('INSERT INTO members SET ?', { username:username, email: email, password: password }, (error, results) => {
+                          if (error) {
+                              console.log("Insert member error");
+                              throw error;
+                          }
                         db.query('INSERT INTO users SET ?', { username: username, email: email, password: password, id_member: results.insertId }, (error, results) => {
                             // console.log(username);
                             // console.log(email);
@@ -40,7 +40,7 @@ router.post('/registeruser' , async (req, res) => {
                             }
                             return res.status(200).json({ status: "success", success: "User has been registered" });
                         });
-                    });
+                      });
                     
                     
                 } catch (error) {
@@ -59,7 +59,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       const {id} = req.params;
       // console.log(id);
   
-      const [rows] = await db.promise().query('SELECT * FROM members INNER JOIN users ON members.id_member = users.id_member where members.id_member = ?', [id]);
+      const [rows] = await db.promise().query('SELECT * FROM users  where id_user = ?', [id]);
       // console.log(rows);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
@@ -82,8 +82,8 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       
       const [rows] = await db.promise().query('UPDATE users SET username = ?, email = ? WHERE users.id_member = ?', [username, email, id]);
       // console.log(rows);
-      const [rows2] = await db.promise().query('UPDATE members SET username = ?, email = ? WHERE members.id_member = ?', [username, email, id]);
-      if (rows.length === 0 && rows2.length === 0) {
+      // const [rows2] = await db.promise().query('UPDATE members SET username = ?, email = ? WHERE members.id_member = ?', [username, email, id]);
+      if (rows.length === 0 ) {
         return res.status(404).send('User not found');
       }
   

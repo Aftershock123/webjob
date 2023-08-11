@@ -4,7 +4,9 @@ const cookie =require('cookie-parser')
 const Port =process.env.Port || 5000;
 const db =require("./Router/db-config")
 const app = express()
-
+const createdadmin =require('./entity/admin')
+const createduser =require('./entity/user')
+const createdcompany =require('./entity/company')
 
 
 
@@ -26,6 +28,10 @@ app.use(express.json());
 
 db.connect((err)=>{
     if(err) throw err;
+    // createdadmin(db)
+    // createdcompany(db)
+    // createduser(db)
+
     console.log("database connected")
 })
 
@@ -36,6 +42,7 @@ db.connect((err)=>{
 
 app.use('/' ,require ('./Router/myrouter'))
 app.use('/user' ,require ('./Router/user'))
+app.use('/admin' ,require ('./Router/admin'))
 app.use("/api",require("./controllers/login"))
 app.use("/company",require("./Router/company"))
 
