@@ -25,12 +25,8 @@ router.post('/registeruser' , async (req, res) => {
                     
                         // const memberId = results.insertId; // Get the inserted member ID
                     
-                        db.query('INSERT INTO members SET ?', { username:username, email: email, password: password }, (error, results) => {
-                          if (error) {
-                              console.log("Insert member error");
-                              throw error;
-                          }
-                        db.query('INSERT INTO users SET ?', { username: username, email: email, password: password, id_member: results.insertId }, (error, results) => {
+                        
+                        db.query('INSERT INTO users SET ?', { username: username, email: email, password: password}, (error, results) => {
                             // console.log(username);
                             // console.log(email);
                             // console.log(password);
@@ -40,7 +36,7 @@ router.post('/registeruser' , async (req, res) => {
                             }
                             return res.status(200).json({ status: "success", success: "User has been registered" });
                         });
-                      });
+                     
                     
                     
                 } catch (error) {
@@ -58,14 +54,15 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
     try {
       const {id} = req.params;
       // console.log(id);
-  
+      const [row1] = await db.promise().query('SELECT * FROM companies ');
+      const [row2] = await db.promise().query('SELECT * FROM admins');
       const [rows] = await db.promise().query('SELECT * FROM users  where id_user = ?', [id]);
       // console.log(rows);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
   
-      res.render('profile', { user: rows[0] });
+      res.render('profile', { user: rows[0] ,companypro:row1[0],adminpro:row2[0]});
   
     } catch (error) {
       console.error(error);
@@ -80,9 +77,8 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       const {username,email}= req.body;
       // console.log(req.body);
       
-      const [rows] = await db.promise().query('UPDATE users SET username = ?, email = ? WHERE users.id_member = ?', [username, email, id]);
+      const [rows] = await db.promise().query('UPDATE users SET username = ?, email = ? WHERE id_user = ?', [username, email, id]);
       // console.log(rows);
-      // const [rows2] = await db.promise().query('UPDATE members SET username = ?, email = ? WHERE members.id_member = ?', [username, email, id]);
       if (rows.length === 0 ) {
         return res.status(404).send('User not found');
       }
@@ -96,7 +92,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   });
  
 ///----------------------------------------------------resume-------------------------------------//////////////////
-//พอ join จากlogged inแล้วก้จะเรียกใช้ locals.user.id_user ได้ก้จะได้id-userมา
+
 
   router.get('/addresume/:id',loggedIn, async (req, res) => {
     try {

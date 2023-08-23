@@ -11,16 +11,16 @@
     <script src="js/bootstrap.min.js"></script> -->
 </head>
 <body>
-  
+  <%- include('navbar') %>
 
   <form action="/company/addjob_company/<%= company.id_company %>" method="post">
-    <!-- value="<%= job.name_job %>" -->
+    
     <div class="inputbox-regis">
       <input type="text" id="name_job"  name="name_job" />
       <label for="name_job">name_job</label>
     </div>
     <div class="inputbox-regis">
-      <!-- value="<%= job.role %>" -->
+     
      <ion-icon name="mail-outline"></ion-icon>
      <input type="text" id="role" name= "role" />
      <label for="role">role</label>

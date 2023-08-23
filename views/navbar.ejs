@@ -8,9 +8,6 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mb-2 mb-lg-0">
         <li class="nav-item me-auto">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item me-auto">
           <a class="nav-link" href="#">Link</a>
         </li>
         <li class="nav-item me-auto">
@@ -24,21 +21,29 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><%= user.username %> <!-- Access the email property of the member --></a>
               <% } else if(company){ %>
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"aria-expanded="false"><%= company.username %> <!-- Access the email property of the member --></a>
-                  <% } else { %>
+                  <% } else  { %>
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"aria-expanded="false"><%= admin.username %> <!-- Access the email property of the member --></a>
                       <% } %>
 
 
                 <% if (user) { %> <!-- Check if the status is "loggedIn" -->
+                <form action="/company/searchcompany" method="post">
+                  <input type="text" name="searchcompany" placeholder="Enter search query" required>
+                  <button type="submit">Search</button>
+              </form>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item" href="/user/profile/<%= user.id_user %>">Profile</a></li>
-                      <li><a class="dropdown-item" href="/user/addresume/<%= users.id_user %>">Resume</a></li>
-                      <li><a class="dropdown-item" href="/user/updateresume/<%= users.id_user %>">historysumitjob</a></li>
+                      <li><a class="dropdown-item" href="/user/addresume/<%= user.id_user %>">Resume</a></li>
+                      <li><a class="dropdown-item" href="/user/updateresume/<%= user.id_user %>">historysumitjob</a></li>
                 
-                      <li><a class="dropdown-item" href="/forgetpassword/<%= users.id_user  %>">forget</a></li>
+                      <li><a class="dropdown-item" href="/forgetpassword/<%= user.id_user  %>">forget</a></li>
                       <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     </ul>
                 <% } else if(company){ %>
+                  <form action="/company/searchcompany" method="post">
+                    <input type="text" name="searchcompany" placeholder="Enter search query" required>
+                    <button type="submit">Search</button>
+                </form>
                       <!-- Check if the status is "loggedIn" -->
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                      
                         <li><a class="dropdown-item" href="/company/profile/<%= company.id_company %>">Profile</a></li>
@@ -48,6 +53,10 @@
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
                       </ul>
                     <% } else if(admin){ %>
+                      <form action="/company/searchcompany" method="post">
+                        <input type="text" name="searchcompany" placeholder="Enter search query" required>
+                        <button type="submit">Search</button>
+                    </form>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">       
                        
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
@@ -56,6 +65,10 @@
 
 
             <% } else { %>
+              <form action="/company/searchcompany" method="post">
+                <input type="text" name="searchcompany" placeholder="Enter search query" required>
+                <button type="submit">Search</button>
+            </form>
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Login
                   </a>

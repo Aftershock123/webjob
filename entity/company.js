@@ -1,21 +1,20 @@
 function createdcompany(db){
 const createTables = `
   CREATE TABLE IF NOT EXISTS companies (
-    id_company INT AUTO_INCREMENT PRIMARY KEY,
-    password INT NOT NULL,
-    username VARCHAR(50) NOT NULL,
+    id_company INT(11) AUTO_INCREMENT PRIMARY KEY,
+    password VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    type_levl INT Default 2
-    name_company VARCHAR(50) NOT NULL,
-    type_company VARCHAR(50) NOT NULL,
-    namecontact_company VARCHAR(50) NOT NULL, 
-    address_company VARCHAR(100) NOT NULL, 
-    province_company VARCHAR(50) NOT NULL, 
-    county_company VARCHAR(50) NOT NULL, 
-    district_company VARCHAR(50) NOT NULL, 
-    zipcode_company int NOT NULL,
-    tell_company  int NOT NULL, 
-       
+    type_level INT(11) Default '2',
+    name_company VARCHAR(100) NOT NULL,
+    type_company VARCHAR(100) NOT NULL,
+    namecontact_company VARCHAR(100) NOT NULL, 
+    address_company VARCHAR(1000) NOT NULL, 
+    province_company VARCHAR(100) NOT NULL, 
+    county_company VARCHAR(100) NOT NULL, 
+    district_company VARCHAR(100) NOT NULL, 
+    zipcode_company INT(11) NOT NULL,
+    tell_company  INT(11) NOT NULL       
   );
 
 `;
@@ -26,6 +25,7 @@ db.query(createTables, err => {
     return;
   }
   console.log('Tables created');
+  
 });
 }
 module.exports =createdcompany;

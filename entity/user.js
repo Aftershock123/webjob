@@ -3,11 +3,11 @@ function createduser(db){
 
 const createTables = `
   CREATE TABLE IF NOT EXISTS users (
-    id_user INT AUTO_INCREMENT PRIMARY KEY,
-    password INT NOT NULL,
-    username VARCHAR(50) NOT NULL,
+    id_user INT(11) AUTO_INCREMENT PRIMARY KEY,
+    password VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    type_levl INT Default 1
+    type_level INT(11) Default '1'
   );
 
 `;

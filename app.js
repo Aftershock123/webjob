@@ -7,7 +7,8 @@ const app = express()
 const createdadmin =require('./entity/admin')
 const createduser =require('./entity/user')
 const createdcompany =require('./entity/company')
-
+const createdresume =require('./entity/resume')
+const createdjobcompany =require('./entity/jobcompany')
 
 
 
@@ -31,6 +32,8 @@ db.connect((err)=>{
     // createdadmin(db)
     // createdcompany(db)
     // createduser(db)
+    // createdjobcompany(db)
+    // createdresume(db)
 
     console.log("database connected")
 })

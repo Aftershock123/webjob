@@ -1,11 +1,11 @@
 function  createdadmin (db){
     const createTables = `
     CREATE TABLE IF NOT EXISTS admins (
-      id_admin INT AUTO_INCREMENT PRIMARY KEY,
-      password INT NOT NULL,
-      username VARCHAR(50) NOT NULL,
+      id_admin INT(11) AUTO_INCREMENT PRIMARY KEY,
+      password VARCHAR(100) NOT NULL,
+      username VARCHAR(100) NOT NULL,
       email VARCHAR(100) NOT NULL,
-      type_levl INT Default 3
+      type_level INT(11) Default '3'
     );
   
   `;

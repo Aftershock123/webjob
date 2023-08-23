@@ -25,12 +25,8 @@ router.post('/registeradmin' , async (req, res) => {
                     
                         // const memberId = results.insertId; // Get the inserted member ID
                     
-                        db.query('INSERT INTO members SET ?', { username:username, email: email, password: password }, (error, results) => {
-                          if (error) {
-                              console.log("Insert member error");
-                              throw error;
-                          }
-                        db.query('INSERT INTO admins SET ?', { username: username, email: email, password: password, id_member: results.insertId }, (error, results) => {
+                       
+                        db.query('INSERT INTO admins SET ?', { username: username, email: email, password: password }, (error, results) => {
                             // console.log(username);
                             // console.log(email);
                             // console.log(password);
@@ -40,7 +36,7 @@ router.post('/registeradmin' , async (req, res) => {
                             }
                             return res.status(200).json({ status: "success", success: "Admin has been registered" });
                         });
-                      });
+                     
                     
                     
                 } catch (error) {
@@ -59,13 +55,13 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       const {id} = req.params;
       // console.log(id);
   
-      const [rows] = await db.promise().query('SELECT * FROM users  where id_user = ?', [id]);
+      const [rows] = await db.promise().query('SELECT * FROM admins  where id_admin = ?', [id]);
       // console.log(rows);
       if (rows.length === 0) {
-        return res.status(404).send('User not found');
+        return res.status(404).send('admin not found');
       }
   
-      res.render('profile', { user: rows[0] });
+      res.render('profile', { admin: rows[0] });
   
     } catch (error) {
       console.error(error);
@@ -80,39 +76,14 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       const {username,email}= req.body;
       // console.log(req.body);
       
-      const [rows] = await db.promise().query('UPDATE users SET username = ?, email = ? WHERE users.id_member = ?', [username, email, id]);
+      const [rows] = await db.promise().query('UPDATE admins SET username = ?, email = ? WHERE admins.id_admin = ?', [username, email, id]);
+      
       // console.log(rows);
-      // const [rows2] = await db.promise().query('UPDATE members SET username = ?, email = ? WHERE members.id_member = ?', [username, email, id]);
-      if (rows.length === 0 ) {
+       if (rows.length === 0 ) {
         return res.status(404).send('User not found');
       }
   
-      res.redirect('/user/profile/' + id);
-  
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
- 
-///----------------------------------------------------resume-------------------------------------//////////////////
-//พอ join จากlogged inแล้วก้จะเรียกใช้ locals.user.id_user ได้ก้จะได้id-userมา
-
-  router.get('/addresume/:id',loggedIn, async (req, res) => {
-    try {
-      const {id} = req.params;
-      // console.log(id);
-  
-      const [rows] = await db.promise().query('SELECT * FROM users where id_user = ?', [id]);
-
-      // // const [rows] = await db.promise().query('SELECT * FROM users  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
-      
-      // console.log(rows);
-      if (rows.length === 0) {
-        return res.status(404).send('User not found');
-      }
-      
-      res.render('addresume',{user:rows[0]});
+      res.redirect('/admin/profile/' + id);
   
     } catch (error) {
       console.error(error);
@@ -121,71 +92,15 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   });
 
   
-  router.get('/updateresume/:id', async (req, res) => {
-    try {
-      const {id} = req.params;
-      // console.log(id);
+router.post('/updateweb/:id',loggedIn,async(req,res)=>{
+try{
+  const {id} =req.params;
+  const [rows] = await db.promise().query('UPDATE admins SET username = ?, email = ? WHERE admins.id_admin = ?', [username, email, id]);
   
 
-      const [rows] = await db.promise().query('SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
-      
-      // console.log(rows);
-      if (rows.length === 0) {
-        return res.status(404).send('User not found');
-      }
-      
-      res.render('updateresume',{user:rows[0],resume:rows[0]});
-  
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
-  
-    router.post('/addresume/:id', async (req, res) => {
-      try {
-        const {id} = req.params;
-        // console.log(id);   
-  
-        const {professional_summary,work_experience,skills,education,languages,interests,contact}= req.body;
-       
-        const [rows] = await db.promise().query('INSERT INTO resume SET ?', { professional_summary: professional_summary, work_experience: work_experience, skills: skills, education: education ,languages: languages ,interests: interests ,contact: contact ,id_user:id}, (error, results) => {    
-      });
-        // console.log(rows);
-        
-        if (rows.length === 0 ) {
-          return res.status(404).send('User not found');
-        }
-
-        res.redirect('/user/updateresume/' + id );
-    
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-      }
-    });
-
-  router.post('/updateresume/:id', async (req, res) => {
-    try {
-      const {id} = req.params;
-      // console.log(id);   
-      const {professional_summary,work_experience,skills,education,languages,interests,contact}= req.body;
-      const [rows] = await db.promise().query('UPDATE resume SET professional_summary = ?, work_experience = ?, skills = ?, education = ?, languages = ?, interests = ?, contact = ? WHERE resume.id_user = ?', [ professional_summary,work_experience, skills,education ,languages ,interests ,contact ,id]);    
-    
-      // console.log(rows);
-      
-      if (rows.length === 0 ) {
-        return res.status(404).send('User not found');
-      }
-      res.redirect('/user/updateresume/' + id );
-  
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
-
-  
-
+}catch (error) {
+  console.error(error);
+  res.status(500).send('Internal Server Error');}
+});
 
 module.exports= router;
