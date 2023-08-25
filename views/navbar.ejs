@@ -27,10 +27,7 @@
 
 
                 <% if (user) { %> <!-- Check if the status is "loggedIn" -->
-                <form action="/company/searchcompany" method="post">
-                  <input type="text" name="searchcompany" placeholder="Enter search query" required>
-                  <button type="submit">Search</button>
-              </form>
+                
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><a class="dropdown-item" href="/user/profile/<%= user.id_user %>">Profile</a></li>
                       <li><a class="dropdown-item" href="/user/addresume/<%= user.id_user %>">Resume</a></li>
@@ -40,23 +37,17 @@
                       <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     </ul>
                 <% } else if(company){ %>
-                  <form action="/company/searchcompany" method="post">
-                    <input type="text" name="searchcompany" placeholder="Enter search query" required>
-                    <button type="submit">Search</button>
-                </form>
+                  
                       <!-- Check if the status is "loggedIn" -->
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                      
                         <li><a class="dropdown-item" href="/company/profile/<%= company.id_company %>">Profile</a></li>
                         <li><a class="dropdown-item" href="/company/addjob_company/<%= company.id_company %>">Job</a></li>
-                        <li><a class="dropdown-item" href="/company/getjoball/<%= company.id_company %>">historysumitjob</a></li>
+                        <li><a class="dropdown-item" href="/company/joball/<%= company.id_company %>">historysumitjob</a></li>
                         <li><a class="dropdown-item" href="/forgetpassword/<%= company.id_company %>">forget</a></li>
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
                       </ul>
                     <% } else if(admin){ %>
-                      <form action="/company/searchcompany" method="post">
-                        <input type="text" name="searchcompany" placeholder="Enter search query" required>
-                        <button type="submit">Search</button>
-                    </form>
+                      
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">       
                        
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
@@ -65,10 +56,7 @@
 
 
             <% } else { %>
-              <form action="/company/searchcompany" method="post">
-                <input type="text" name="searchcompany" placeholder="Enter search query" required>
-                <button type="submit">Search</button>
-            </form>
+
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Login
                   </a>

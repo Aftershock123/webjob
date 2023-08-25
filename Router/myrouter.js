@@ -295,7 +295,7 @@ router.get('/',loggedIn, async (req, res) => {
     // console.log(user);
     [companyindex]= await db.promise().query('SELECT * FROM companies ');
     // console.log(companyindex);
-    [jobindex]= await db.promise().query('SELECT * FROM job_company ');
+    [jobindex]= await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company ');
     // console.log(jobindex);
     [resumeindex]= await db.promise().query('SELECT * FROM resume ');
     // console.log(resumeindex);
@@ -304,7 +304,7 @@ router.get('/',loggedIn, async (req, res) => {
   } else if (res.locals.companys) {
     status = "loggedIn";
     company = res.locals.companys;
-    [jobindex] = await db.promise().query('SELECT * FROM job_company ');
+    [jobindex] = await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company ');
     // console.log(req.body.jobindex);
     [resumeindex] = await db.promise().query('SELECT * FROM resume ');
     // console.log(req.body.resumeindex);
@@ -315,7 +315,7 @@ router.get('/',loggedIn, async (req, res) => {
   }else if (res.locals.admins) {
     status = "loggedIn";
     admin = res.locals.admins;
-    [jobindex] = await db.promise().query('SELECT * FROM job_company ');
+    [jobindex] = await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company  ');
     // console.log(req.body.jobindex);
     [resumeindex] = await db.promise().query('SELECT * FROM resume ');
     // console.log(req.body.resumeindex);
@@ -327,7 +327,7 @@ router.get('/',loggedIn, async (req, res) => {
     status = "no";
     user = "nothing";
     company = "nothing";
-    [jobindex] = await db.promise().query('SELECT * FROM job_company ');
+    [jobindex] = await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company   ');
     // console.log(req.body.jobindex);
     [resumeindex] = await db.promise().query('SELECT * FROM resume ');
     // console.log(req.body.resumeindex);

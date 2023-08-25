@@ -9,36 +9,22 @@ router.post('/registeruser' , async (req, res) => {
     if (!email || !Npassword) {
         return res.status(401).json({ status: "error", error: "Please enter your email and password" });
     } else {
-        // console.log(email);
-        // console.log(username);
         db.query('SELECT email FROM users WHERE email = ?', [email], async (err, result) => {
             if (err) throw err;
             if (result[0]) {
                 return res.json({ status: "error", error: "Email has already been registered" });
             } else {
                 try {
-                    // Logging the original password before hashing
-                    // console.log(Npassword);
-                
+                    // Logging the original password before hashing                
                     // Hashing the password
                     const password = await bcrypt.hash(Npassword, 8); 
-                    
-                        // const memberId = results.insertId; // Get the inserted member ID
-                    
-                        
                         db.query('INSERT INTO users SET ?', { username: username, email: email, password: password}, (error, results) => {
-                            // console.log(username);
-                            // console.log(email);
-                            // console.log(password);
                             if (error) {
                                 console.log("insert user error");
                                 throw error;
                             }
                             return res.status(200).json({ status: "success", success: "User has been registered" });
-                        });
-                     
-                    
-                    
+                        });   
                 } catch (error) {
                     console.log(error);
                     return res.status(500).json({ status: "error", error: "Internal server error" });
@@ -48,8 +34,7 @@ router.post('/registeruser' , async (req, res) => {
     }
 });
 
-///ตัวนี้คือหาค่าเก้บค่าไว้ในตัวแปรแล้วต้องส่งไปให้routerจากนั้นค่อยเรียกใช้อีกที
-//พอเริ่มมีคำสั่งที่วับซ้อนจะต้องใช้promise ในที่นี้คือinner joinและใช้async
+//-------------------------------------------------profile---------------------------------------
 router.get('/profile/:id', loggedIn,async (req, res) => {
     try {
       const {id} = req.params;
@@ -97,7 +82,6 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   router.get('/addresume/:id',loggedIn, async (req, res) => {
     try {
       const {id} = req.params;
-      // console.log(id);
   
       const [rows] = await db.promise().query('SELECT * FROM users where id_user = ?', [id]);
 
@@ -164,11 +148,10 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   router.post('/updateresume/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      // console.log(id);   
+        
       const {professional_summary,work_experience,skills,education,languages,interests,contact}= req.body;
+      
       const [rows] = await db.promise().query('UPDATE resume SET professional_summary = ?, work_experience = ?, skills = ?, education = ?, languages = ?, interests = ?, contact = ? WHERE resume.id_user = ?', [ professional_summary,work_experience, skills,education ,languages ,interests ,contact ,id]);    
-    
-      // console.log(rows);
       
       if (rows.length === 0 ) {
         return res.status(404).send('User not found');
