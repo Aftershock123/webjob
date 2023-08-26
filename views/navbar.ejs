@@ -49,8 +49,11 @@
                     <% } else if(admin){ %>
                       
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">       
-                       
+                        <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">Profile</a></li>
+                        <li><a class="dropdown-item" href="/registerAdmin">RegisterAdmin</a></li>
+                        <li><a class="dropdown-item" href="/forgetpassword/<%= admin.id_admin %>">forget</a></li>
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        <!-- แก้ไขเว็ปได้ยังไม่ได้ทำ -->
                       </ul>
                       <% } %>
 
@@ -65,7 +68,6 @@
                   <li><a class="dropdown-item" href="/login">Login</a></li>
                   <li><a class="dropdown-item" href="/registerUser">RegisterUser</a></li>
                   <li><a class="dropdown-item" href="/registerCompany">RegisterCompany</a></li>
-                  <li><a class="dropdown-item" href="/registerAdmin">RegisterAdmin</a></li>
                   </ul>
                 <% } %>
         </li>

@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const express =require("express");
 const router =express.Router();
 const loggedIn =require("../controllers/loggedin")
-
+  //ได้แล้ว
 router.post('/registercompany' , async (req, res) => {
   const { username: username, password: Npassword, name_company, type_company, namecontact_company, address_company, province_company, county_company, district_company, zipcode_company, tell_company , email} = req.body;
   if (!email || !Npassword) {
@@ -35,9 +35,11 @@ router.post('/registercompany' , async (req, res) => {
   }
 });
 //--------------------------------------------- profile------------------------------------------------------
-
+  //ได้แล้ว
 router.get('/profile/:id', loggedIn, async (req, res) => {
     try {
+      let user;
+      let admin;
       const {id} = req.params;
       
       const [rows] = await db.promise().query('SELECT * FROM companies  where id_company = ?', [id]);
@@ -54,9 +56,11 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
     }
   });
 
-
+  //ได้แล้ว
   router.post('/updateprofile/:id', loggedIn, async (req, res) => {
     try {
+      let user;
+      let admin;
       const {id} = req.params;
       
       const {username,email}= req.body;
@@ -78,9 +82,11 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
 //-----------------------------------------------------------job-------------------------------
 
   //เพิ่มเส้จไปหน้าjoball
-  
+    //ได้แล้วเพิ่มต้องแก้นิดหน่อย
     router.get('/addjob_company/:id', loggedIn, async (req, res) => {
-      try {       
+      try {    
+        let user;
+        let admin;   
         const {id} = req.params;
 
         const [rows] = await db.promise().query('SELECT * FROM companies  where id_company = ?', [id]);
@@ -95,28 +101,53 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
         res.status(500).send('Internal Server Error');
       }
     });
-  
-  router.post('/addjob_company/:id', loggedIn, async (req, res) => {
-    try {
+    //ได้แล้ว
+    router.post('/addjob_company/:id', loggedIn, async (req, res) => {
+      try {
+        let user;
+      let admin;
       const {id} = req.params;
-
+      
       const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
-
+      
       const [rows] = await db.promise().query('INSERT INTO job_company SET ?', { name_job: name_job, role: role, detail_work: detail_work, experience: experience, gender: gender, education: education, welfare: welfare, salary: salary, workday: workday, day_off: day_off, deadline_offer: deadline_offer,id_company: id});
       
       const [updatedCompany] = await db.promise().query('SELECT * FROM companies  where id_company = ?', [id]);
-    
+      
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
-       res.render('addjob', { job: rows[0] ,company: updatedCompany[0] ,user,admin});
+      res.render('addjob', { job: rows[0] ,company: updatedCompany[0] ,user,admin});
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+    //ได้แล้ว
+  router.get('/joball/:id', loggedIn, async (req, res) => {
+    try {
+      let user;
+      let admin;
+      const {id} = req.params; 
+
+      const [rows] = await db.promise().query('SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?', [id]);
+
+      const [Company] =await db.promise().query('SELECT * FROM companies where id_company =?',[id] );
+      
+      if (rows.length === 0) {
+        return res.status(404).send('User not found');
+      }
+      
+      res.render('jobgetall',{company:Company[0],job:rows,user,admin});
   
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
     }
   });
-
+  //////เหลือ Updateที่ยังไม่ได้
+  
 
   router.get('/updatejob_company/:id', loggedIn, async (req, res) => {
     try {
@@ -136,64 +167,48 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
     }
   });
 
-  router.post('/updatejob_company/:id/:id', loggedIn, async (req, res) => {
-    try {
-      const {id} = req.params;
+  // router.post('/updatejob_company/:id/:id', loggedIn, async (req, res) => {
+  //   try {
+  //     const {id} = req.params;
 
-      const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
+  //     const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
       
-      const [rows] = await db.promise().query('UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ?,id = ? WHERE  idjob_company job_company.id_company = ?', [ name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer,id]);
+  //     const [rows] = await db.promise().query('UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ?,id = ? WHERE  idjob_company job_company.id_company = ?', [ name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer,id]);
     
-      if (rows.length === 0) {
-        return res.status(404).send('User not found');
-      }
+  //     if (rows.length === 0) {
+  //       return res.status(404).send('User not found');
+  //     }
   
-      res.redirect('/company/updatejob_company/' + id);
+  //     res.redirect('/company/updatejob_company/' + id);
   
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).send('Internal Server Error');
+  //   }
+  // });
 
 
 
+///เจาะจงงานในหน้าindex ปันหาคือทำไงให้ค่าของหน้าindexส่งมาเช่นค่าของactor navberมีปันหา
+//เอาค่าในlocalมาใช้
 
-  router.get('/joball/:id', loggedIn, async (req, res) => {
-    try {
-      const {id} = req.params; 
-
-      const [rows] = await db.promise().query('SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?', [id]);
-
-      const [Company] =await db.promise().query('SELECT * FROM companies where id_company =?',[id] );
-      
-      if (rows.length === 0) {
-        return res.status(404).send('User not found');
-      }
-      
-      res.render('jobgetall',{company:Company[0],job:rows,user,admin});
-  
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
-
-
+  //ได้แล้ว
   router.get('/jobbyidjob/:id', loggedIn, async (req, res) => {
     try {
       let user;
       let admin;
       const {id} = req.params; 
-
+      
       const [rows] = await db.promise().query('SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.idjob_company = ?', [id]);
 
-      const [Company] =await db.promise().query('SELECT * FROM companies where id_company =?',[id] );
+      // const [Company] =await db.promise().query('SELECT * FROM companies where id_company =?',[id] );
+      console.log(rows[0]);
+      // console.log(id_company);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
       
-      res.render('jobgetall',{company:Company[0],job:rows,user,admin});
+      res.render('jobgetall',{company:rows[0],job:rows,user,admin});
   
     } catch (error) {
       console.error(error);
@@ -202,7 +217,8 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
   });
 
 //---------------------------------------------- ค้นหา-------------------------------------------------
-  router.post('/searchcompany', loggedIn, async (req, res) => {
+  //ยังไม่ได้ทำค้นหาจิงจัง
+router.post('/searchcompany', loggedIn, async (req, res) => {
     try {
       const search= req.body.searchcompany;
       console.log(search)

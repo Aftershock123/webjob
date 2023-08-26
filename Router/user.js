@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const express =require("express");
 const router =express.Router();
 const loggedIn =require("../controllers/loggedin")
-
+  //ได้แล้ว
 router.post('/registeruser' , async (req, res) => {
     const { username,email, password: Npassword } = req.body;
     if (!email || !Npassword) {
@@ -35,6 +35,7 @@ router.post('/registeruser' , async (req, res) => {
 });
 
 //-------------------------------------------------profile---------------------------------------
+  //ได้แล้ว
 router.get('/profile/:id', loggedIn,async (req, res) => {
     try {
       const {id} = req.params;
@@ -54,7 +55,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       res.status(500).send('Internal Server Error');
     }
   });
-
+  //ได้แล้ว
   router.post('/updateprofile/:id', loggedIn,async (req, res) => {
     try {
       const {id} = req.params;
@@ -78,7 +79,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
  
 ///----------------------------------------------------resume-------------------------------------//////////////////
 
-
+  //ได้แล้ว
   router.get('/addresume/:id',loggedIn, async (req, res) => {
     try {
       const {id} = req.params;
@@ -100,36 +101,15 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
     }
   });
 
-  
-  router.get('/updateresume/:id', async (req, res) => {
+  //ได้แล้ว
+  router.post('/addresume/:id', async (req, res) => {
     try {
       const {id} = req.params;
-      // console.log(id);
-  
-
-      const [rows] = await db.promise().query('SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
+      // console.log(id);   
       
-      // console.log(rows);
-      if (rows.length === 0) {
-        return res.status(404).send('User not found');
-      }
+      const {professional_summary,work_experience,skills,education,languages,interests,contact}= req.body;
       
-      res.render('updateresume',{user:rows[0],resume:rows[0]});
-  
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  });
-  
-    router.post('/addresume/:id', async (req, res) => {
-      try {
-        const {id} = req.params;
-        // console.log(id);   
-  
-        const {professional_summary,work_experience,skills,education,languages,interests,contact}= req.body;
-       
-        const [rows] = await db.promise().query('INSERT INTO resume SET ?', { professional_summary: professional_summary, work_experience: work_experience, skills: skills, education: education ,languages: languages ,interests: interests ,contact: contact ,id_user:id}, (error, results) => {    
+      const [rows] = await db.promise().query('INSERT INTO resume SET ?', { professional_summary: professional_summary, work_experience: work_experience, skills: skills, education: education ,languages: languages ,interests: interests ,contact: contact ,id_user:id}, (error, results) => {    
       });
         // console.log(rows);
         
@@ -145,6 +125,36 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       }
     });
 
+
+
+
+
+
+  //ไม่โชว์ข้อมูลล่าสุดที่เพิ่ม 
+  //เพิ่มแล้วลบอันเก่าออกเลย ยังไม่ได้ทำแค่คิดเฉยๆแก้ปันหาเพิ่มแล้วค่าล่าสุดไม่มา
+  router.get('/updateresume/:id', async (req, res) => {
+    try {
+      const {id} = req.params;
+      // console.log(id);
+      
+      
+      const [rows] = await db.promise().query('SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
+      
+      // console.log(rows);
+      if (rows.length === 0) {
+        return res.status(404).send('User not found');
+      }
+      
+      res.render('updateresume',{user:rows[0],resume:rows});
+      
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+
+
+//ได้แล้ว
   router.post('/updateresume/:id', async (req, res) => {
     try {
       const {id} = req.params;
@@ -163,6 +173,8 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       res.status(500).send('Internal Server Error');
     }
   });
+  
+
 
   
 
