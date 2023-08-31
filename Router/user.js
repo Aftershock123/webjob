@@ -78,7 +78,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   });
  
 ///----------------------------------------------------resume-------------------------------------//////////////////
-
+//รวมหน้าaddresume กับupdateresume
   //ได้แล้ว
   router.get('/addresume/:id',loggedIn, async (req, res) => {
     try {
@@ -111,13 +111,15 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       
       const [rows] = await db.promise().query('INSERT INTO resume SET ?', { professional_summary: professional_summary, work_experience: work_experience, skills: skills, education: education ,languages: languages ,interests: interests ,contact: contact ,id_user:id}, (error, results) => {    
       });
-        // console.log(rows);
+       const [row] = await db.promise().query('SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
+      
+      
         
         if (rows.length === 0 ) {
           return res.status(404).send('User not found');
         }
 
-        res.redirect('/user/updateresume/' + id );
+        res.render('updateresume',{user:row[0],resume:row[0]});
     
       } catch (error) {
         console.error(error);

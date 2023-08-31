@@ -37,6 +37,8 @@ router.post('/registeradmin' , async (req, res) => {
 //---------------------------------------------------profile-----------------------------
 router.get('/profile/:id', loggedIn,async (req, res) => {
     try {
+      let user;
+      let company;
       const {id} = req.params;
 
       const [rows] = await db.promise().query('SELECT * FROM admins  where id_admin = ?', [id]);
@@ -45,7 +47,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
         return res.status(404).send('admin not found');
       }
   
-      res.render('profile', { admin: rows[0] });
+      res.render('profile', { admin: rows[0] ,user,company});
   
     } catch (error) {
       console.error(error);
@@ -55,17 +57,19 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 
   router.post('/updateprofile/:id', loggedIn,async (req, res) => {
     try {
+      let user;
+      let company;
       const {id} = req.params;
 
       const {username,email}= req.body;
       
       const [rows] = await db.promise().query('UPDATE admins SET username = ?, email = ? WHERE admins.id_admin = ?', [username, email, id]);      
-      
+      const [updatedadmin] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);// console.log(rows);
        if (rows.length === 0 ) {
         return res.status(404).send('User not found');
       }
   
-      res.redirect('/admin/profile/' + id);
+      res.render('profile', { admin: updatedadmin[0],user,company});
   
     } catch (error) {
       console.error(error);

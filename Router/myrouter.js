@@ -304,6 +304,7 @@ router.get('/',loggedIn, async (req, res) => {
   } else if (res.locals.companys) {
     status = "loggedIn";
     company = res.locals.companys;
+    // console.log(company);
     [jobindex] = await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company ');
     // console.log(req.body.jobindex);
     [resumeindex] = await db.promise().query('SELECT * FROM resume ');

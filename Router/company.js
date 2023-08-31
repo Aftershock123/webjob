@@ -2,9 +2,13 @@ const db =require("../Router/db-config");
 const bcrypt = require("bcryptjs");
 const express =require("express");
 const router =express.Router();
+const multer = require('multer');
 const loggedIn =require("../controllers/loggedin")
-  //ได้แล้ว
+//ลงทะเบียน 
 router.post('/registercompany' , async (req, res) => {
+  let admin;
+  let user ;
+  let company;
   const { username: username, password: Npassword, name_company, type_company, namecontact_company, address_company, province_company, county_company, district_company, zipcode_company, tell_company , email} = req.body;
   if (!email || !Npassword) {
       return res.status(401).json({ status: "error", error: "Please enter your email and password" });
@@ -23,7 +27,8 @@ router.post('/registercompany' , async (req, res) => {
                               console.log("Insert company error");
                               throw error;
                           } 
-                          return res.status(200).json({ status: "success", success: "User has been registered" });
+                         
+                          return res.render('login');
                       });
                   
               } catch (error) {
@@ -35,13 +40,13 @@ router.post('/registercompany' , async (req, res) => {
   }
 });
 //--------------------------------------------- profile------------------------------------------------------
-  //ได้แล้ว
+  //แสดงโปรไฟล์
 router.get('/profile/:id', loggedIn, async (req, res) => {
     try {
       let user;
       let admin;
       const {id} = req.params;
-      
+      const [row] = await db.promise().query('INSERT companies SET img ');
       const [rows] = await db.promise().query('SELECT * FROM companies  where id_company = ?', [id]);
       
       if (rows.length === 0) {
@@ -56,7 +61,7 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
     }
   });
 
-  //ได้แล้ว
+  //อัพเดตโปรไฟล์
   router.post('/updateprofile/:id', loggedIn, async (req, res) => {
     try {
       let user;
@@ -133,13 +138,13 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
 
       const [rows] = await db.promise().query('SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?', [id]);
 
-      const [Company] =await db.promise().query('SELECT * FROM companies where id_company =?',[id] );
+
       
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
       
-      res.render('jobgetall',{company:Company[0],job:rows,user,admin});
+      res.render('jobgetall',{company:rows[0],job:rows,user,admin});
   
     } catch (error) {
       console.error(error);
@@ -167,48 +172,50 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
     }
   });
 
-  // router.post('/updatejob_company/:id/:id', loggedIn, async (req, res) => {
-  //   try {
-  //     const {id} = req.params;
+  router.post('/updatejob_company/:id/', loggedIn, async (req, res) => {
+    try {
+      const {id} = req.params;
 
-  //     const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
+      const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
       
-  //     const [rows] = await db.promise().query('UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ?,id = ? WHERE  idjob_company job_company.id_company = ?', [ name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer,id]);
+      const [rows] = await db.promise().query('UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ?,id = ? WHERE  idjob_company job_company.id_company = ?', [ name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer,id]);
     
-  //     if (rows.length === 0) {
-  //       return res.status(404).send('User not found');
-  //     }
+      if (rows.length === 0) {
+        return res.status(404).send('User not found');
+      }
   
-  //     res.redirect('/company/updatejob_company/' + id);
+      res.redirect('/company/updatejob_company/' + id);
   
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).send('Internal Server Error');
-  //   }
-  // });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
 
 
 ///เจาะจงงานในหน้าindex ปันหาคือทำไงให้ค่าของหน้าindexส่งมาเช่นค่าของactor navberมีปันหา
 //เอาค่าในlocalมาใช้
 
-  //ได้แล้ว
+
   router.get('/jobbyidjob/:id', loggedIn, async (req, res) => {
     try {
-      let user;
-      let admin;
+      let user = res.locals.users;
+      let admin = res.locals.admins;
+      let company = res.locals.companys;
+      
       const {id} = req.params; 
       
       const [rows] = await db.promise().query('SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.idjob_company = ?', [id]);
 
       // const [Company] =await db.promise().query('SELECT * FROM companies where id_company =?',[id] );
-      console.log(rows[0]);
+      // console.log(rows[0]);
       // console.log(id_company);
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
       
-      res.render('jobgetall',{company:rows[0],job:rows,user,admin});
+      res.render('jobgetall',{company,job:rows,user,admin});
   
     } catch (error) {
       console.error(error);

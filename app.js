@@ -4,11 +4,11 @@ const cookie =require('cookie-parser')
 const Port =process.env.Port || 5000;
 const db =require("./Router/db-config")
 const app = express()
-const createdadmin =require('./entity/admin')
-const createduser =require('./entity/user')
-const createdcompany =require('./entity/company')
-const createdresume =require('./entity/resume')
-const createdjobcompany =require('./entity/jobcompany')
+// const createdadmin =require('./entity/admin')
+// const createduser =require('./entity/user')
+// const createdcompany =require('./entity/company')
+// const createdresume =require('./entity/resume')
+// const createdjobcompany =require('./entity/jobcompany')
 
 
 
