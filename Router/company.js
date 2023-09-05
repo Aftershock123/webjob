@@ -4,12 +4,31 @@ const express =require("express");
 const router =express.Router();
 const multer = require('multer');
 const loggedIn =require("../controllers/loggedin")
+
+// Multer storage configuration
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'public/image/');
+  },
+  filename: (req, file, callback) => {
+    callback(null,Date.now() +file.originalname.replace(/^.*[\\\/]/, ''));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+
+
+
+
 //ลงทะเบียน 
-router.post('/registercompany' , async (req, res) => {
-  let admin;
-  let user ;
-  let company;
-  const { username: username, password: Npassword, name_company, type_company, namecontact_company, address_company, province_company, county_company, district_company, zipcode_company, tell_company , email} = req.body;
+router.post('/registercompany' , upload.single('image'), async (req, res) => {
+  let admin ;
+  let user  ;
+  let company ;
+  let status = res.locals.status ;
+ 
+  const { username: username, password: Npassword, name_company, type_company, namecontact_company, address_company, province_company, county_company, district_company, zipcode_company, tell_company , email,image:filename} = req.body;
   if (!email || !Npassword) {
       return res.status(401).json({ status: "error", error: "Please enter your email and password" });
   } else {
@@ -22,13 +41,13 @@ router.post('/registercompany' , async (req, res) => {
                   // Hashing the password
                   const password = await bcrypt.hash(Npassword, 8);
 
-                      db.query('INSERT INTO companies SET ?', { username: username, password: password, name_company: name_company, type_company: type_company, namecontact_company: namecontact_company, address_company: address_company, province_company: province_company, county_company: county_company, district_company: district_company, zipcode_company: zipcode_company, tell_company: tell_company, email: email }, (error, companyResult) => {
+                      db.query('INSERT INTO companies SET ?', { username: username, password: password, name_company: name_company, type_company: type_company, namecontact_company: namecontact_company, address_company: address_company, province_company: province_company, county_company: county_company, district_company: district_company, zipcode_company: zipcode_company, tell_company: tell_company, email: email,image: filename  },(error) =>{
                           if (error) {
                               console.log("Insert company error");
                               throw error;
-                          } 
+                          } 0
                          
-                          return res.render('login');
+                          return res.render('login', { company ,user,admin,status});
                       });
                   
               } catch (error) {
@@ -40,15 +59,17 @@ router.post('/registercompany' , async (req, res) => {
   }
 });
 //--------------------------------------------- profile------------------------------------------------------
-  //แสดงโปรไฟล์
+ 
+//แสดงโปรไฟล์
 router.get('/profile/:id', loggedIn, async (req, res) => {
     try {
       let user;
       let admin;
       const {id} = req.params;
-      const [row] = await db.promise().query('INSERT companies SET img ');
+    
       const [rows] = await db.promise().query('SELECT * FROM companies  where id_company = ?', [id]);
-      
+  
+    console.log(rows[0].image)
       if (rows.length === 0) {
         return res.status(404).send('User not found');
       }
@@ -215,7 +236,7 @@ router.get('/profile/:id', loggedIn, async (req, res) => {
         return res.status(404).send('User not found');
       }
       
-      res.render('jobgetall',{company,job:rows,user,admin});
+      res.render('detailjob',{company,job:rows[0],user,admin});
   
     } catch (error) {
       console.error(error);

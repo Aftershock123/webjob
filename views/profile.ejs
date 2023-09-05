@@ -18,7 +18,6 @@
   <%- include('navbar') %>
           <% if(user) { %>
             <form action="/user/updateprofile/<%= user.id_user %>" method="post">
-
               <div>
                 <input type="text" id="username" name="username" value="<%= user.username %>" />
                 <label for="username">username</label>
@@ -37,6 +36,13 @@
                 <div >
                   <input type="text" id="username" name="username" value="<%= company.username %>" />
                   <label for="username">username</label>
+                </div>
+                <div >
+                  
+                 
+                  <img class="card" src="/image/<%= company.image %>" alt="Company Logo"/>
+                  
+                  <!-- <label for="image">image</label> -->
                 </div>
                 <div >
                   <ion-icon name="mail-outline"></ion-icon>

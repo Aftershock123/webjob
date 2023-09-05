@@ -1,74 +1,99 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">Jobjab</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mb-2 mb-lg-0">
-        <li class="nav-item me-auto">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item me-auto">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
-        
         <li class="nav-item dropdown me-auto ms-auto">
-          <li class="nav-item dropdown me-auto ms-auto">
-            <% if (status ==="loggedIn") { %> <!-- Check if the status is "loggedIn" -->
-              <% if (user) { %> 
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><%= user.username %> <!-- Access the email property of the member --></a>
-              <% } else if(company){ %>
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"aria-expanded="false"><%= company.username %> <!-- Access the email property of the member --></a>
-                  <% } else  { %>
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"aria-expanded="false"><%= admin.username %> <!-- Access the email property of the member --></a>
-                      <% } %>
+          <% if (status === "loggedIn" ) { %> <!-- Check if the status is "loggedIn" -->
+            <% if (user) { %>
+        <li class="nav-item me-auto">
+          <a class="nav-link" href="/user/addresume/<%= user.id_user %>">Article</a>
+        </li>
+        <li class="nav-item me-auto">
+          <a class="nav-link" href="/user/updateresume/<%= user.id_user %>">JobSearch</a>
+        </li>
+        <li class="nav-item me-auto">
+          <a class="nav-link" href="/user/addresume/<%= user.id_user %>">Resume</a>
+        </li>
+        <!-- <li class="nav-item me-auto">
+                    <a class="nav-link" href="/user/updateresume/<%= user.id_user %>">historysumitjob</a>
+                  </li> -->
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <%= user.username %>
+        </a>
 
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="/user/profile/<%= user.id_user %>">Profile</a></li>
+          <li><a class="dropdown-item" href="/forgetpassword/<%= user.id_user  %>">Forget</a></li>
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          <!-- แก้ไขเว็ปได้ยังไม่ได้ทำ -->
+        </ul>
 
-                <% if (user) { %> <!-- Check if the status is "loggedIn" -->
-                
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" href="/user/profile/<%= user.id_user %>">Profile</a></li>
-                      <li><a class="dropdown-item" href="/user/addresume/<%= user.id_user %>">Resume</a></li>
-                      <li><a class="dropdown-item" href="/user/updateresume/<%= user.id_user %>">historysumitjob</a></li>
-                
-                      <li><a class="dropdown-item" href="/forgetpassword/<%= user.id_user  %>">forget</a></li>
-                      <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                    </ul>
-                <% } else if(company){ %>
-                  
-                      <!-- Check if the status is "loggedIn" -->
-                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                      
-                        <li><a class="dropdown-item" href="/company/profile/<%= company.id_company %>">Profile</a></li>
-                        <li><a class="dropdown-item" href="/company/addjob_company/<%= company.id_company %>">Job</a></li>
-                        <li><a class="dropdown-item" href="/company/joball/<%= company.id_company %>">historysumitjob</a></li>
-                        <li><a class="dropdown-item" href="/forgetpassword/<%= company.id_company %>">forget</a></li>
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                      </ul>
-                    <% } else if(admin){ %>
-                      
-                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">       
-                        <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">Profile</a></li>
-                       
-                        <li><a class="dropdown-item" href="/forgetpassword/<%= admin.id_admin %>">forget</a></li>
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                        <!-- แก้ไขเว็ปได้ยังไม่ได้ทำ -->
-                      </ul>
-                      <% } %>
+        <% } else if(company){ %>
 
+          <li class="nav-item me-auto">
+            <a class="nav-link" href="/company/addjob_company/<%= company.id_company %>">Article</a>
+          </li>
+          <li class="nav-item me-auto">
+            <a class="nav-link" href="/company/addjob_company/<%= company.id_company %>">JobSerach(ค้นหาบริษัท)</a>
+          </li>
+          <li class="nav-item me-auto">
+            <a class="nav-link" href="/company/addjob_company/<%= company.id_company %>">Job</a>
+          </li>
+          <li class="nav-item me-auto">
+            <a class="nav-link" href="/company/addjob_company/<%= company.id_company %>">AddJob</a>
+          </li>
+          <li class="nav-item me-auto">
+            <a class="nav-link" href="/company/joball/<%= company.id_company %>">Myjob</a>
+          </li>
 
-            <% } else { %>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <%= company.username %>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/company/profile/<%= company.id_company %>">Profile</a></li>
+            <li><a class="dropdown-item" href="/forgetpassword/<%= company.id_company %>">Forget</a></li>
+            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          </ul>
 
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <% } else if(admin){ %>
+            <li class="nav-item me-auto">
+              <a class="nav-link" href="#">Article</a>
+            </li>
+            <li class="nav-item me-auto">
+              <a class="nav-link" href="#">JobSearch</a>
+            </li>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <%= admin.username %>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">Profile</a></li>
+              <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">EditWeb</a></li>
+              <li><a class="dropdown-item" href="/forgetpassword/<%= admin.id_admin %>">Forget</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              <!-- แก้ไขเว็ปได้ยังไม่ได้ทำ -->
+            </ul>
+            <% } %>
+
+              <% } else { %>
+                <li class="nav-item me-auto">
+                  <a class="nav-link" href="#">Article</a>
+                </li>
+                <li class="nav-item me-auto">
+                  <a class="nav-link" href="#">JobSerach(ค้นหาบริษัท)</a>
+                </li>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
                   Login
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                  <!-- Comment: Displayed if the user is not logged in -->
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                   <li><a class="dropdown-item" href="/login">Login</a></li>
                   <li><a class="dropdown-item" href="/registerUser">RegisterUser</a></li>
                   <li><a class="dropdown-item" href="/registerCompany">RegisterCompany</a></li>
-                  </ul>
+                </ul>
                 <% } %>
         </li>
       </ul>

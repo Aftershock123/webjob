@@ -12,7 +12,8 @@
 </head>
 <body>
 <!--if resume.id_user ==undefined ให้แสดงหน้าaddแต่ถ้าไม่ให้แสดงhistory -->
-
+<%- include('navbar') %>
+<% if(resume == undefined) { %>
   <form action="/user/addresume/<%= user.id_user %>" method="post">
 
     <div class="inputbox-regis">
@@ -55,19 +56,6 @@
             <label for="contact">contact</label>
           </div>
         
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- <div class="inputbox-regis">
           <ion-icon name="mail-outline"></ion-icon>
           <input type="password" id="password" autocomplete="off" required>
@@ -75,12 +63,61 @@
         </div> -->
         <button type="submit" class="btn btn-primary">save</button>
 
-        
-
-  
-
-    
       </form>
+<% } else { %>
+
+ <form action="/user/updateresume/<%= user.id_user %>" method="post">
+
+    <div class="inputbox-regis">
+      <input type="text" id="professional_summary"  name="professional_summary" value="<%= resume.professional_summary %>" />
+      <label for="professional_summary">professional_summary</label>
+    </div>
+    <div class="inputbox-regis">
+     <ion-icon name="mail-outline"></ion-icon>
+     <input type="text" id="work_experience" name= "work_experience"value="<%= resume.work_experience %>" />
+     <label for="work_experience">work_experience</label>
+      </div>
+
+
+
+
+      <div class="inputbox-regis">
+        <input type="text" id="skills"  name="skills" value="<%= resume.skills %>" />
+        <label for="skills">skills</label>
+      </div>
+      <div class="inputbox-regis">
+       <ion-icon name="mail-outline"></ion-icon>
+       <input type="text" id="education" name= "education"value="<%= resume.education %>" />
+       <label for="education">education</label>
+        </div>
+
+
+
+        <div class="inputbox-regis">
+          <input type="text" id="languages"  name="languages" value="<%= resume.languages %>" />
+          <label for="languages">languages</label>
+        </div>
+        <div class="inputbox-regis">
+         <ion-icon name="mail-outline"></ion-icon>
+         <input type="text" id="interests" name= "interests"value="<%= resume.interests %>" />
+         <label for="interests">interests</label>
+          </div>
+
+          <div class="inputbox-regis">
+            <input type="text" id="contact"  name="contact" value="<%= resume.contact %>" />
+            <label for="contact">contact</label>
+          </div>
+        
+        <!-- <div class="inputbox-regis">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input type="password" id="password" autocomplete="off" required>
+          <label for="password">Password</label>
+        </div> -->
+        <button type="submit" class="btn btn-primary">save</button>
+
+      </form>
+<% } %>
+ 
 </body>
 
 </html>

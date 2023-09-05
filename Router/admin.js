@@ -5,6 +5,9 @@ const router =express.Router();
 const loggedIn =require("../controllers/loggedin")
 
 router.post('/registeradmin' , async (req, res) => {
+  let company;
+  let admin;
+  let status;
     const { username,email, password: Npassword } = req.body;
     if (!email || !Npassword) {
         return res.status(401).json({ status: "error", error: "Please enter your email and password" });
@@ -23,7 +26,7 @@ router.post('/registeradmin' , async (req, res) => {
                                 console.log("insert user error");
                                 throw error;
                             }
-                            return res.status(200).json({ status: "success", success: "Admin has been registered" });
+                            return  res.render('login', { company ,user,admin,status});
                         });
    
                 } catch (error) {

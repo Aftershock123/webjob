@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/admin/editweb/<%= admin.id_admin %>" method="post">
+        <img class="card" src="/image/<%= company.image %>" alt="Company Logo"/>
+
+
+        <div class="inputbox-regis">
+          <input type="text" id="namepage"  name="professional_summary" />
+          <label for="professional_summary">professional_summary</label>
+        </div>
+        <div class="inputbox-regis">
+         <ion-icon name="mail-outline"></ion-icon>
+         <input type="text" id="work_experience" name= "work_experience" />
+         <label for="work_experience">work_experience</label>
+          </div>
+    
+    
+    
+    
+          <div class="inputbox-regis">
+            <input type="text" id="skills"  name="skills" />
+            <label for="skills">skills</label>
+          </div>
+          <div class="inputbox-regis">
+           <ion-icon name="mail-outline"></ion-icon>
+           <input type="text" id="education" name= "education"/>
+           <label for="education">education</label>
+            </div>
+    
+    
+    
+            <div class="inputbox-regis">
+              <input type="text" id="languages"  name="languages"  />
+              <label for="languages">languages</label>
+            </div>
+            <div class="inputbox-regis">
+             <ion-icon name="mail-outline"></ion-icon>
+             <input type="text" id="interests" name= "interests" />
+             <label for="interests">interests</label>
+              </div>
+    
+              <div class="inputbox-regis">
+                <input type="text" id="contact"  name="contact"  />
+                <label for="contact">contact</label>
+              </div>
+            
+            <!-- <div class="inputbox-regis">
+              <ion-icon name="mail-outline"></ion-icon>
+              <input type="password" id="password" autocomplete="off" required>
+              <label for="password">Password</label>
+            </div> -->
+            <button type="submit" class="btn btn-primary">save</button>
+    
+          </form>
+
+</body>
+</html>

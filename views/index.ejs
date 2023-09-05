@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <%- include('navbar', { status: status}) %>
+  <%- include('navbar') %>
   <form action="/company/searchcompany" method="post">
     <input type="text" name="searchcompany" placeholder="Enter search query" required>
     <button type="submit">Search</button>
@@ -171,7 +171,7 @@
                   <p class="card-text"><%= jobindex.detail_work %></p>
                   <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">detailjob</a>
                   <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">apply</a>
-                  <a class="dropdown-item" href="/registerUser">RegisterUser</a>
+                  
                   <a class="card-title"><%= jobindex.deadline_offer %> </a>
                 </div>
               </div>

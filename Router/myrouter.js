@@ -197,84 +197,86 @@ router.get('/forgotpassword',(req,res)=>{
 
 
 
-router.post('/forgotpassword/:id', async (req, res) => {
-  try {
-    const {id} = req.params;
-    console.log(id);   
+// router.post('/forgotpassword/:id', async (req, res) => {
+//   try {
+//     const {id} = req.params;
+//     console.log(id);   
     
-    const email = req.body.email; // Assuming you use body-parser middleware to parse form data
+//     const email = req.body.email; // Assuming you use body-parser middleware to parse form data
 
-    // Generate a random pin code
-    const pinCode = randomstring.generate({
-        length: 6,
-        charset: 'numeric',
-    });
+//     // Generate a random pin code
+//     const pinCode = randomstring.generate({
+//         length: 6,
+//         charset: 'numeric',
+//     });
 
-    // Store the pin code in the database along with the email and expiration timestamp
-    const expirationDate = new Date();
-    expirationDate.setMinutes(expirationDate.getMinutes() + 30); // Expiration in 30 minutes
+//     // Store the pin code in the database along with the email and expiration timestamp
+//     const expirationDate = new Date();
+//     expirationDate.setMinutes(expirationDate.getMinutes() + 30); // Expiration in 30 minutes
 
-  db.query('INSERT INTO password_reset (email, pin_code, expires_at) VALUES (?, ?, ?)',[email, pinCode, expirationDate],
-      (error) => {
-          if (error) {
-              console.error('Error storing pin code in the database:', error);
-              res.status(500).send('Error storing pin code in the database.');
-          } else {
-              // Send the pin code to the user's email
-              const mailOptions = {
-                  from: 'your_email@gmail.com',
-                  to: email,
-                  subject: 'Password Reset PIN Code',
-                  text: `Your password reset PIN code is: ${pinCode}`,
-              };
+//   db.query('INSERT INTO password_reset (email, pin_code, expires_at) VALUES (?, ?, ?)',[email, pinCode, expirationDate],
+//       (error) => {
+//           if (error) {
+//               console.error('Error storing pin code in the database:', error);
+//               res.status(500).send('Error storing pin code in the database.');
+//           } else {
+//               // Send the pin code to the user's email
+//               const mailOptions = {
+//                   from: 'your_email@gmail.com',
+//                   to: email,
+//                   subject: 'Password Reset PIN Code',
+//                   text: `Your password reset PIN code is: ${pinCode}`,
+//               };
 
-              transporter.sendMail(mailOptions, (error) => {
-                  if (error) {
-                      console.error('Error sending email:', error);
-                      res.status(500).send('Error sending email.');
-                  } else {
-                      res.send('Check your email for the PIN code.');
-                  }
-              });
-          }
-      }
-  );
-}
-
-  //  const gpc =require('generate-pincode');
-  //   const pin =gpc(4);
+//               transporter.sendMail(mailOptions, (error) => {
+//                   if (error) {
+//                       console.error('Error sending email:', error);
+//                       res.status(500).send('Error sending email.');
+//                   } else {
+//                       res.send('Check your email for the PIN code.');
+//                   }
+//               });
+//           }
+//       }
+//   );
+// }
+//  //  const gpc =require('generate-pincode');
+//   //   const pin =gpc(4);
     
 
-  //   console.log(email);
+//   //   console.log(email);
     
-    // const [rows] = db.query('SELECT * FROM members WHERE email = ?', [email], async (err, result) => {});
-  // const [rows] = await db.promise().query('UPDATE resume SET professional_summary = ?, work_experience = ?, skills = ?, education = ?, languages = ?, interests = ?, contact = ? WHERE resume.id_user = ?', [ professional_summary,work_experience, skills,education ,languages ,interests ,contact ,id]);    
+//     // const [rows] = db.query('SELECT * FROM members WHERE email = ?', [email], async (err, result) => {});
+//   // const [rows] = await db.promise().query('UPDATE resume SET professional_summary = ?, work_experience = ?, skills = ?, education = ?, languages = ?, interests = ?, contact = ? WHERE resume.id_user = ?', [ professional_summary,work_experience, skills,education ,languages ,interests ,contact ,id]);    
   
 
-  // let mailSubject = 'Reset Password';
+//   // let mailSubject = 'Reset Password';
 
-  //     let content = 
-  //             "hello asdfasfd"+
-  //             'pin '+pin+
-  //             '<div>Please <a href="http://localhost:5000/"> <b><u> click here </u></b></a> to reset your password.'
-  //     sendMail_ForgotPassword(email, mailSubject, content);
+//   //     let content = 
+//   //             "hello asdfasfd"+
+//   //             'pin '+pin+
+//   //             '<div>Please <a href="http://localhost:5000/"> <b><u> click here </u></b></a> to reset your password.'
+//   //     sendMail_ForgotPassword(email, mailSubject, content);
 
-  //   console.log(email);
-  //   console.log(mailSubject);
-  //   console.log(content);
-    // if (rows.length === 0 ) {
-    //   return res.status(404).send('User not found');
-    // }
+//   //   console.log(email);
+//   //   console.log(mailSubject);
+//   //   console.log(content);
+//     // if (rows.length === 0 ) {
+//     //   return res.status(404).send('User not found');
+//     // }
 
    
 
-    // res.redirect('/user/resume/' + id );
+//     // res.redirect('/user/resume/' + id );
+ 
 
-   catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+//    catch (error) {
+//     console.error(error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
+
+
 
 router.get('/',loggedIn, async (req, res) => {
   try{
@@ -377,17 +379,26 @@ router.get('/login', (req, res) => {
 
 
 
-router.get('/registeruser',(req,res)=>{
-    
-    res.render('registeruser')
+router.get('/registeruser', loggedIn,(req,res)=>{
+  let company;
+  let admin;
+  let status = res.locals.status;
+  let user ;    
+   return res.render('registeruser',company,user,admin,status)
 })
-router.get('/registercompany',(req,res)=>{
-    
-    res.render('registercompany')
+router.get('/registercompany', loggedIn,(req,res)=>{
+  let company;
+  let admin;
+  let status = res.locals.status;
+  let user ;  
+    return res.render('registercompany',company,user,admin,status)
 })
 router.get('/registeradmin',(req,res)=>{
-    
-  res.render('registeradmin')
+  let company;
+  let admin;
+  let status = res.locals.status;
+  let user ;  
+  return res.render('registeradmin',company,user,admin,status)
 })
 
 

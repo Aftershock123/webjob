@@ -16,7 +16,7 @@
 
 
     <body>
-      <%- include('navbar', { status: status}) %>
+      <%- include('navbar') %>
       <div class="container">
         <div class="row">
       <% if(job.length > 0) { %>
@@ -28,7 +28,7 @@
                     <div class="card-body">
                       <h5 class="card-title"><%= job.name_job %></h5>
                       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <button type="submit" class="btn btn-primary">save</button>
+                      <button type="submit" class="btn btn-primary">edit</button>
                       <button type="reset" class="btn btn-danger">delete</button>
                       <!-- <a  href="company/updatejob_company/:id">edit</a>   เรียกใช้update -->
                     </div>
