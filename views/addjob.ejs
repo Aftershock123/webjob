@@ -11,7 +11,7 @@
     <script src="js/bootstrap.min.js"></script> -->
 </head>
 <body>
-  <%- include('navbar') %>
+  <%- include('navbar', { status: status}) %>
 
   <form action="/company/addjob_company/<%= company.id_company %>" method="post">
     

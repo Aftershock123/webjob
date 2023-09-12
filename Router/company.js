@@ -4,6 +4,10 @@ const express =require("express");
 const router =express.Router();
 const multer = require('multer');
 const loggedIn =require("../controllers/loggedin")
+const fs = require('fs');
+const crypto = require('crypto');
+const verificationToken = crypto.randomBytes(20).toString('hex');
+const sendMail =require("../controllers/sendmail");
 
 // Multer storage configuration
 const storage = multer.diskStorage({
@@ -11,7 +15,7 @@ const storage = multer.diskStorage({
     callback(null, 'public/image/');
   },
   filename: (req, file, callback) => {
-    callback(null,Date.now() +file.originalname.replace(/^.*[\\\/]/, ''));
+    callback(null,Date.now() +file.originalname);
   }
 });
 
@@ -284,5 +288,215 @@ router.post('/searchcompany', loggedIn, async (req, res) => {
     }
   });
 
+
+
+
+//   router.post('/resetpassword',async (req,res) =>{
+//     try{
+//     const email =req.body.email;
+
+//     const [rows] = await db.promise().query('SELECT * FROM users  where users.email = ?', [email]);
+//       if(rows){
+//         const otp_before = Math.floor(1000 + Math.random() * 9000);
+//         const otp = otp_before.toString();
+//         await db.promise().query('UPDATE users SET  token = ? where users.email = ?', [ otp ,email]);    
+//         var transporter = nodemailer.createTransport({
+//           service: "gmail",
+//           auth: {
+//             user: "asdf@gmail.com",
+//             pass: "asdf",
+//           },
+//         });
+
+//         var mailOptions = {
+//           from: "aceportgasonepiece@gmail.com",
+//           to: email,
+//           subject: "Reset your password",
+//           html:
+//             `<!DOCTYPE html>
+//     <html lang="en">
+//       <head>
+//         <meta charset="UTF-8" />
+//         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+//         <title>Document</title>
+//         <style>
+//           @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,200&display=swap");
+
+//           * {
+//             margin: 0;
+//             padding: 0;
+//             border: 0;
+//           }
+
+//           body {
+//             font-family: "Raleway", sans-serif;
+//             background-color: #d8dada;
+//             font-size: 19px;
+//             max-width: 800px;
+//             margin: 0 auto;
+//             padding: 3%;
+//           }
+
+//           header {
+//             width: 98%;
+//           }
+
+//           #wrapper {
+//             background-color: #f0f6fb;
+//           }
+
+//           h1,
+//           p {
+//             margin: 3%;
+//           }
+//           .btn {
+//             float: center;
+//             text-align: center;
+//             margin-left: auto;
+//             margin-right: auto;
+//             width: 70%;
+//             background-color: #303840;
+//             color: #f6faff;
+//             text-decoration: none;
+//             font-weight: 800;
+//             padding: 8px 12px;
+//             border-radius: 8px;
+//             letter-spacing: 2px;
+//           }
+//           .btn-pink {
+//           color: #fff;
+//           background-color: rgb(255, 133, 194);
+//           border-color: rgb(255, 133, 194);
+//           }
+
+//           .btn.btn-pink:hover,
+//           .btn.btn-pink:focus,
+//           .btn.btn-pink:active,
+//           .btn.btn-pink.active {
+//             color: #ffffff;
+//             background-color: #fa228a;
+//             border-color: #fa228a;
+//           }
+
+//           .btn-purple3 {
+//             color: rgb(27, 27, 27);
+//             background-color: #D9ACF5;
+//             border-color: #D9ACF5;
+//           }
+
+//           .btn.btn-purple3:hover,
+//           .btn.btn-purple3:focus,
+//           .btn.btn-purple3:active,
+//           .btn.btn-purple3.active {
+//             color: #ffffff;
+//             background-color: #bd96d5;
+//             border-color: #bd96d5;
+//           }
+
+//           .text-my-own-color {
+//             color: #ffffff !important;
+//             text-decoration: none;
+//           }
+
+//           .text-my-own-color:hover,
+//           .text-my-own-color:focus,
+//           .text-my-own-color:active {
+//           text-decoration: none;
+//             color: #fa228a !important;
+//           }
+//           hr {
+//             height: 1px;
+//             background-color: #303840;
+//             clear: both;
+//             width: 96%;
+//             margin: auto;
+//           }
+
+//           #contact {
+//             text-align: center;
+//             padding-bottom: 3%;
+//             line-height: 16px;
+//             font-size: 12px;
+//             color: #303840;
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         <div id="wrapper">
+//           <div class="one-col">
+//             <h1>Hello,</h1>
+//             <p>
+//               We've received a request to reset the password. No changes have been made your account yet.
+//             </p>` +
+//             `<h2 style="margin: 0 auto;width: max-content;padding: 0 10px;">Your OTP</h1><br><h2 style="background: #fa228a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">` +
+//             otp +
+//             "</h2>" +
+//             `<p>
+//             You can reset your password by clicking the link below and filling in the OTP:
+//             </p>` +
+//             '<div class="btn btn-pink"><a class="text-my-own-color" href="http://localhost:3000/users/resetPassword"' +
+//             //   ?= ' +
+//             // otp +
+//             '"> Reset your password </a></div>' +
+//             `
+//             <p>
+//             If you did not request a new password, please let us know immediately by replying to this email.
+//             </p>
+//             <hr />
+
+//             <footer>
+//               <p id="contact">
+//                 Copyright © 2023 nawatniyai <br />
+//               </p>
+//             </footer>
+//           </div>
+//         </div>
+//       </body>
+//     </html>`,
+//         };
+//         transporter.sendMail(mailOptions, function (error, info) {
+//           if (error) {
+//             console.log(error);
+//           } else {
+//             console.log("Email sent: " + info.response);
+//           }
+//         });
+//       }
+//     }catch (error) {
+//       console.error(error);
+//       res.status(500).send('Internal Server Error');
+//     }
+//   });
+
+
+//   router.post('changepassword' ,loggedIn, async(req,res,next)=>{
+//   try{
+//   const token = req.body.token;
+//   // console.log("token: " + token);
+//   const [rows] = await db.promise().query('SELECT * FROM users  where users.token = ?', [token]);
+//   if (rows) {
+//     const password = req.body.password;
+//     const salt = await bcrypt.genSalt(10);
+//     const newPassword = await bcrypt.hash(password, salt);
+//     // console.log("password: " + password);
+//     // console.log("newPassword: " + newPassword);
+//     await db.promise().query('UPDATE users SET  password  = ? where users.token = ?', [ newPassword ,token]);    
+
+//     await db.promise().query('UPDATE users SET  token  = "" where users.token = ?', [token]); 
+    
+//     console.log("resetToken: " + token);
+//     res.redirect("/users/login");
+//   } else {
+    
+//         res.render("changepassword", {
+//           errors: "OTP ไม่ถูกต้อง",
+         
+//         })
+// }}catch (error) {
+//   console.error(error);
+//   res.status(500).send('Internal Server Error');
+// }
+// }
+//   );
 
 module.exports= router;

@@ -12,7 +12,7 @@
 </head>
 <body>
 <!--if resume.id_user ==undefined ให้แสดงหน้าaddแต่ถ้าไม่ให้แสดงhistory -->
-<%- include('navbar') %>
+<%- include('navbar', { status: status}) %>
 <% if(resume == undefined) { %>
   <form action="/user/addresume/<%= user.id_user %>" method="post">
 

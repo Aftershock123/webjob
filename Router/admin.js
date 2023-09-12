@@ -84,12 +84,35 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 router.post('/updateweb/:id',loggedIn,async(req,res)=>{
 try{
   const {id} =req.params;
-  const [rows] = await db.promise().query('UPDATE admins SET username = ?, email = ? WHERE admins.id_admin = ?', [username, email, id]);
-  
+  const [rows] = await db.promise().query('UPDATE webpage SET  namepage = ?, address = ? , email = ?, call = ? ');
+  const [updatedadmin] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);// console.log(rows);
 
+  res.render('index', { admin: updatedadmin[0],user,company});
+     
 }catch (error) {
   console.error(error);
   res.status(500).send('Internal Server Error');}
 });
+
+
+// router.post('/resetpassword/:id',loggedIn,async(req,res)=>{
+//   try{
+//     const password =req.body.password;
+//     const {id} =req.params;
+//     const [updatedadmin] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);// console.log(rows);
+//     const salt = await bcrypt.genSalt(10);
+//     const newPassword = await bcrypt.hash(password, salt);
+//     await db.promise().query('UPDATE admins SET password = ? WHERE admins.id_admin = ?', [newPassword, id]);
+     
+//     res.render('index', { admin: updatedadmin[0],user,company});
+       
+//   }catch (error) {
+//     console.error(error);
+//     res.status(500).send('Internal Server Error');}
+//   });
+  
+  
+
+
 
 module.exports= router;

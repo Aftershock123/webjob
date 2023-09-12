@@ -4,6 +4,7 @@ const cookie =require('cookie-parser')
 const Port =process.env.Port || 5000;
 const db =require("./Router/db-config")
 const app = express()
+const bodyParser =require('body-parser')
 // const createdadmin =require('./entity/admin')
 // const createduser =require('./entity/user')
 // const createdcompany =require('./entity/company')
@@ -19,15 +20,17 @@ app.set('view engine','ejs')
 
 
 
+
 //static file
 app.use(express.static(path.join(__dirname,'public')))
 app.use("/js" , express.static(__dirname+'./public/js'))
 
 
 app.use(cookie());
+app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.urlencoded({extended:false}))
 app.use(express.json());
-
+app.use(bodyParser.json());
 db.connect((err)=>{
     if(err) throw err;
     // createdadmin(db)

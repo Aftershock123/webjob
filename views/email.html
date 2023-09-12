@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  
+    <title>Email Verification</title>
+</head>
+<body>
+    <p>
+        We've received a request to verify the email.
+    </p>` +
+    `<p>
+        Please click the following link to verify your email:
+    </p>` +
+    '<div class="btn btn-pink"><a class="text-my-own-color" href=" ' +
+          `http://localhost:5000/user/verify?token=${verificationToken}`
+          +
+          '"> Verify Email </a></div>' +
+    `
+    <p>
+        If you are not an applicant, please let us know immediately by replying to this email.
+    </p>
+</body>
+</html>

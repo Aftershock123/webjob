@@ -7,7 +7,8 @@ const createTables = `
     password VARCHAR(100) NOT NULL,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    type_level INT(11) Default '1'
+    image VARCHAR(100) NOT NULL,
+    token VARCHAR(100) NOT NULL
   );
 
 `;

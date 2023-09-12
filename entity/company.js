@@ -5,7 +5,6 @@ const createTables = `
     password VARCHAR(100) NOT NULL,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    type_level INT(11) Default '2',
     name_company VARCHAR(100) NOT NULL,
     type_company VARCHAR(100) NOT NULL,
     namecontact_company VARCHAR(100) NOT NULL, 
@@ -14,7 +13,9 @@ const createTables = `
     county_company VARCHAR(100) NOT NULL, 
     district_company VARCHAR(100) NOT NULL, 
     zipcode_company INT(11) NOT NULL,
-    tell_company  INT(11) NOT NULL       
+    tell_company  INT(11) NOT NULL,
+    image VARCHAR(100) NOT NULL,
+    token VARCHAR(100) NOT NULL       
   );
 
 `;

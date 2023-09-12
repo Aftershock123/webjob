@@ -1,34 +1,74 @@
 const db =require("../Router/db-config");
 const bcrypt = require("bcryptjs");
 const express =require("express");
-// const randomstring = require("randomstring");
+const {validationResult} =require('express-validator');
+const {signUpValidation} =require('../controllers/validation')
+const fs = require('fs');
+const crypto = require('crypto');
+const verificationToken = crypto.randomBytes(20).toString('hex');
 const router =express.Router();
-const loggedIn =require("../controllers/loggedin")
-  //ได้แล้ว
-router.post('/registeruser', loggedIn , async (req, res) => {
+const loggedIn =require("../controllers/loggedin");
+const multer = require('multer');
+const sendMail =require("../controllers/sendmail");
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/image/');
+  },
+  filename: (req, file, cb) => {
+    cb(null,Date.now() +file.originalname);
+  }
+});
+const filefilter =(req,file,cb) =>{
+(file.mimetype == 'image/jpeg' || file.mimetype == 'image/png')?
+cb(null,true):cb(null,false);
+}
+
+const upload = multer({ storage: storage ,fileFilter:filefilter});
+
+
+
+
+
+ 
+router.post('/registeruser', upload.single('image'),signUpValidation, loggedIn , async (req, res,err) => {
   let company;
   let admin;
   let status;
-  
-    const { username,email, password: Npassword } = req.body;
-    if (!email || !Npassword) {
-        return res.status(401).json({ status: "error", error: "Please enter your email and password" });
+    const errors = validationResult(req);
+    // const image = req.file.filename;
+    const { username,email, password: Npassword ,image:filename} = req.body;
+    if (!email || !Npassword ||errors.isEmpty()) {
+        return res.status(400).json({ status: "error", error: errors.array() });
     } else {
         db.query('SELECT email FROM users WHERE email = ?', [email], async (err, result) => {
             if (err) throw err;
-            if (result[0]) {
-                return res.json({ status: "error", error: "Email has already been registered" });
+            if (result && result.length) {
+                return res.status(400).json({ status: "error", error: "Email has already been registered" });
             } else {
                 try {
-                    // Logging the original password before hashing                
-                    // Hashing the password
                     const password = await bcrypt.hash(Npassword, 8); 
-                        db.query('INSERT INTO users SET ?', { username: username, email: email, password: password}, (error, results) => {
+                        db.query('INSERT INTO users SET ?', { username: username, email: email, password: password,image:filename}, async (error, results) => {
                             if (error) {
                                 console.log("insert user error");
                                 throw error;
                             }
-                            return  res.render('login', { company ,user,admin,status});
+                            let mailSubject ='Mail Verification';
+
+                            const verificationLink = `https://example.com/verify?token=${verificationToken}`;
+
+                            const emailTemplate = fs.readFileSync('views/email.html', 'utf-8');
+
+                            const emailContent = emailTemplate.replace('${verificationLink}', verificationLink);
+                            
+
+                            let content=emailContent
+                            sendMail(req.body.email,mailSubject,content);
+                           
+                           db.query('UPDATE users SET token = ? where email = ?',{token:verificationToken,email:req.body.email})
+                         
+                            // return  res.render('login', { company ,user,admin,status});
                         });   
                 } catch (error) {
                     console.log(error);
@@ -38,6 +78,34 @@ router.post('/registeruser', loggedIn , async (req, res) => {
         });
     }
 });
+
+router.get('/verify',async(req,res) =>{
+  const token =req.query.token;
+  db.query('SELECT * FROM users where token=? limit 1',token,(error,result,fields) =>{
+    if(error){
+      throw err
+    }
+    if(result.length > 0){
+      db.query('UPDATE users SET token = null,verified = 1 where id =?',result[0].id)
+    }
+    // return render('index');
+  })
+})
+
+router.get('/user/:resumeId/job/:jobId',async(req,res) =>{
+  const resumeId = req.params.resumeId; // Extract the user ID
+  const jobId = req.params.jobId; // Extract the order ID
+  db.query('INSERT INTO historyuser SET ?',{resume_Id:resumeId,job_id:jobId})
+  db.query('SELECT *.r,*.j FROM historyuser INNER JOIN  resume ON historyuser.resume_id = resume.resume_id INNER JOIN   jobcompany ON historyuser.jobid = jobcompany.jobid ',(error,result,fields) =>{
+    if(error){
+      throw err
+    }
+    if(result.length > 0){
+      db.query('SELECT * FROM companies  where jobid =?',jobId)
+    }
+    // return render('index');
+  })
+})
 
 //-------------------------------------------------profile---------------------------------------
   //ได้แล้ว
@@ -57,7 +125,10 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       }
   
       res.render('profile', { user: rows[0] ,company,admin});
-  
+      // if(jobId){
+
+      //   res.redirect('/user/:resumeId/job/:jobId');
+      // }
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
@@ -192,6 +263,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   
 
 
+ 
 
   router.post('/resetpassword',async (req,res) =>{
     try{
@@ -400,6 +472,10 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 }
 }
   );
+
+
+
+  
 
   
 
