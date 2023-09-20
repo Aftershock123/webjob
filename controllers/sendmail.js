@@ -14,8 +14,8 @@ const sendMail = async (email,mailSubject ,content) =>{
           });
           const TemplatePath = path.join(__dirname, "../views/email.ejs");
           const data =await ejs.renderFile(TemplatePath,{content});
-          console.log(data)
-          console.log(content)
+          // console.log(data)
+          // console.log(content)
             const mailOptions = {
               from: 'Andrew.ColtOoO@gmail.com',
               to: email,
@@ -32,7 +32,7 @@ const sendMail = async (email,mailSubject ,content) =>{
               } else {
                 console.log('Email sent: ' + info.response);
                 
-                // res.send('Verification email sent successfully.');
+                
               }
             });
     }

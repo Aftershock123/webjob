@@ -61,12 +61,15 @@ router.post('/registeruser', upload.single('image'),signUpValidation,loggedIn, a
 
             const content= "http://localhost:5000/user/verify?token= "+verificationToken
                             
-            sendMail(req.body.email,mailSubject,content);
-                           
-                          
-                            // return res.render('login', { company ,user,admin,status});
-                            // return  res.redirect("/user/verify");
-                        });   
+            await sendMail(req.body.email,mailSubject,content);
+            await db.promise().query('UPDATE users set token=? where email=? ',[ verificationToken,req.body.email],async(error,result)=>{
+              if (error) {
+                console.log("insert user error");
+                throw error;
+              }
+              return res.redirect("/user/verify");
+            })
+          });   
                 } catch (error) {
                     console.log(error);
                     return res.status(500).json({ status: "error", error: "Internal server error" });
@@ -85,22 +88,47 @@ router.post('/registeruser', upload.single('image'),signUpValidation,loggedIn, a
 //     return res.send ('Mail verified Success');
     
 // });
+router.get('/verify', loggedIn, async (req, res) => {
+  try {
+    const token = req.query.token;
+    console.log('Token:', token);
 
-router.get('/verify', loggedIn ,async(req,res) =>{
-  const token =req.query.token;
-  db.query('SELECT * FROM users where token=? limit 1',token,(error,result,fields) =>{
-    if(error){
-      throw error
-    }
-    if(result.length > 0){
-      db.query('UPDATE users SET token = null,verified = 1 where id =?',result[0].id)
-      return res.send ('Mail verified Success');
-    }else {
-      return res.render('404');
-    }
-    
-  })
-})
+    const tokenString = token.toString();
+
+    // Perform the database query
+    db.query('SELECT * FROM users WHERE token=? LIMIT 1', [tokenString], function (error, result) {
+      if (error) {
+        console.error('Error querying the database:', error);
+        return res.status(500).send('Internal Server Error');
+      }
+
+      console.log('Query result:', result);
+
+      if (result.length > 0) {
+        const userId = result[0].id; // Assuming 'id' is the correct column name
+        db.query('UPDATE users SET token = null, verified = 1 WHERE id = ?', [userId], function (error, updateResult) {
+          if (error) {
+            console.error('Error updating the user:', error);
+            return res.status(500).send('Internal Server Error');
+          }
+
+          console.log('Update result:', updateResult);
+          return res.render("index");
+        });
+      } else {
+        console.log('No matching user found for the token.');
+        return res.render('404');
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
 
 router.get('/user/:resumeId/job/:jobId',async(req,res) =>{
   const resumeId = req.params.resumeId; // Extract the user ID
