@@ -21,12 +21,12 @@
         <!-- <li class="nav-item me-auto">
                     <a class="nav-link" href="/user/updateresume/<%= user.id_user %>">historysumitjob</a>
                   </li> -->
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownuser" role="button" data-bs-toggle="dropdown"
           aria-expanded="false">
           <%= user.username %>
         </a>
 
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownuser">
           <li><a class="dropdown-item" href="/user/profile/<%= user.id_user %>">Profile</a></li>
           <li><a class="dropdown-item" href="/forgetpassword/<%= user.id_user  %>">Forget</a></li>
           <li><a class="dropdown-item" href="/logout">Logout</a></li>
@@ -51,11 +51,11 @@
             <a class="nav-link" href="/company/joball/<%= company.id_company %>">Myjob</a>
           </li>
 
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdowncompany" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             <%= company.username %>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdowncompany">
             <li><a class="dropdown-item" href="/company/profile/<%= company.id_company %>">Profile</a></li>
             <li><a class="dropdown-item" href="/forgetpassword/<%= company.id_company %>">Forget</a></li>
             <li><a class="dropdown-item" href="/logout">Logout</a></li>
@@ -68,11 +68,11 @@
             <li class="nav-item me-auto">
               <a class="nav-link" href="#">JobSearch</a>
             </li>
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownadmin" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               <%= admin.username %>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownadmin">
               <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">Profile</a></li>
               <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">EditWeb</a></li>
               <li><a class="dropdown-item" href="/forgetpassword/<%= admin.id_admin %>">Forget</a></li>

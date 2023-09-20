@@ -12,15 +12,15 @@
 </head>
 <body>
   
+  <%- include('navbar') %>
+  <form action="/company/updatejob_company/<%= job.idjob_company %>" method="post">
 
-  <form action="/company/updatejob_company/<%= job.idjob_company %>/<%= company.id_company %>" method="post">
-    <!-- value="<%= job.name_job %>" -->
     <div class="inputbox-regis">
       <input type="text" id="name_job"  name="name_job"  value="<%= job.name_job %>"/>
       <label for="name_job">name_job</label>
     </div>
     <div class="inputbox-regis">
-      <!-- value="<%= job.role %>" -->
+     
      <ion-icon name="mail-outline"></ion-icon>
      <input type="text" id="role" name= "role" value="<%= job.role %>" />
      <label for="role">role</label>
@@ -77,11 +77,11 @@
                 <input type="text" id="deadline_offer" name= "deadline_offer"value="<%= job.deadline_offer %>" />
                 <label for="deadline_offer">deadline_offer</label>
                  </div>
-       
+        
             
-        <button type="submit" class="btn btn-wanning">save</button>
+        <button type="submit" class="btn btn-wanning">save</button> 
     
-      </form>
+      </form> 
 </body>
 
 </html>

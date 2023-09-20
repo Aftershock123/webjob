@@ -383,7 +383,7 @@ router.get('/registeruser', loggedIn,(req,res)=>{
   let company;
   let admin;
   let status = res.locals.status;
-  let user ;    
+  let user;    
    return res.render('registeruser',company,user,admin,status)
 })
 router.get('/registercompany', loggedIn,(req,res)=>{

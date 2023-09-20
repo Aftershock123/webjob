@@ -22,6 +22,12 @@
                 <input type="text" id="username" name="username" value="<%= user.username %>" />
                 <label for="username">username</label>
               </div>
+              <div class="data">
+                <label for="image">image</label>
+                <img class="card" src="/image/<%= user.image %>" alt="user Logo"/>
+                <input type="file" id="image" name="image" accept="image/*" />
+          
+              </div>
               <div >
                 <ion-icon name="mail-outline"></ion-icon>
                 <input type="email" id="email" name="email" value="<%= user.email %>" />

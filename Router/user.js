@@ -5,12 +5,13 @@ const {validationResult} =require('express-validator');
 const {signUpValidation} =require('../controllers/validation')
 const fs = require('fs');
 const crypto = require('crypto');
-const verificationToken = crypto.randomBytes(20).toString('hex');
 const router =express.Router();
 const loggedIn =require("../controllers/loggedin");
 const multer = require('multer');
 const sendMail =require("../controllers/sendmail");
 
+const path =require('path')
+const ejs =require('ejs')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -21,8 +22,8 @@ const storage = multer.diskStorage({
   }
 });
 const filefilter =(req,file,cb) =>{
-(file.mimetype == 'image/jpeg' || file.mimetype == 'image/png')?
-cb(null,true):cb(null,false);
+  (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png')?
+  cb(null,true):cb(null,false);
 }
 
 const upload = multer({ storage: storage ,fileFilter:filefilter});
@@ -31,44 +32,40 @@ const upload = multer({ storage: storage ,fileFilter:filefilter});
 
 
 
- 
-router.post('/registeruser', upload.single('image'),signUpValidation, loggedIn , async (req, res,err) => {
+
+router.post('/registeruser', upload.single('image'),signUpValidation,loggedIn, async (req, res,err) => {
   let company;
   let admin;
-  let status;
-    const errors = validationResult(req);
-    // const image = req.file.filename;
-    const { username,email, password: Npassword ,image:filename} = req.body;
-    if (!email || !Npassword ||errors.isEmpty()) {
-        return res.status(400).json({ status: "error", error: errors.array() });
-    } else {
-        db.query('SELECT email FROM users WHERE email = ?', [email], async (err, result) => {
-            if (err) throw err;
-            if (result && result.length) {
-                return res.status(400).json({ status: "error", error: "Email has already been registered" });
-            } else {
-                try {
-                    const password = await bcrypt.hash(Npassword, 8); 
-                        db.query('INSERT INTO users SET ?', { username: username, email: email, password: password,image:filename}, async (error, results) => {
-                            if (error) {
-                                console.log("insert user error");
-                                throw error;
-                            }
-                            let mailSubject ='Mail Verification';
+  let user;
+   let status = res.locals.status ;
+  const errors = validationResult(req);
 
-                            const verificationLink = `https://example.com/verify?token=${verificationToken}`;
+  const { username,email, password: Npassword ,image:filename} = req.body;
+  if (!email || !Npassword ||errors.isEmpty()) {
+    return res.status(400).json({ status: "error", error: errors.array() });
+  } else {
+    db.query('SELECT email FROM users WHERE email = ?', [email], async (err, result) => {
+      if (err) throw err;
+      if (result && result.length) {
+        return res.status(400).json({ status: "error", error: "Email has already been registered" });
+      } else {
+        try {
+          const password = await bcrypt.hash(Npassword, 8); 
+          db.query('INSERT INTO users SET ?', { username: username, email: email, password: password,image:filename}, async (error, results) => {
+            if (error) {
+              console.log("insert user error");
+              throw error;
+            }
+            const verificationToken = crypto.randomBytes(20).toString('hex');
+            let mailSubject ='Mail Verification';  
 
-                            const emailTemplate = fs.readFileSync('views/email.html', 'utf-8');
-
-                            const emailContent = emailTemplate.replace('${verificationLink}', verificationLink);
+            const content= "http://localhost:5000/user/verify?token= "+verificationToken
                             
-
-                            let content=emailContent
-                            sendMail(req.body.email,mailSubject,content);
+            sendMail(req.body.email,mailSubject,content);
                            
-                           db.query('UPDATE users SET token = ? where email = ?',{token:verificationToken,email:req.body.email})
-                         
-                            // return  res.render('login', { company ,user,admin,status});
+                          
+                            // return res.render('login', { company ,user,admin,status});
+                            // return  res.redirect("/user/verify");
                         });   
                 } catch (error) {
                     console.log(error);
@@ -78,17 +75,30 @@ router.post('/registeruser', upload.single('image'),signUpValidation, loggedIn ,
         });
     }
 });
+// router.get('/token/:verificationToken:email', loggedIn ,async(req,res) =>{
+// const email =req.params.email;
+//   const verificationToken = req.params.verificationToken;
+//   db.query(`UPDATE users SET token = ${verificationToken} where email = ${email}`)
+//     if(error){
+//       throw error
+//     }
+//     return res.send ('Mail verified Success');
+    
+// });
 
-router.get('/verify',async(req,res) =>{
+router.get('/verify', loggedIn ,async(req,res) =>{
   const token =req.query.token;
   db.query('SELECT * FROM users where token=? limit 1',token,(error,result,fields) =>{
     if(error){
-      throw err
+      throw error
     }
     if(result.length > 0){
       db.query('UPDATE users SET token = null,verified = 1 where id =?',result[0].id)
+      return res.send ('Mail verified Success');
+    }else {
+      return res.render('404');
     }
-    // return render('index');
+    
   })
 })
 
@@ -137,18 +147,23 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   //ได้แล้ว
   router.post('/updateprofile/:id', loggedIn,async (req, res) => {
     try {
+      let company;
+      let admin ;
+      
       const {id} = req.params;
       // console.log(id);
       const {username,email}= req.body;
       // console.log(req.body);
-      
       const [rows] = await db.promise().query('UPDATE users SET username = ?, email = ? WHERE id_user = ?', [username, email, id]);
-      // console.log(rows);
+      const [row1] = await db.promise().query('SELECT * FROM users  where id_user = ?', [id]);
+
+     
+      console.log(row1[0]);
       if (rows.length === 0 ) {
         return res.status(404).send('User not found');
       }
   
-      res.redirect('/user/profile/' + id);
+      res.render('profile', { user: row1[0] ,company,admin});
   
     } catch (error) {
       console.error(error);
@@ -165,17 +180,18 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       let admin;
       const {id} = req.params;
   
-      const [rows] = await db.promise().query('SELECT * FROM users where id_user = ?', [id]);
+      // const [rows] = await db.promise().query('SELECT * FROM users where id_user = ?', [id]);
       const [row] = await db.promise().query('SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
       
       // // const [rows] = await db.promise().query('SELECT * FROM users  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
       
-      // console.log(rows);
-      if (rows.length === 0) {
+      // console.log(rows[0]);
+      console.log(row[0]);
+      if (row.length === 0) {
         return res.status(404).send('User not found');
       }
       
-      res.render('resume',{user:rows[0],resume:row[0],company,admin});
+      res.render('resume',{user:row[0],resume:row[0],company,admin});
   
     } catch (error) {
       console.error(error);
@@ -184,7 +200,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   });
 
   //ได้แล้ว
-  router.post('/addresume/:id', async (req, res) => {
+  router.post('/addresume/:id', loggedIn, async (req, res) => {
     try {
       let company;
       let admin;
@@ -216,11 +232,12 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 
   //ไม่โชว์ข้อมูลล่าสุดที่เพิ่ม 
   //เพิ่มแล้วลบอันเก่าออกเลย ยังไม่ได้ทำแค่คิดเฉยๆแก้ปันหาเพิ่มแล้วค่าล่าสุดไม่มา
-  router.get('/updateresume/:id', async (req, res) => {
+  router.get('/updateresume/:id', loggedIn, async (req, res) => {
     try {
       
       let company;
       let admin;
+      
       const {id} = req.params;
       // console.log(id);
       
@@ -242,8 +259,11 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 
 
 //ได้แล้ว
-  router.post('/updateresume/:id', async (req, res) => {
+  router.post('/updateresume/:id', loggedIn, async (req, res) => {
     try {
+      let user;
+      let company;
+
       const {id} = req.params;
         
       const {professional_summary,work_experience,skills,education,languages,interests,contact}= req.body;
@@ -253,7 +273,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
       if (rows.length === 0 ) {
         return res.status(404).send('User not found');
       }
-      res.redirect('/user/updateresume/' + id );
+      res.render('resume',{user:rows[0],resume:rows,company,admin});
   
     } catch (error) {
       console.error(error);
@@ -473,9 +493,35 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 }
   );
 
+//userid
+
+  router.get('/pdf/:id', loggedIn, async (req, res) => {
+    try {
+      let user;
+      let admin;
+      const {id} = req.params;
+//ได้ค่าcompanyid เพื่อหาjobid
+    // const {name_job,role,detail_work,experience,gender,education,welfare,salary,workday,day_off,deadline_offer}= req.body;
+
+    const [resume] = await db.promise().query('SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
+    const [historyuser] =await db.promise().query('SELECT * FROM historyuser ')
+
+    if (resume.length > 0) {
+      return res.status(404).send('User not found');
+    }
+console.log(resume[0]);
+let  mailSubject = "Resume" +resume.username
+
+let [content]=resume[0];
+let [content1]=historyuser[0];
+generatePDF(req.body.email,mailSubject,content,content1);
 
 
-  
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
   
 

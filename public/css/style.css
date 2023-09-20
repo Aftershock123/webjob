@@ -140,53 +140,10 @@ button{
   min-height: 100vh;
   width: 100%;
 }
-.form-box-regis{
-  position:relative;
-  width: 400px;
-  height: 1000px;
-  background: transparent;
-  border: 2px solid rgba(240, 16, 16, 0.5);
-  border-radius: 20px;
-  backdrop-filter: blur(15px);
-  background-color: rgb(9, 212, 175);
-  display: flex;
-  justify-content: center;
-  align-items:center;
-}
-
-.inputbox-regis{
-  position: relative;
-  margin: 30px 0;
-  width: 310px;
-  border-bottom: 2px solid #fff;
- 
-
-}
 
 
+/* nav */
 
-.inputbox-regis label{
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  transform: translateY(-50%);
-  color: #fff;
-  font-size: 1em;
-  pointer-events: none;
-  transition: .5s;
-}
-
-
-.inputbox-regis input {
-  width: 100%;
-  height: 50px;
-  background:none;
-  border: none;
-  outline: none;
-  font-size: 1em;
-  padding:0 35px 0 5px;
-  color: #fff;
-}
 
 
 

@@ -6,17 +6,18 @@
     <title>Document</title>
 </head>
 <body>
+  <%- include('navbar') %>
     <form action="/admin/editweb/<%= admin.id_admin %>" method="post">
-        <img class="card" src="/image/<%= company.image %>" alt="Company Logo"/>
+        <img class="card" src="/image/<%= webpage.image %>" alt="webpage Logo"/>
 
 
         <div class="inputbox-regis">
-          <input type="text" id="namepage"  name="professional_summary" />
+          <input type="text" id="namepage"  name="professional_summary" value="<%= webpage.name %>"/>
           <label for="professional_summary">professional_summary</label>
         </div>
         <div class="inputbox-regis">
          <ion-icon name="mail-outline"></ion-icon>
-         <input type="text" id="work_experience" name= "work_experience" />
+         <input type="text" id="work_experience" name= "work_experience" value="<%= webpage.name %>" />
          <label for="work_experience">work_experience</label>
           </div>
     
@@ -24,37 +25,37 @@
     
     
           <div class="inputbox-regis">
-            <input type="text" id="skills"  name="skills" />
+            <input type="text" id="skills"  name="skills" value="<%= webpage.name %>"/>
             <label for="skills">skills</label>
           </div>
           <div class="inputbox-regis">
            <ion-icon name="mail-outline"></ion-icon>
-           <input type="text" id="education" name= "education"/>
+           <input type="text" id="education" name= "education" value="<%= webpage.name %>"/>
            <label for="education">education</label>
             </div>
     
     
     
             <div class="inputbox-regis">
-              <input type="text" id="languages"  name="languages"  />
+              <input type="text" id="languages"  name="languages" value="<%= webpage.name %>" />
               <label for="languages">languages</label>
             </div>
             <div class="inputbox-regis">
              <ion-icon name="mail-outline"></ion-icon>
-             <input type="text" id="interests" name= "interests" />
+             <input type="text" id="interests" name= "interests" value="<%= webpage.name %>" />
              <label for="interests">interests</label>
               </div>
     
               <div class="inputbox-regis">
-                <input type="text" id="contact"  name="contact"  />
+                <input type="text" id="contact"  name="contact"  value="<%= webpage.name %>"/>
                 <label for="contact">contact</label>
               </div>
             
-            <!-- <div class="inputbox-regis">
+            <div class="inputbox-regis">
               <ion-icon name="mail-outline"></ion-icon>
               <input type="password" id="password" autocomplete="off" required>
               <label for="password">Password</label>
-            </div> -->
+            </div>
             <button type="submit" class="btn btn-primary">save</button>
     
           </form>

@@ -11,17 +11,20 @@
 </head>
 <body>
   <!-- คิดว่าหน้านี้จะใช้สำหรับโชว์รายละเอียดและใส่เงื่อนไขเข้าไปเพื่ออัพเดต -->
-  <%- include('navbar', { status: status}) %>
+  <%- include('navbar') %>
+  ชื่องาน : <%= job.name_job %>
+  ชื่องาน : <%= job.salary %>
+  ชื่องาน : <%= job.name_job %>
+  ชื่องาน : <%= job.name_job %>
+  ชื่องาน : <%= job.name_job %>
+  ชื่องาน : <%= job.name_job %>
+  ชื่องาน : <%= job.name_job %>
+  ชื่องาน : <%= job.name_job %>
+  ชื่องาน : <%= job.name_job %>
+  <script>
+    
+  </script>
   <form action="/company/updatejob_company/<%= job.idjob_company %>" method="post">
-    ชื่องาน : <%= job.name_job %>
-    ชื่องาน : <%= job.name_job %>
-    ชื่องาน : <%= job.name_job %>
-    ชื่องาน : <%= job.name_job %>
-    ชื่องาน : <%= job.name_job %>
-    ชื่องาน : <%= job.name_job %>
-    ชื่องาน : <%= job.name_job %>
-    ชื่องาน : <%= job.name_job %>
-    ชื่องาน : <%= job.name_job %>
 
     <!-- <div class="inputbox-regis">
       <input type="text" id="name_job"  name="name_job"  value="<%= job.name_job %>"/>
