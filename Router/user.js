@@ -90,15 +90,21 @@ router.post('/registeruser', upload.single('image'),signUpValidation,loggedIn, a
 // });
 router.get('/verify', loggedIn, async (req, res) => {
   try {
-    const token = req.query.token;
-    console.log('Token:', token);
+    let user;
+    let company;
+    let admin;
+    
+    
+    console.log('Request object:', req);
+    console.log('Request URL:', req.url);
+    console.log('Parsed Query Parameters:', req.query);
+    const token = req.query.token.trim();
+    console.log('Token from request:', token);
+    console.log('Token length:', token.length);
 
-    const tokenString = token.toString();
-
-    // Perform the database query
-    db.query('SELECT * FROM users WHERE token=? LIMIT 1', [tokenString], function (error, result) {
-      if (error) {
-        console.error('Error querying the database:', error);
+    db.query('SELECT * FROM `users` WHERE `token` = ? limit 1', [token], async (err, result) => {
+      if (err) {
+        console.error('Error querying the database:', err);
         return res.status(500).send('Internal Server Error');
       }
 
@@ -106,14 +112,16 @@ router.get('/verify', loggedIn, async (req, res) => {
 
       if (result.length > 0) {
         const userId = result[0].id; // Assuming 'id' is the correct column name
-        db.query('UPDATE users SET token = null, verified = 1 WHERE id = ?', [userId], function (error, updateResult) {
+        console.log(userId);
+        //คิดว่าต้องpost เลยมีความคิดว่าทำเป้นไฟล์แยกน่าจะง่ายกว่าเพราะมีการเรียกใช้ทั้งการgetและpost
+        db.query('UPDATE users SET token = null, verified = 1 WHERE id_user = ?', [userId], function (error, updateResult) {
           if (error) {
             console.error('Error updating the user:', error);
             return res.status(500).send('Internal Server Error');
           }
 
           console.log('Update result:', updateResult);
-          return res.render("index");
+          return res.render('good',{user,company,admin});
         });
       } else {
         console.log('No matching user found for the token.');
