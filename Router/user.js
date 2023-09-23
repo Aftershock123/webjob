@@ -111,10 +111,10 @@ router.get('/verify', loggedIn, async (req, res) => {
       console.log('Query result:', result);
 
       if (result.length > 0) {
-        const userId = result[0].id; // Assuming 'id' is the correct column name
+        const userId = result[0].id_user; // Assuming 'id' is the correct column name
         console.log(userId);
         //คิดว่าต้องpost เลยมีความคิดว่าทำเป้นไฟล์แยกน่าจะง่ายกว่าเพราะมีการเรียกใช้ทั้งการgetและpost
-        db.query('UPDATE users SET token = null, verified = 1 WHERE id_user = ?', [userId], function (error, updateResult) {
+        db.query('UPDATE users SET token = null, verified = 1 WHERE id_user = ?', [userId], async (error, updateResult) =>{
           if (error) {
             console.error('Error updating the user:', error);
             return res.status(500).send('Internal Server Error');
