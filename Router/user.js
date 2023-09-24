@@ -11,7 +11,8 @@ const multer = require('multer');
 const sendMail =require("../controllers/sendmail");
 
 const path =require('path')
-const ejs =require('ejs')
+const ejs =require('ejs');
+const sendrepass = require("../controllers/sendmailresetpass");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -33,11 +34,12 @@ const upload = multer({ storage: storage ,fileFilter:filefilter});
 
 
 
-router.post('/registeruser', upload.single('image'),signUpValidation,loggedIn, async (req, res,err) => {
+router.post('/registeruser', upload.single('image'),signUpValidation, async (req, res,err) => {
   let company;
   let admin;
   let user;
-   let status = res.locals.status ;
+  res.locals.status="no";
+  let status =res.locals.status
   const errors = validationResult(req);
 
   const { username,email, password: Npassword ,image:filename} = req.body;
@@ -67,8 +69,8 @@ router.post('/registeruser', upload.single('image'),signUpValidation,loggedIn, a
                 console.log("insert user error");
                 throw error;
               }
-              return res.redirect("/user/verify");
-            })
+            })  
+            res.redirect("/emailverify");
           });   
                 } catch (error) {
                     console.log(error);
@@ -78,29 +80,22 @@ router.post('/registeruser', upload.single('image'),signUpValidation,loggedIn, a
         });
     }
 });
-// router.get('/token/:verificationToken:email', loggedIn ,async(req,res) =>{
-// const email =req.params.email;
-//   const verificationToken = req.params.verificationToken;
-//   db.query(`UPDATE users SET token = ${verificationToken} where email = ${email}`)
-//     if(error){
-//       throw error
-//     }
-//     return res.send ('Mail verified Success');
-    
-// });
-router.get('/verify', loggedIn, async (req, res) => {
+
+
+router.get('/verify', async (req, res) => {
   try {
     let user;
     let company;
     let admin;
+    res.locals.status="no";
+    let status =res.locals.status
     
-    
-    console.log('Request object:', req);
-    console.log('Request URL:', req.url);
-    console.log('Parsed Query Parameters:', req.query);
+    // console.log('Request object:', req);
+    // console.log('Request URL:', req.url);
+    // console.log('Parsed Query Parameters:', req.query);
     const token = req.query.token.trim();
-    console.log('Token from request:', token);
-    console.log('Token length:', token.length);
+    // console.log('Token from request:', token);
+    // console.log('Token length:', token.length);
 
     db.query('SELECT * FROM `users` WHERE `token` = ? limit 1', [token], async (err, result) => {
       if (err) {
@@ -108,11 +103,11 @@ router.get('/verify', loggedIn, async (req, res) => {
         return res.status(500).send('Internal Server Error');
       }
 
-      console.log('Query result:', result);
+      // console.log('Query result:', result);
 
       if (result.length > 0) {
         const userId = result[0].id_user; // Assuming 'id' is the correct column name
-        console.log(userId);
+        // console.log(userId);
         //คิดว่าต้องpost เลยมีความคิดว่าทำเป้นไฟล์แยกน่าจะง่ายกว่าเพราะมีการเรียกใช้ทั้งการgetและpost
         db.query('UPDATE users SET token = null, verified = 1 WHERE id_user = ?', [userId], async (error, updateResult) =>{
           if (error) {
@@ -121,7 +116,7 @@ router.get('/verify', loggedIn, async (req, res) => {
           }
 
           console.log('Update result:', updateResult);
-          return res.render('good',{user,company,admin});
+          return res.render('login',{user,company,admin});
         });
       } else {
         console.log('No matching user found for the token.');
@@ -155,7 +150,7 @@ router.get('/user/:resumeId/job/:jobId',async(req,res) =>{
 
 //-------------------------------------------------profile---------------------------------------
   //ได้แล้ว
-router.get('/profile/:id', loggedIn,async (req, res) => {
+router.get('/profile/:id', loggedIn, upload.single('image'),async (req, res) => {
     try {
       let company;
       let admin;
@@ -181,16 +176,16 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
     }
   });
   //ได้แล้ว
-  router.post('/updateprofile/:id', loggedIn,async (req, res) => {
+  router.post('/updateprofile/:id', loggedIn,upload.single('image'),async (req, res) => {
     try {
       let company;
       let admin ;
       
       const {id} = req.params;
       // console.log(id);
-      const {username,email}= req.body;
+      const {username,email,image}= req.body;
       // console.log(req.body);
-      const [rows] = await db.promise().query('UPDATE users SET username = ?, email = ? WHERE id_user = ?', [username, email, id]);
+      const [rows] = await db.promise().query('UPDATE users SET username = ?, email = ? ,image =?,WHERE id_user = ?', [username, email, image,id]);
       const [row1] = await db.promise().query('SELECT * FROM users  where id_user = ?', [id]);
 
      
@@ -318,179 +313,50 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   });
   
 
+router.get('/resetpassword/:id', loggedIn,async(req,res) =>{
+  try{ 
+    let company;
+    let admin;
+    let user;
+    const {id} =req.params;
+    // console.log(email);
+    
 
+    const [rows] = await db.promise().query('SELECT * FROM users  where users.id_user = ?', [id]);
+      
+    if (rows.length === 0 ) {
+      return res.status(404).send('User not found');
+    }
+   return res.render('forgotpassword',{user:rows[0],company,admin});
+
+
+  }catch(error){
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
  
 
-  router.post('/resetpassword',async (req,res) =>{
+  router.post('/resetpassword/:email', loggedIn,async (req,res) =>{
     try{
-    const email =req.body.email;
+      let company;
+      let admin;
+      let user;
+      const {email} =req.params;
+      console.log(email);
+
 
     const [rows] = await db.promise().query('SELECT * FROM users  where users.email = ?', [email]);
-      if(rows){
+      if(rows>0){
         const otp_before = Math.floor(1000 + Math.random() * 9000);
         const otp = otp_before.toString();
         await db.promise().query('UPDATE users SET  token = ? where users.email = ?', [ otp ,email]);    
-        var transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: "asdf@gmail.com",
-            pass: "asdf",
-          },
-        });
+       
+         let mailSubject ='resetpassword';  
+          const content= "http://localhost:5000/user/resetpassword "+ otp
 
-        var mailOptions = {
-          from: "aceportgasonepiece@gmail.com",
-          to: email,
-          subject: "Reset your password",
-          html:
-            `<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <style>
-          @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,200&display=swap");
-
-          * {
-            margin: 0;
-            padding: 0;
-            border: 0;
-          }
-
-          body {
-            font-family: "Raleway", sans-serif;
-            background-color: #d8dada;
-            font-size: 19px;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 3%;
-          }
-
-          header {
-            width: 98%;
-          }
-
-          #wrapper {
-            background-color: #f0f6fb;
-          }
-
-          h1,
-          p {
-            margin: 3%;
-          }
-          .btn {
-            float: center;
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-            width: 70%;
-            background-color: #303840;
-            color: #f6faff;
-            text-decoration: none;
-            font-weight: 800;
-            padding: 8px 12px;
-            border-radius: 8px;
-            letter-spacing: 2px;
-          }
-          .btn-pink {
-          color: #fff;
-          background-color: rgb(255, 133, 194);
-          border-color: rgb(255, 133, 194);
-          }
-
-          .btn.btn-pink:hover,
-          .btn.btn-pink:focus,
-          .btn.btn-pink:active,
-          .btn.btn-pink.active {
-            color: #ffffff;
-            background-color: #fa228a;
-            border-color: #fa228a;
-          }
-
-          .btn-purple3 {
-            color: rgb(27, 27, 27);
-            background-color: #D9ACF5;
-            border-color: #D9ACF5;
-          }
-
-          .btn.btn-purple3:hover,
-          .btn.btn-purple3:focus,
-          .btn.btn-purple3:active,
-          .btn.btn-purple3.active {
-            color: #ffffff;
-            background-color: #bd96d5;
-            border-color: #bd96d5;
-          }
-
-          .text-my-own-color {
-            color: #ffffff !important;
-            text-decoration: none;
-          }
-
-          .text-my-own-color:hover,
-          .text-my-own-color:focus,
-          .text-my-own-color:active {
-          text-decoration: none;
-            color: #fa228a !important;
-          }
-          hr {
-            height: 1px;
-            background-color: #303840;
-            clear: both;
-            width: 96%;
-            margin: auto;
-          }
-
-          #contact {
-            text-align: center;
-            padding-bottom: 3%;
-            line-height: 16px;
-            font-size: 12px;
-            color: #303840;
-          }
-        </style>
-      </head>
-      <body>
-        <div id="wrapper">
-          <div class="one-col">
-            <h1>Hello,</h1>
-            <p>
-              We've received a request to reset the password. No changes have been made your account yet.
-            </p>` +
-            `<h2 style="margin: 0 auto;width: max-content;padding: 0 10px;">Your OTP</h1><br><h2 style="background: #fa228a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">` +
-            otp +
-            "</h2>" +
-            `<p>
-            You can reset your password by clicking the link below and filling in the OTP:
-            </p>` +
-            '<div class="btn btn-pink"><a class="text-my-own-color" href="http://localhost:3000/users/resetPassword"' +
-            //   ?= ' +
-            // otp +
-            '"> Reset your password </a></div>' +
-            `
-            <p>
-            If you did not request a new password, please let us know immediately by replying to this email.
-            </p>
-            <hr />
-
-            <footer>
-              <p id="contact">
-                Copyright © 2023 nawatniyai <br />
-              </p>
-            </footer>
-          </div>
-        </div>
-      </body>
-    </html>`,
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log("Email sent: " + info.response);
-          }
-        });
+        sendrepass(email,mailSubject,content)
+      return res.render('changepassword',{user:rows[0],company,admin})
       }
     }catch (error) {
       console.error(error);
@@ -499,7 +365,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   });
 
 
-  router.post('changepassword' ,loggedIn, async(req,res,next)=>{
+  router.post('/changepassword' ,loggedIn, async(req,res,next)=>{
   try{
   const token = req.body.token;
   // console.log("token: " + token);
@@ -512,7 +378,7 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
     // console.log("newPassword: " + newPassword);
     await db.promise().query('UPDATE users SET  password  = ? where users.token = ?', [ newPassword ,token]);    
 
-    await db.promise().query('UPDATE users SET  token  = "" where users.token = ?', [token]); 
+    await db.promise().query('UPDATE users SET  token  =null  where users.token = ?', [token]); 
     
     console.log("resetToken: " + token);
     res.redirect("/users/login");

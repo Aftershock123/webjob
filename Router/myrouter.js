@@ -379,24 +379,32 @@ router.get('/login', (req, res) => {
 
 
 
-router.get('/registeruser', loggedIn,(req,res)=>{
+router.get('/registeruser',(req,res)=>{
   let company;
   let admin;
-  let status = res.locals.status;
+  res.locals.status="no";
+  let status =res.locals.status
+  // console.log(res.locals.status);
+  // console.log(status);
   let user;    
-   return res.render('registeruser',company,user,admin,status)
+  return res.render('registeruser.ejs',{company,user,admin,status})
 })
-router.get('/registercompany', loggedIn,(req,res)=>{
+router.get('/registercompany',(req,res)=>{
   let company;
   let admin;
-  let status = res.locals.status;
+    res.locals.status="no";
+  let status =res.locals.status
   let user ;  
+  // console.log(res.locals.status);
+  // console.log(status);
+
     return res.render('registercompany',company,user,admin,status)
 })
 router.get('/registeradmin',(req,res)=>{
   let company;
   let admin;
-  let status = res.locals.status;
+  res.locals.status="no";
+  let status =res.locals.status
   let user ;  
   return res.render('registeradmin',company,user,admin,status)
 })
@@ -404,7 +412,17 @@ router.get('/registeradmin',(req,res)=>{
 
 router.get("/logout",logout)
 
+router.get('/emailverify',(req,res)=>{
+  let company;
+  let admin;
+    res.locals.status="no";
+  let status =res.locals.status
+  let user ;  
+  // console.log(res.locals.status);
+  // console.log(status);
 
+    return res.render('emailverify',company,user,admin,status)
+})
 
 
 

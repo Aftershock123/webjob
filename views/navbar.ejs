@@ -28,7 +28,7 @@
 
         <ul class="dropdown-menu" aria-labelledby="navbarDropdownuser">
           <li><a class="dropdown-item" href="/user/profile/<%= user.id_user %>">Profile</a></li>
-          <li><a class="dropdown-item" href="/forgetpassword/<%= user.id_user  %>">Forget</a></li>
+          <li><a class="dropdown-item" href="/user/resetpassword/<%= user.id_user %>">Forget</a></li>
           <li><a class="dropdown-item" href="/logout">Logout</a></li>
           <!-- แก้ไขเว็ปได้ยังไม่ได้ทำ -->
         </ul>
@@ -94,8 +94,8 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                   <li><a class="dropdown-item" href="/login">Login</a></li>
-                  <li><a class="dropdown-item" href="/registerUser">RegisterUser</a></li>
-                  <li><a class="dropdown-item" href="/registerCompany">RegisterCompany</a></li>
+                  <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
+                  <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
                 </ul>
                 <% } %>
         </li>
