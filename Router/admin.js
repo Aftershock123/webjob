@@ -4,39 +4,39 @@ const express =require("express");
 const router =express.Router();
 const loggedIn =require("../controllers/loggedin")
 
-router.post('/registeradmin' , async (req, res) => {
-  let company;
-  let admin;
-  let status;
-    const { username,email, password: Npassword } = req.body;
-    if (!email || !Npassword) {
-        return res.status(401).json({ status: "error", error: "Please enter your email and password" });
-    } else {
-        db.query('SELECT email FROM admins WHERE email = ?', [email], async (err, result) => {
-            if (err) throw err;
-            if (result[0]) {
-                return res.json({ status: "error", error: "Email has already been registered" });
-            } else {
-                try {
-                    // Hashing the password
-                    const password = await bcrypt.hash(Npassword, 8); 
+// router.post('/registeradmin' , async (req, res) => {
+//   let company;
+//   let admin;
+//   let status;
+//     const { username,email, password: Npassword } = req.body;
+//     if (!email || !Npassword) {
+//         return res.status(401).json({ status: "error", error: "Please enter your email and password" });
+//     } else {
+//         db.query('SELECT email FROM admins WHERE email = ?', [email], async (err, result) => {
+//             if (err) throw err;
+//             if (result[0]) {
+//                 return res.json({ status: "error", error: "Email has already been registered" });
+//             } else {
+//                 try {
+//                     // Hashing the password
+//                     const password = await bcrypt.hash(Npassword, 8); 
 
-                        db.query('INSERT INTO admins SET ?', { username: username, email: email, password: password }, (error, results) => {
-                            if (error) {
-                                console.log("insert user error");
-                                throw error;
-                            }
-                            return  res.render('login', { company ,user,admin,status});
-                        });
+//                         db.query('INSERT INTO admins SET ?', { username: username, email: email, password: password }, (error, results) => {
+//                             if (error) {
+//                                 console.log("insert user error");
+//                                 throw error;
+//                             }
+//                             return  res.render('login', { company ,user,admin,status});
+//                         });
    
-                } catch (error) {
-                    console.log(error);
-                    return res.status(500).json({ status: "error", error: "Internal server error" });
-                }
-            }
-        });
-    }
-});
+//                 } catch (error) {
+//                     console.log(error);
+//                     return res.status(500).json({ status: "error", error: "Internal server error" });
+//                 }
+//             }
+//         });
+//     }
+// });
 //---------------------------------------------------profile-----------------------------
 router.get('/profile/:id', loggedIn,async (req, res) => {
     try {
@@ -81,13 +81,37 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
   });
 
 //--------------------------------------------------------web----------------------------------
-router.post('/updateweb/:id',loggedIn,async(req,res)=>{
+router.get('/webpage/:id',loggedIn,async(req,res)=>{
+  try{
+    let admin;
+    const {id} =req.params;
+    // console.log(id);
+    // const [rows] = await db.promise().query('UPDATE webpage SET  namepage = ?, address = ? , email = ?, call = ? ');
+    const [rows] = await db.promise().query('SELECT * FROM webpage inner join admins on admins.id_admin = webpage.id_admin where webpage.id_admin= ?', [id]);
+    // console.log(rows);
+    const [row] =await db.promise().query('SELECT * FROM webpage ');
+    // console.log(row);
+    res.render('webpage', { admin:rows[0],webpage:row[0]});
+       
+  }catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');}
+  });
+  
+router.post('/editwebpage/:id',loggedIn,async(req,res)=>{
 try{
+  let admin;
   const {id} =req.params;
-  const [rows] = await db.promise().query('UPDATE webpage SET  namepage = ?, address = ? , email = ?, call = ? ');
-  const [updatedadmin] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);// console.log(rows);
-
-  res.render('index', { admin: updatedadmin[0],user,company});
+  const {namepage,address,email,call} =req.body;
+ 
+  const [rows] = await db.promise().query('UPDATE webpage SET  namepage = ?, address = ? , email = ?, call = ? ',[namepage,address,email,call]);
+  // const [row] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);// console.log(rows);
+  const [row1] =await db.promise().query('SELECT * FROM webpage inner join admins on admins.id_admin = webpage.id_admin where webpage.id_admin =?',[id]);
+    console.log(rows);
+  if (rows.length === 0) {
+    return res.status(404).send("User not found");
+  }
+  res.render('webpage', { admin:row1[0],webpage:rows});
      
 }catch (error) {
   console.error(error);
@@ -95,22 +119,7 @@ try{
 });
 
 
-// router.post('/resetpassword/:id',loggedIn,async(req,res)=>{
-//   try{
-//     const password =req.body.password;
-//     const {id} =req.params;
-//     const [updatedadmin] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);// console.log(rows);
-//     const salt = await bcrypt.genSalt(10);
-//     const newPassword = await bcrypt.hash(password, salt);
-//     await db.promise().query('UPDATE admins SET password = ? WHERE admins.id_admin = ?', [newPassword, id]);
-     
-//     res.render('index', { admin: updatedadmin[0],user,company});
-       
-//   }catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');}
-//   });
-  
+
   
 
 

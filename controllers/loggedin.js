@@ -63,7 +63,7 @@ const loggedIn = async (req, res, next) => {
                       userType = "admin";
                       res.locals.admins = admins[0];
                       res.locals.status = "loggedIn";
-                      console.log(`userType : ${res.locals.status}`);
+                      // console.log(`userType : ${res.locals.status}`);
                       return next();
                     }
                     // console.log(userType) ;

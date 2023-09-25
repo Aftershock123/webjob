@@ -1,61 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editweb</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
 <body>
-  <%- include('navbar') %>
-    <form action="/admin/editweb/<%= admin.id_admin %>" method="post">
-        <img class="card" src="/image/<%= webpage.image %>" alt="webpage Logo"/>
+  
+    <form action="/admin/editweb/<%= webpage.id_webpage %>" method="post">
+        <!-- <img class="card" src="/image/<%= webpage.image %>" alt="webpage Logo"/> -->
 
 
-        <div class="inputbox-regis">
-          <input type="text" id="namepage"  name="professional_summary" value="<%= webpage.name %>"/>
-          <label for="professional_summary">professional_summary</label>
+        <div >
+          <input type="text" id="namepage"  name="namepage" value="<%= webpage.namepage %>"/>
+          <label for="namepage">namepage</label>
         </div>
-        <div class="inputbox-regis">
+        <div>
          <ion-icon name="mail-outline"></ion-icon>
-         <input type="text" id="work_experience" name= "work_experience" value="<%= webpage.name %>" />
-         <label for="work_experience">work_experience</label>
+         <input type="text" id="address" name= "address" value="<%= webpage.address %>" />
+         <label for="address">address</label>
           </div>
     
     
     
     
-          <div class="inputbox-regis">
-            <input type="text" id="skills"  name="skills" value="<%= webpage.name %>"/>
-            <label for="skills">skills</label>
+          <div >
+            <input type="text" id="email"  name="email" value="<%= webpage.email %>"/>
+            <label for="email">email</label>
           </div>
-          <div class="inputbox-regis">
+          <div >
            <ion-icon name="mail-outline"></ion-icon>
-           <input type="text" id="education" name= "education" value="<%= webpage.name %>"/>
-           <label for="education">education</label>
+           <input type="text" id="call" name= "call" value="<%= webpage.call %>"/>
+           <label for="call">call</label>
             </div>
     
     
     
-            <div class="inputbox-regis">
-              <input type="text" id="languages"  name="languages" value="<%= webpage.name %>" />
-              <label for="languages">languages</label>
-            </div>
-            <div class="inputbox-regis">
-             <ion-icon name="mail-outline"></ion-icon>
-             <input type="text" id="interests" name= "interests" value="<%= webpage.name %>" />
-             <label for="interests">interests</label>
-              </div>
-    
-              <div class="inputbox-regis">
-                <input type="text" id="contact"  name="contact"  value="<%= webpage.name %>"/>
-                <label for="contact">contact</label>
-              </div>
-            
-            <div class="inputbox-regis">
-              <ion-icon name="mail-outline"></ion-icon>
-              <input type="password" id="password" autocomplete="off" required>
-              <label for="password">Password</label>
-            </div>
             <button type="submit" class="btn btn-primary">save</button>
     
           </form>

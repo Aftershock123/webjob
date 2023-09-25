@@ -227,6 +227,7 @@ router.get("/", loggedIn, async (req, res) => {
     let adminindex;
     let companyindex;
     let userindex;
+    let webpage;
 
     if (res.locals.users) {
       status = "loggedIn";
@@ -273,6 +274,7 @@ router.get("/", loggedIn, async (req, res) => {
       // console.log(req.body.userindex);
       [companyindex] = await db.promise().query("SELECT * FROM companies ");
       // console.log(req.body.companyindex);
+      [webpage] = await db.promise().query("SELECT * FROM webpage ");
     } else {
       status = "no";
       user = "nothing";
@@ -303,6 +305,7 @@ router.get("/", loggedIn, async (req, res) => {
       companyindex,
       userindex,
       adminindex,
+      webpage
     });
   } catch (error) {
     console.error(error);
