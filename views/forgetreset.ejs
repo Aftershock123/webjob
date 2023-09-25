@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>Hello,</h1>
+  <p>
+    We've received a request to reset the password. No changes have been made your account yet.
+  </p>
+  <h2 style="margin: 0 auto;width: max-content;padding: 0 10px;">Your OTP</h1><br>
+    <h2 style="background: #fa228a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
+      <%= otp %>
+    </h2>
+    <p>
+      You can reset your password by clicking the link below and filling in the OTP:
+    </p>
+    <div class="btn btn-pink"><a class="text-my-own-color"
+        href="http://localhost:5000/forgetchangepassword/<%= content %>"> Reset your password </a></div>
+
+    <p>
+      If you did not request a new password, please let us know immediately by replying to this email.
+    </p>
+    <hr />
+
+    <footer>
+      <p>
+        Copyright © 2023 nawatniyai <br />
+      </p>
+    </footer>
+
+
+</body>
+
+</html>

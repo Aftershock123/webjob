@@ -1,356 +1,316 @@
-const express = require('express')
-const logout =require("../controllers/logout")
-const db = require('../Router/db-config');
-const loggedIn =require("../controllers/loggedin")
-const router = express.Router()
-const nodemailer = require('nodemailer');
-const { v4: uuidv4 } = require('uuid');
-
-
-
-
-
-// // Route for email verification link
-// router.get('/verify-email/:token', (req, res) => {
-//   const token = req.params.token;
-
-//   // Check if the token exists in the database
-//   db.query('SELECT * FROM members WHERE token = ?',[token],(error, results) => {
-//       if (error) throw error;
-
-//       if (results.length === 0) {
-//         return res.send('Invalid or expired token.');
-//       }
-
-//       // Update the user's status to verified
-//       const email = results[0].email;
-//       db.query('UPDATE email_verification SET is_verified = true WHERE email = ?',[email],(error, results) => {
-//           if (error) throw error;
-//           res.send('Email verified successfully.');
-//         }
-//       );
-//     }
-//   );
-// });
-
-// // Route to initiate email verification
-// router.post('/verify-email', (req, res) => {
-//   const { email } = req.body;
-//   const token = uuidv4();
-
-//   // Save the email and token in the database
-//   db.query('INSERT INTO email (email, token) VALUES (?, ?)',[email, token],(error, results) => {
-//       if (error) throw error;
-
-//       // Send the verification email
-//       const verificationLink = `http://your-frontend-website/verify-email/${token}`;
-//       const transporter = nodemailer.createTransport({
-//         service: 'your-email-service-provider',
-//         auth: {
-//           user: 'your-email',
-//           pass: 'your-email-password',
-//         },
-//       });
-
-//       const mailOptions = {
-//         from: 'your-email',
-//         to: email,
-//         subject: 'Email Verification',
-//         text: `Click the following link to verify your email: ${verificationLink}`,
-//       };
-
-//       transporter.sendMail(mailOptions, (error, info) => {
-//         if (error) {
-//           console.log(error);
-//           res.send('Failed to send verification email.');
-//         } else {
-//           console.log('Email sent: ' + info.response);
-//           res.send('Verification email sent successfully.');
-//         }
-//       });
-//     }
-//   );
-// });
-
-
-
-
-
-
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//       user: 'your_email@gmail.com',
-//       pass: 'your_email_password',
-//   },
-// });
-
-// // Serve the HTML form for password reset request
-// router.get('/reset_password', (req, res) => {
-//   res.render('forgotpassword');
-// });
-
-// // Handle the form submission for password reset request
-// router.post('/reset_password', (req, res) => {
-//   const email = req.body.email; // Assuming you use body-parser middleware to parse form data
-
-//   // Generate a random pin code
-//   const pinCode = randomstring.generate({
-//       length: 6,
-//       charset: 'numeric',
-//   });
-
-//   // Store the pin code in the database along with the email and expiration timestamp
-//   const expirationDate = new Date();
-//   expirationDate.setMinutes(expirationDate.getMinutes() + 30); // Expiration in 30 minutes
-
-//   db.query('INSERT INTO password_reset (email, pin_code, expires_at) VALUES (?, ?, ?)',[email, pinCode, expirationDate],(error) => {
-//           if (error) {
-//               console.error('Error storing pin code in the database:', error);
-//               res.status(500).send('Error storing pin code in the database.');
-//           } else {
-//               // Send the pin code to the user's email
-//               const mailOptions = {
-//                   from: 'your_email@gmail.com',
-//                   to: email,
-//                   subject: 'Password Reset PIN Code',
-//                   text: `Your password reset PIN code is: ${pinCode}`,
-//               };
-
-//               transporter.sendMail(mailOptions, (error) => {
-//                   if (error) {
-//                       console.error('Error sending email:', error);
-//                       res.status(500).send('Error sending email.');
-//                   } else {
-//                       res.send('Check your email for the PIN code.');
-//                   }
-//               });
-//           }
-//       }
-//   );
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const sendMail_ForgotPassword = async (email, mailSubject, content) => {
-//   try {
-//     const [rows] = await db.promise().query('SELECT member.email FROM members LEFT JOIN users ON members.id_member = users.id_member WHERE members.id_member = ?',[your_member_id_here]);
-
-//     if (rows.length === 0) {
-//       console.log('User not found');
-//       return;
-//     }
-
-//     const user = rows[0];
-//       const transporter = nodemailer.createTransport({
-//           service: "gmail",
-//           auth : {
-//               user: email,
-//               pass: "vxqnqdqqnpxlsciq"
-              
-//           }
-//       });
-      
-//       const option = {
-//           from : email,
-//           to : email,
-//           subject: mailSubject,
-//           html : content
-      
-//       };
-      
-//       transporter.sendMail(option, function(err, info)  {
-//           if (err) {
-//               console.log(err);
-//               return;
-//           } 
-//           console.log("Sent: " + info.response);
-//       });
-
-//   } catch(err) {
-//       console.log(error.message);
-//   }
-// }
-
-
-
-router.get('/forgotpassword',(req,res)=>{
-  
-  
-  res.render('forgotpassword');
-})
-
-
-
-// router.post('/forgotpassword/:id', async (req, res) => {
-//   try {
-//     const {id} = req.params;
-//     console.log(id);   
-    
-//     const email = req.body.email; // Assuming you use body-parser middleware to parse form data
-
-//     // Generate a random pin code
-//     const pinCode = randomstring.generate({
-//         length: 6,
-//         charset: 'numeric',
-//     });
-
-//     // Store the pin code in the database along with the email and expiration timestamp
-//     const expirationDate = new Date();
-//     expirationDate.setMinutes(expirationDate.getMinutes() + 30); // Expiration in 30 minutes
-
-//   db.query('INSERT INTO password_reset (email, pin_code, expires_at) VALUES (?, ?, ?)',[email, pinCode, expirationDate],
-//       (error) => {
-//           if (error) {
-//               console.error('Error storing pin code in the database:', error);
-//               res.status(500).send('Error storing pin code in the database.');
-//           } else {
-//               // Send the pin code to the user's email
-//               const mailOptions = {
-//                   from: 'your_email@gmail.com',
-//                   to: email,
-//                   subject: 'Password Reset PIN Code',
-//                   text: `Your password reset PIN code is: ${pinCode}`,
-//               };
-
-//               transporter.sendMail(mailOptions, (error) => {
-//                   if (error) {
-//                       console.error('Error sending email:', error);
-//                       res.status(500).send('Error sending email.');
-//                   } else {
-//                       res.send('Check your email for the PIN code.');
-//                   }
-//               });
-//           }
-//       }
-//   );
-// }
-//  //  const gpc =require('generate-pincode');
-//   //   const pin =gpc(4);
-    
-
-//   //   console.log(email);
-    
-//     // const [rows] = db.query('SELECT * FROM members WHERE email = ?', [email], async (err, result) => {});
-//   // const [rows] = await db.promise().query('UPDATE resume SET professional_summary = ?, work_experience = ?, skills = ?, education = ?, languages = ?, interests = ?, contact = ? WHERE resume.id_user = ?', [ professional_summary,work_experience, skills,education ,languages ,interests ,contact ,id]);    
-  
-
-//   // let mailSubject = 'Reset Password';
-
-//   //     let content = 
-//   //             "hello asdfasfd"+
-//   //             'pin '+pin+
-//   //             '<div>Please <a href="http://localhost:5000/"> <b><u> click here </u></b></a> to reset your password.'
-//   //     sendMail_ForgotPassword(email, mailSubject, content);
-
-//   //   console.log(email);
-//   //   console.log(mailSubject);
-//   //   console.log(content);
-//     // if (rows.length === 0 ) {
-//     //   return res.status(404).send('User not found');
-//     // }
-
-   
-
-//     // res.redirect('/user/resume/' + id );
- 
-
-//    catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
-
-
-
-router.get('/',loggedIn, async (req, res) => {
-  try{
-  let status;
+const express = require("express");
+const logout = require("../controllers/logout");
+const db = require("../Router/db-config");
+const loggedIn = require("../controllers/loggedin");
+const router = express.Router();
+const nodemailer = require("nodemailer");
+
+const sendMail = require("../controllers/sendmail");
+const path = require("path");
+const ejs = require("ejs");
+const bcrypt = require("bcryptjs");
+
+router.get("/forgotpassword", async (req, res) => {
   let user;
-  let company;
-  let admin;
-  let jobindex;
-  let resumeindex;
-  let adminindex;
-  let companyindex ;
-  let userindex;
-
-
-  if (res.locals.users) {
-    status = "loggedIn";
-    user = res.locals.users;
-    // console.log(user);
-    [companyindex]= await db.promise().query('SELECT * FROM companies ');
-    // console.log(companyindex);
-    [jobindex]= await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company ');
-    // console.log(jobindex);
-    [resumeindex]= await db.promise().query('SELECT * FROM resume ');
-    // console.log(resumeindex);
-    
-
-  } else if (res.locals.companys) {
-    status = "loggedIn";
-    company = res.locals.companys;
-    // console.log(company);
-    [jobindex] = await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company ');
-    // console.log(req.body.jobindex);
-    [resumeindex] = await db.promise().query('SELECT * FROM resume ');
-    // console.log(req.body.resumeindex);
-    [userindex] = await db.promise().query('SELECT * FROM users ');
-    // console.log(req.body.userindex);
-    [adminindex] = await db.promise().query('SELECT * FROM admins ');
-    // console.log(req.body.adminindex);
-  }else if (res.locals.admins) {
-    status = "loggedIn";
-    admin = res.locals.admins;
-    [jobindex] = await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company  ');
-    // console.log(req.body.jobindex);
-    [resumeindex] = await db.promise().query('SELECT * FROM resume ');
-    // console.log(req.body.resumeindex);
-    [userindex] = await db.promise().query('SELECT * FROM users ');
-    // console.log(req.body.userindex);
-    [companyindex] = await db.promise().query('SELECT * FROM companies ');
-    // console.log(req.body.companyindex);
-  } else {
-    status = "no";
-    user = "nothing";
-    company = "nothing";
-    [jobindex] = await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company   ');
-    // console.log(req.body.jobindex);
-    [resumeindex] = await db.promise().query('SELECT * FROM resume ');
-    // console.log(req.body.resumeindex);
-    [userindex] = await db.promise().query('SELECT * FROM users ');
-    // console.log(req.body.userindex);
-    [companyindex] = await db.promise().query('SELECT * FROM companies ');
-    console.log(req.body.companyindex);
-    [adminindex] = await db.promise().query('SELECT * FROM admins ');
-    // console.log(req.body.adminindex);
-  }
-
-  res.render('index.ejs', { status, user, company ,admin,jobindex,resumeindex,companyindex,userindex,adminindex});
-} catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-
+  const [row] = await db.promise().query("SELECT * FROM users");
+  res.render("forgotpassword", { user: row[0] });
 });
 
-router.get('/login', (req, res) => {
+router.get("/forget", async (req, res) => {
+  let user;
+  let company;
+
+  res.render("forget", { user, company });
+});
+
+router.post("/forget/:email", loggedIn, async (req, res) => {
+  try {
+    let company;
+    let admin;
+    let user;
+    const email = req.body.email;
+
+    console.log(email);
+
+    db.query(
+      "SELECT * FROM users  where users.email = ?",
+      [email],
+      async (error, result) => {
+        if (error) {
+          console.log("insert user error");
+          throw error;
+        }
+        if (result.length > 0) {
+          const otp_before = Math.floor(1000 + Math.random() * 9000);
+          const otp = otp_before.toString();
+
+          let mailSubjects = "resetpassword";
+          const content = result[0].id_user;
+          console.log(content);
+
+          const TemplatePath = path.join(__dirname, "../views/forgetreset.ejs");
+          const data = await ejs.renderFile(TemplatePath, { otp, content });
+
+          await sendMail(req.body.email, mailSubjects, data);
+          console.log("after send repass", req.body.email);
+          await db
+            .promise()
+            .query(
+              "UPDATE users SET  token = ? where users.email = ?",
+              [otp, email],
+              async (error, result) => {
+                if (error) {
+                  console.log("insert user error");
+                  throw error;
+                }
+              }
+            );
+          return res.render("emailverify", { user: result[0], company, admin });
+        } else if (result.length === 0) {
+          db.query(
+            "SELECT * FROM companies where companies.email = ?",
+            [email],
+            async (error, result) => {
+              const otp_before = Math.floor(1000 + Math.random() * 9000);
+              const otp = otp_before.toString();
+
+              let mailSubjects = "resetpassword";
+              const content = result.id_company;
+              console.log(content);
+
+              const TemplatePath = path.join(
+                __dirname,
+                "../views/forgetreset.ejs"
+              );
+              const data = await ejs.renderFile(TemplatePath, { otp, content });
+
+              await sendMail(req.body.email, mailSubjects, data);
+              console.log("after send repass", req.body.email);
+              await db
+                .promise()
+                .query(
+                  "UPDATE companies SET  token = ? where companies.email = ?",
+                  [otp, email],
+                  async (error, result) => {
+                    if (error) {
+                      console.log("insert user error");
+                      throw error;
+                    }
+                  }
+                );
+              return res.render("emailverify", {
+                user: result[0],
+                company,
+                admin,
+              });
+            }
+          );
+        } else {
+          console.log("not match email");
+        }
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.get("/forgetchangepassword/:id", async (req, res) => {
+  let company;
+  let admin;
+  let status = res.locals.status;
+  let { id } = req.params;
+  // console.log(id)
+
+  const [row] = await db
+    .promise()
+    .query("SELECT * FROM users  where users.id_user = ?", [id]);
+  const [rows] = await db
+    .promise()
+    .query("SELECT * FROM companies  where companies.id_company = ?", [id]);
+  // console.log(res.locals.status);
+  // console.log(status);
+
+  return res.render("forgetchangepassword", {
+    company: rows[0],
+    user: row[0],
+    admin,
+    status,
+  });
+});
+
+router.post("/forgetchangepassword/:id", loggedIn, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const token = req.body.otp;
+    console.log("token: " + token);
+    console.log("id: " + id);
+
+    db.query(
+      "SELECT * FROM users  where users.token = ? and users.id_user = ?",
+      [token, id],
+      async (error, result) => {
+        console.log("sele");
+        if (result.length > 0) {
+          const password = req.body.password;
+          const salt = await bcrypt.genSalt(10);
+          const newPassword = await bcrypt.hash(password, salt);
+          // console.log("password: " + password);
+          // console.log("newPassword: " + newPassword);
+          await db
+            .promise()
+            .query("UPDATE users SET  password  = ? where users.token = ?", [
+              newPassword,
+              token,
+            ]);
+
+          await db
+            .promise()
+            .query("UPDATE users SET  token  = null  where users.token = ?", [
+              token,
+            ]);
+
+          console.log("resetToken: " + token);
+          res.redirect("/login");
+        } else if (result.length === 0) {
+          await db
+            .promise()
+            .query(
+              "SELECT * FROM companies  where companies.token = ? and companies.id_company",
+              [token, id],
+              async (error, result) => {
+                if (result.length > 0) {
+                  const password = req.body.password;
+                  const salt = await bcrypt.genSalt(10);
+                  const newPassword = await bcrypt.hash(password, salt);
+                  // console.log("password: " + password);
+                  // console.log("newPassword: " + newPassword);
+                  await db
+                    .promise()
+                    .query(
+                      "UPDATE companies SET  password  = ? where companies.token = ?",
+                      [newPassword, token]
+                    );
+
+                  await db
+                    .promise()
+                    .query(
+                      "UPDATE companies SET  token  = null  where companies.token = ?",
+                      [token]
+                    );
+
+                  console.log("resetToken: " + token);
+                  res.redirect("/login");
+                }
+              }
+            );
+        } else {
+          console.log("not match email");
+        }
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.get("/", loggedIn, async (req, res) => {
+  try {
+    let status;
+    let user;
+    let company;
+    let admin;
+    let jobindex;
+    let resumeindex;
+    let adminindex;
+    let companyindex;
+    let userindex;
+
+    if (res.locals.users) {
+      status = "loggedIn";
+      user = res.locals.users;
+      // console.log(user);
+      [companyindex] = await db.promise().query("SELECT * FROM companies ");
+      // console.log(companyindex);
+      [jobindex] = await db
+        .promise()
+        .query(
+          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company '
+        );
+      // console.log(jobindex);
+      [resumeindex] = await db.promise().query("SELECT * FROM resume ");
+      // console.log(resumeindex);
+    } else if (res.locals.companys) {
+      status = "loggedIn";
+      company = res.locals.companys;
+      // console.log(company);
+      [jobindex] = await db
+        .promise()
+        .query(
+          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company '
+        );
+      // console.log(req.body.jobindex);
+      [resumeindex] = await db.promise().query("SELECT * FROM resume ");
+      // console.log(req.body.resumeindex);
+      [userindex] = await db.promise().query("SELECT * FROM users ");
+      // console.log(req.body.userindex);
+      [adminindex] = await db.promise().query("SELECT * FROM admins ");
+      // console.log(req.body.adminindex);
+    } else if (res.locals.admins) {
+      status = "loggedIn";
+      admin = res.locals.admins;
+      [jobindex] = await db
+        .promise()
+        .query(
+          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company  '
+        );
+      // console.log(req.body.jobindex);
+      [resumeindex] = await db.promise().query("SELECT * FROM resume ");
+      // console.log(req.body.resumeindex);
+      [userindex] = await db.promise().query("SELECT * FROM users ");
+      // console.log(req.body.userindex);
+      [companyindex] = await db.promise().query("SELECT * FROM companies ");
+      // console.log(req.body.companyindex);
+    } else {
+      status = "no";
+      user = "nothing";
+      company = "nothing";
+      [jobindex] = await db
+        .promise()
+        .query(
+          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company   '
+        );
+      // console.log(req.body.jobindex);
+      [resumeindex] = await db.promise().query("SELECT * FROM resume ");
+      // console.log(req.body.resumeindex);
+      [userindex] = await db.promise().query("SELECT * FROM users ");
+      // console.log(req.body.userindex);
+      [companyindex] = await db.promise().query("SELECT * FROM companies ");
+      console.log(req.body.companyindex);
+      [adminindex] = await db.promise().query("SELECT * FROM admins ");
+      // console.log(req.body.adminindex);
+    }
+
+    res.render("index.ejs", {
+      status,
+      user,
+      company,
+      admin,
+      jobindex,
+      resumeindex,
+      companyindex,
+      userindex,
+      adminindex,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.get("/login", (req, res) => {
   let status;
   let user;
   let company;
@@ -374,57 +334,51 @@ router.get('/login', (req, res) => {
     company = "nothing";
   }
 
-  res.render('login', { status, user, company,admin });
+  res.render("login", { status, user, company, admin });
 });
 
-
-
-router.get('/registeruser',(req,res)=>{
+router.get("/registeruser", (req, res) => {
   let company;
   let admin;
-  res.locals.status="no";
-  let status =res.locals.status
+  res.locals.status = "no";
+  let status = res.locals.status;
   // console.log(res.locals.status);
   // console.log(status);
-  let user;    
-  return res.render('registeruser.ejs',{company,user,admin,status})
-})
-router.get('/registercompany',(req,res)=>{
+  let user;
+  return res.render("registeruser.ejs", { company, user, admin, status });
+});
+router.get("/registercompany", (req, res) => {
   let company;
   let admin;
-    res.locals.status="no";
-  let status =res.locals.status
-  let user ;  
-  // console.log(res.locals.status);
-  // console.log(status);
-
-    return res.render('registercompany',company,user,admin,status)
-})
-router.get('/registeradmin',(req,res)=>{
-  let company;
-  let admin;
-  res.locals.status="no";
-  let status =res.locals.status
-  let user ;  
-  return res.render('registeradmin',company,user,admin,status)
-})
-
-
-router.get("/logout",logout)
-
-router.get('/emailverify',(req,res)=>{
-  let company;
-  let admin;
-    res.locals.status="no";
-  let status =res.locals.status
-  let user ;  
+  res.locals.status = "no";
+  let status = res.locals.status;
+  let user;
   // console.log(res.locals.status);
   // console.log(status);
 
-    return res.render('emailverify',company,user,admin,status)
-})
+  return res.render("registercompany", company, user, admin, status);
+});
+router.get("/registeradmin", (req, res) => {
+  let company;
+  let admin;
+  res.locals.status = "no";
+  let status = res.locals.status;
+  let user;
+  return res.render("registeradmin", company, user, admin, status);
+});
 
+router.get("/logout", logout);
 
+router.get("/emailverify", (req, res) => {
+  let company;
+  let admin;
+  res.locals.status = "no";
+  let status = res.locals.status;
+  let user;
+  // console.log(res.locals.status);
+  // console.log(status);
 
+  return res.render("emailverify", company, user, admin, status);
+});
 
-module.exports = router ;
+module.exports = router;
