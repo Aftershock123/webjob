@@ -17,34 +17,53 @@
 <body>
 
   <%- include('navbar') %>
-  <div class="container">
-    <form action="/user/registeruser" method="post">
-      <div class="data">
-        <label for="username">UserName</label>
-        <input type="text" name="username" id="username" />
-      </div>
-      <div class="data">
-        <label for="image">image</label>
-        <input type="file" id="image" name="image" accept="image/*"/>
-  
-      </div>
-      <div class="data">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" />
-      </div>
-      <div class="data">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
-      </div>
-      <div class="data">
-        <label for="confirm_password">Confirm Password</label>
-        <input type="password" name="confirm_password" id="password" />
-      </div>
-      <div class="alert alert-danger" role="alert" id="error" style="display:none;"></div>
-      <div class="alert alert-success" role="alert" id="success" style="display:none;"></div>
-      <button type="submit" class="btn btn-primary">Register</button>
-    </form>
-  </div>
+    <div class="container">
+      <form action="/user/registeruser" method="post" enctype="multipart/form-data">
+        <div class="data">
+          <label for="username">UserName</label>
+          <input type="text" name="username" id="username" />
+        </div>
+        <div class="data">
+          <label for="image">Image</label>
+          <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
+          <img id="imagePreview" src="/image/default.png" alt="Default Image" width="100" height="100">
+          <script>
+            function displayImage(event) {
+              const imagePreview = document.getElementById('imagePreview');
+              const file = event.target.files[0];
+
+              if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                  imagePreview.src = e.target.result;
+                }
+
+                reader.readAsDataURL(file);
+              } else {
+                imagePreview.src = '/image/default.png'; // Set default image
+              }
+            }
+
+          </script>
+        </div>
+        <div class="data">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" />
+        </div>
+        <div class="data">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" />
+        </div>
+        <div class="data">
+          <label for="confirm_password">Confirm Password</label>
+          <input type="password" name="confirm_password" id="password" />
+        </div>
+        <div class="alert alert-danger" role="alert" id="error" style="display:none;"></div>
+        <div class="alert alert-success" role="alert" id="success" style="display:none;"></div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
 
 </body>
 

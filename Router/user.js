@@ -17,14 +17,15 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/image/");
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + file.originalname);
+  filename: function (req, file, cb) {
+    const image = file ? `${Date.now() + file.originalname}` : "default.png";
+    cb(null, image);
   },
 });
 const filefilter = (req, file, cb) => {
   file.mimetype == "image/jpeg" || file.mimetype == "image/png"
     ? cb(null, true)
-    : cb(null, false);
+    : cb(null, true);
 };
 
 const upload = multer({ storage: storage, fileFilter: filefilter });
@@ -41,7 +42,11 @@ router.post(
     let status = res.locals.status;
     const errors = validationResult(req);
 
-    const { username, email, password: Npassword, image: filename } = req.body;
+    const image = req.file ? req.file.filename : "default.png";
+    const { username, email, password: Npassword } = req.body;
+
+    console.log("Image:", image);
+
     if (!email || !Npassword || errors.isEmpty()) {
       return res.status(400).json({ status: "error", error: errors.array() });
     } else {
@@ -51,12 +56,10 @@ router.post(
         async (err, result) => {
           if (err) throw err;
           if (result && result.length) {
-            return res
-              .status(400)
-              .json({
-                status: "error",
-                error: "Email has already been registered",
-              });
+            return res.status(400).json({
+              status: "error",
+              error: "Email has already been registered",
+            });
           } else {
             try {
               const password = await bcrypt.hash(Npassword, 8);
@@ -66,7 +69,7 @@ router.post(
                   username: username,
                   email: email,
                   password: password,
-                  image: filename,
+                  image: image,
                 },
                 async (error, results) => {
                   if (error) {
@@ -313,18 +316,16 @@ router.post("/addresume/:id", loggedIn, async (req, res) => {
       contact,
     } = req.body;
 
-    const [rows] = await db
-      .promise()
-      .query("INSERT INTO resume SET ?", {
-        professional_summary: professional_summary,
-        work_experience: work_experience,
-        skills: skills,
-        education: education,
-        languages: languages,
-        interests: interests,
-        contact: contact,
-        id_user: id,
-      });
+    const [rows] = await db.promise().query("INSERT INTO resume SET ?", {
+      professional_summary: professional_summary,
+      work_experience: work_experience,
+      skills: skills,
+      education: education,
+      languages: languages,
+      interests: interests,
+      contact: contact,
+      id_user: id,
+    });
     const [row] = await db
       .promise()
       .query(
