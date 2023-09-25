@@ -10,9 +10,9 @@ const loggedIn =require("../controllers/loggedin");
 const multer = require('multer');
 const sendMail =require("../controllers/sendmail");
 
+
 const path =require('path')
 const ejs =require('ejs');
-const sendrepass = require("../controllers/sendmailresetpass");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -59,11 +59,14 @@ router.post('/registeruser', upload.single('image'),signUpValidation, async (req
               throw error;
             }
             const verificationToken = crypto.randomBytes(20).toString('hex');
-            let mailSubject ='Mail Verification';  
+            let mailSubjects ='Mail Verification';  
 
             const content= "http://localhost:5000/user/verify?token= "+verificationToken
-                            
-            await sendMail(req.body.email,mailSubject,content);
+            
+            const TemplatePath = path.join(__dirname, "../views/email.ejs");
+            const data =await ejs.renderFile(TemplatePath,{content});
+            console.log(" send data: ",data);        
+            await sendMail(req.body.email,mailSubjects,data);
             await db.promise().query('UPDATE users set token=? where email=? ',[ verificationToken,req.body.email],async(error,result)=>{
               if (error) {
                 console.log("insert user error");
@@ -343,33 +346,65 @@ router.get('/resetpassword/:id', loggedIn,async(req,res) =>{
       let admin;
       let user;
       const {email} =req.params;
-      console.log(email);
+      
 
 
-    const [rows] = await db.promise().query('SELECT * FROM users  where users.email = ?', [email]);
-      if(rows>0){
-        const otp_before = Math.floor(1000 + Math.random() * 9000);
-        const otp = otp_before.toString();
-        await db.promise().query('UPDATE users SET  token = ? where users.email = ?', [ otp ,email]);    
-       
-         let mailSubject ='resetpassword';  
-          const content= "http://localhost:5000/user/resetpassword "+ otp
-
-        sendrepass(email,mailSubject,content)
-      return res.render('changepassword',{user:rows[0],company,admin})
+   db.query('SELECT * FROM users  where users.email = ?', [email],async (error,result)=>{
+      if (error) {
+        console.log("insert user error");
+        throw error;
       }
+         const otp_before = Math.floor(1000 + Math.random() * 9000);
+         const otp = otp_before.toString();
+         
+         
+         let mailSubjects ='resetpassword';  
+         const content =result[0].id_user;
+         console.log(content);
+          
+         const TemplatePath = path.join(__dirname, "../views/resetpass.ejs");
+          const data =await ejs.renderFile(TemplatePath,{otp,content});
+         
+          await sendMail(req.body.email,mailSubjects,data);
+         console.log("after send repass",req.body.email);
+         await db.promise().query('UPDATE users SET  token = ? where users.email = ?', [ otp ,email],async(error,result)=>{
+          if (error) {
+            console.log("insert user error");
+            throw error;
+          }
+        })
+       return res.render('emailverify',{user:result[0],company,admin})
+   
+     });
+   
+    
     }catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
     }
   });
 
+  router.get('/changepassword/:id', async(req,res)=>{
+    let company;
+    let admin;
+    let status = res.locals.status
+    let {id} = req.params ;  
+    // console.log(id)
+    const [rows] = await db.promise().query('SELECT * FROM users  where users.id_user = ?', [id]);
+    // console.log(res.locals.status);
+    // console.log(status);
+  
+    return res.render('changepassword',{company,user:rows[0],admin,status})
+  })
 
-  router.post('/changepassword' ,loggedIn, async(req,res,next)=>{
+
+  router.post('/changepassword/:id' ,loggedIn, async(req,res,next)=>{
   try{
-  const token = req.body.token;
-  // console.log("token: " + token);
-  const [rows] = await db.promise().query('SELECT * FROM users  where users.token = ?', [token]);
+    const {id} =req.params;
+  const token = req.body.otp;
+  console.log("token: " + token);
+  console.log("id: " + id);
+  const [rows] = await db.promise().query('SELECT * FROM users  where users.token = ? and users.id_user' , [token,id]);
   if (rows) {
     const password = req.body.password;
     const salt = await bcrypt.genSalt(10);
@@ -378,10 +413,10 @@ router.get('/resetpassword/:id', loggedIn,async(req,res) =>{
     // console.log("newPassword: " + newPassword);
     await db.promise().query('UPDATE users SET  password  = ? where users.token = ?', [ newPassword ,token]);    
 
-    await db.promise().query('UPDATE users SET  token  =null  where users.token = ?', [token]); 
+    await db.promise().query('UPDATE users SET  token  = null  where users.token = ?', [token]); 
     
     console.log("resetToken: " + token);
-    res.redirect("/users/login");
+    // res.redirect("/login");
   } else {
     
         res.render("changepassword", {
@@ -394,6 +429,10 @@ router.get('/resetpassword/:id', loggedIn,async(req,res) =>{
 }
 }
   );
+
+
+
+  
 
 //userid
 
