@@ -83,40 +83,56 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 //--------------------------------------------------------web----------------------------------
 router.get('/webpage/:id',loggedIn,async(req,res)=>{
   try{
-    let admin;
+    
     const {id} =req.params;
-    // console.log(id);
-    // const [rows] = await db.promise().query('UPDATE webpage SET  namepage = ?, address = ? , email = ?, call = ? ');
-    const [rows] = await db.promise().query('SELECT * FROM webpage inner join admins on admins.id_admin = webpage.id_admin where webpage.id_admin= ?', [id]);
-    // console.log(rows);
-    const [row] =await db.promise().query('SELECT * FROM webpage ');
-    // console.log(row);
-    res.render('webpage', { admin:rows[0],webpage:row[0]});
+    
+   
+    const [rows] = await db.promise().query('SELECT * FROM webpage');
+   const webpage =rows[0]
+    res.locals.webpage = webpage;
+    // console.log(res.locals.webpage)
+    const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
+    
+    res.render('webpage', { admin:row[0],webpage});
        
   }catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');}
   });
   
-router.post('/editwebpage/:id',loggedIn,async(req,res)=>{
-try{
-  let admin;
-  const {id} =req.params;
-  const {namepage,address,email,call} =req.body;
- 
-  const [rows] = await db.promise().query('UPDATE webpage SET  namepage = ?, address = ? , email = ?, call = ? ',[namepage,address,email,call]);
-  // const [row] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);// console.log(rows);
-  const [row1] =await db.promise().query('SELECT * FROM webpage inner join admins on admins.id_admin = webpage.id_admin where webpage.id_admin =?',[id]);
-    console.log(rows);
-  if (rows.length === 0) {
-    return res.status(404).send("User not found");
-  }
-  res.render('webpage', { admin:row1[0],webpage:rows});
+  router.post('/editwebpage/:id', loggedIn, async (req, res) => {
+    try {
      
-}catch (error) {
-  console.error(error);
-  res.status(500).send('Internal Server Error');}
-});
+      const [rows] = await db.promise().query('SELECT * FROM webpage');
+      const webpage =rows[0]
+       res.locals.webpage = webpage;
+      //  console.log(res.locals.webpage.id_webpage)
+       
+      const { id } = req.params;
+      
+      const { namepage, address, email, call} = req.body;
+
+      // Update the webpage details using the webpage ID
+      const [rowq] = await db.promise().query("UPDATE webpage SET namepage = ?, address = ?, email = ?, `call` = ? WHERE id_webpage = ?",
+      [namepage, address, email, call,parseInt(res.locals.webpage.id_webpage)]);
+      // console.log(rowq);
+      // Fetch the updated webpage data
+      const [updatedWebpageRows] = await db.promise().query('SELECT * FROM webpage WHERE id_webpage = ?', [res.locals.webpage.id_webpage]);
+  
+      const [admin] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);
+  
+      if (admin.length === 0) {
+        return res.status(404).send("User not found");
+      }
+  
+      res.render('webpage', { admin: admin[0], webpage: updatedWebpageRows[0] });
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+  
 
 
 

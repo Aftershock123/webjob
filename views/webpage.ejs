@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="style.css">
 <body>
   
-    <form action="/admin/editweb/<%= webpage.id_webpage %>" method="post">
+    <form action="/admin/editwebpage/<%= webpage.id_webpage %>" method="post">
         <!-- <img class="card" src="/image/<%= webpage.image %>" alt="webpage Logo"/> -->
 
 
@@ -23,9 +23,7 @@
          <input type="text" id="address" name= "address" value="<%= webpage.address %>" />
          <label for="address">address</label>
           </div>
-    
-    
-    
+         
     
           <div >
             <input type="text" id="email"  name="email" value="<%= webpage.email %>"/>

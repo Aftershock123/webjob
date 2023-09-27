@@ -9,6 +9,7 @@ const sendMail = require("../controllers/sendmail");
 const path = require("path");
 const ejs = require("ejs");
 const bcrypt = require("bcryptjs");
+const { Script } = require("vm");
 
 router.get("/forgotpassword", async (req, res) => {
   let user;
@@ -274,7 +275,9 @@ router.get("/", loggedIn, async (req, res) => {
       // console.log(req.body.userindex);
       [companyindex] = await db.promise().query("SELECT * FROM companies ");
       // console.log(req.body.companyindex);
-      [webpage] = await db.promise().query("SELECT * FROM webpage ");
+      [webpage] = await db.promise().query("SELECT id_webpage FROM webpage ");
+      res.locals.webpage = webpage;
+      // console.log(res.locals.webpage);
     } else {
       status = "no";
       user = "nothing";
