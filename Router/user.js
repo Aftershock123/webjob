@@ -175,26 +175,7 @@ router.get("/verify", async (req, res) => {
   }
 });
 
-router.get("/user/:resumeId/job/:jobId", async (req, res) => {
-  const resumeId = req.params.resumeId; // Extract the user ID
-  const jobId = req.params.jobId; // Extract the order ID
-  db.query("INSERT INTO historyuser SET ?", {
-    resume_Id: resumeId,
-    job_id: jobId,
-  });
-  db.query(
-    "SELECT *.r,*.j FROM historyuser INNER JOIN  resume ON historyuser.resume_id = resume.resume_id INNER JOIN   jobcompany ON historyuser.jobid = jobcompany.jobid ",
-    (error, result, fields) => {
-      if (error) {
-        throw err;
-      }
-      if (result.length > 0) {
-        db.query("SELECT * FROM companies  where jobid =?", jobId);
-      }
-      // return render('index');
-    }
-  );
-});
+
 
 //-------------------------------------------------profile---------------------------------------
 //ได้แล้ว
@@ -585,5 +566,26 @@ router.get("/pdf/:id", loggedIn, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+// router.get("/user/:resumeId/job/:jobId", async (req, res) => {
+//   const resumeId = req.params.resumeId; // Extract the user ID
+//   const jobId = req.params.jobId; // Extract the order ID
+//   db.query("INSERT INTO historyuser SET ?", {
+//     resume_Id: resumeId,
+//     job_id: jobId,
+//   });
+//   db.query(
+//     "SELECT *.r,*.j FROM historyuser INNER JOIN  resume ON historyuser.resume_id = resume.resume_id INNER JOIN   jobcompany ON historyuser.jobid = jobcompany.jobid ",
+//     (error, result, fields) => {
+//       if (error) {
+//         throw err;
+//       }
+//       if (result.length > 0) {
+//         db.query("SELECT * FROM companies  where jobid =?", jobId);
+//       }
+//       // return render('index');
+//     }
+//   );
+// });
 
 module.exports = router;
