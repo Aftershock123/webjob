@@ -1,0 +1,68 @@
+
+
+/* General styles for all elements */
+* {
+  box-sizing: border-box;
+  transition: 0.35s ease;
+}
+
+/* Mixin for setting up display, position, and margin */
+/* Usage: .setup { @include setup(display, position, margin, top, right, bottom, left); } */
+.setup {
+  display: var(--display);
+  position: var(--position);
+  margin: var(--margin);
+  top: var(--top);
+  right: var(--right);
+  bottom: var(--bottom);
+  left: var(--left);
+}
+
+/* Mixin for setting up font properties */
+/* Usage: .font { @include font(font-family, font-size, letter-spacing, font-weight, line-height); } */
+.font {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  letter-spacing: var(--letter-spacing);
+  font-weight: var(--font-weight);
+  line-height: var(--line-height);
+}
+
+/* Styles for body */
+body {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+  letter-spacing: 0;
+  font-weight: 400;
+  line-height: 28px;
+  background: url('http://kingofwallpapers.com/leaves/leaves-016.jpg') right no-repeat;
+  background-size: cover;
+}
+
+/* Pseudo-element styles for body */
+body::before {
+  content: "";
+  display: var(--display);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.92);
+}
+
+/* Other styles for elements */
+/* Add other styles as needed */
+
+/* Media query for smaller screens */
+@media screen and (max-width: 1150px) {
+  /* Styles for smaller screens */
+  .name {
+    color: white;
+    font-family: 'Raleway', Arial, sans-serif;
+    font-size: 38px;
+    letter-spacing: 6px;
+    font-weight: 100;
+    line-height: 48px;
+  }
+}

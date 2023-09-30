@@ -600,13 +600,13 @@ try{
   console.log(content[0].id_resume);
   // console.log("content");
   let email =row[0].email;
-  console.log(content);
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
   const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
   const data =await ejs.renderFile(TemplatePath,{content});
   console.log(content[0].id_resume);
     // console.log(data);
     
-    await sendMail(email, mailSubjects, data)
+    await generatePDF(email, mailSubjects, data)
     let [roww] = await db
                     .promise()
                     .query(
