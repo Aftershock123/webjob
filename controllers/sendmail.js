@@ -9,7 +9,7 @@ const sendMail = async (email, mailSubjects, data) => {
       service: "gmail",
       auth: {
         user: "Andrew.ColtOoO@gmail.com",
-        pass: "obap znvj sdee nsds",
+        pass: "stdy cqxs nbvv cdmz",
       },
     });
     const mailOptions = {

@@ -597,8 +597,9 @@ try{
   });
   let mailSubjects ="resume" 
   const content = row;
-  console.log(content[0].id_resume);
+  // console.log(content[0].username);
   // console.log("content");
+  const name =content[0].username
   let email =row[0].email;
   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
   const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
@@ -606,7 +607,7 @@ try{
   console.log(content[0].id_resume);
     // console.log(data);
     
-    await generatePDF(email, mailSubjects, data)
+    await generatePDF(email, mailSubjects, data,name)
     let [roww] = await db
                     .promise()
                     .query(

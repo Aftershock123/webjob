@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 const fs = require("fs");
 
 
-const generatePDF = async (email,mailSubjects ,data) =>{
+const generatePDF = async (email,mailSubjects ,data,name) =>{
   try{
 
 
@@ -17,12 +17,12 @@ console.log(data.username);
       service: 'gmail',
       auth: {
         user: "Andrew.ColtOoO@gmail.com",
-        pass: "obap znvj sdee nsds",
+        pass: "stdy cqxs nbvv cdmz",
       }
     });
   
     const pdfFolder = path.join(__dirname,"../public/pdf" );
-    const pdfFileName = `${Date.now()}_${data.username}.pdf`;
+    const pdfFileName = `${name}_resume_${Date.now()}.pdf`;
     const pdfPath = path.join(pdfFolder, pdfFileName);
     
     const doc = new PDFDocument();
@@ -31,8 +31,9 @@ console.log(data.username);
     doc.end();
     
 
-    
-    const  sendEmailWithAttachment = async (pdfPath)=> {
+   
+   
+      console.log("kkkkkkkkkkkkkkkkkk");
       const mailOptions = {
         from: "Andrew.ColtOoO@gmail.com",
         to: email,
@@ -43,13 +44,15 @@ console.log(data.username);
         }]
       };
     
-      try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent:', info.response);
-      } catch (error) {
-        console.error('Error sending email:', error);
-      }
-    }
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+          // res.send('Failed to send verification email.');
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+    
   }catch(error){
     console.log(error);
   }
