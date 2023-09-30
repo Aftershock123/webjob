@@ -13,13 +13,14 @@
 
 <body>
   <%- include('navbar') %>
-  <form action="/company/searchcompany" method="post">
-    
-</form>
+  
 
+  
+  
     <% if(status==="loggedIn") { %>
       
       <% if(user) { %>
+        
         <% if(jobindex.length > 0) { %>
           <% jobindex.forEach((jobindex) => {%>
             <% if( jobindex != undefined) { %>
@@ -27,11 +28,13 @@
         <div class="container-sm-width bg-dark ">
           <div class="container bg-primary px-4">
             <div class="row gx-5">
+              
               <div class="col-3 p-4 border bg-light">
 
                 <div class="card  text-center" style="width: 15rem;">
                   <img class="card-img-top" src="./image/AIS.png" alt="Card image cap">
                   <div class="card-body">
+                    
                     <p class="card-text"><%= jobindex.name_company %></p>   
                   </div>
                 </div>
@@ -44,7 +47,7 @@
                     <h5 class="card-title"><%= jobindex.name_job %></h5>
                     <p class="card-text"><%= jobindex.detail_work %></p>
                     <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">detailjob</a>
-                    <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">applyjob</a>
+                    <!-- <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">applyjob</a> -->
                     <a class="card-title"><%= jobindex.deadline_offer %> </a>
                   </div>
                 </div>

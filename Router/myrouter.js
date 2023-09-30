@@ -229,6 +229,7 @@ router.get("/", loggedIn, async (req, res) => {
     let companyindex;
     let userindex;
     let webpage;
+    
 
     if (res.locals.users) {
       status = "loggedIn";
@@ -244,6 +245,12 @@ router.get("/", loggedIn, async (req, res) => {
       // console.log(jobindex);
       [resumeindex] = await db.promise().query("SELECT * FROM resume ");
       // console.log(resumeindex);
+      [webpage] = await db.promise().query("SELECT * FROM webpage ");
+    
+    
+    // console.log(webpage);
+    // res.locals.webpage=webpage;
+    // console.log(res.locals.webpage);
     } else if (res.locals.companys) {
       status = "loggedIn";
       company = res.locals.companys;
@@ -275,8 +282,8 @@ router.get("/", loggedIn, async (req, res) => {
       // console.log(req.body.userindex);
       [companyindex] = await db.promise().query("SELECT * FROM companies ");
       // console.log(req.body.companyindex);
-      [webpage] = await db.promise().query("SELECT id_webpage FROM webpage ");
-      res.locals.webpage = webpage;
+      [webpage] = await db.promise().query("SELECT * FROM webpage ");
+  
       // console.log(res.locals.webpage);
     } else {
       status = "no";
@@ -296,6 +303,8 @@ router.get("/", loggedIn, async (req, res) => {
       console.log(req.body.companyindex);
       [adminindex] = await db.promise().query("SELECT * FROM admins ");
       // console.log(req.body.adminindex);
+      [webpage] = await db.promise().query("SELECT * FROM webpage ");
+  
     }
 
     res.render("index.ejs", {
@@ -308,7 +317,7 @@ router.get("/", loggedIn, async (req, res) => {
       companyindex,
       userindex,
       adminindex,
-      webpage
+      webpage,
     });
   } catch (error) {
     console.error(error);
@@ -316,11 +325,13 @@ router.get("/", loggedIn, async (req, res) => {
   }
 });
 
-router.get("/login", (req, res) => {
+router.get("/login",async (req, res) => {
   let status;
   let user;
   let company;
   let admin;
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
 
   if (res.locals.users) {
     status = "loggedIn";
@@ -340,29 +351,33 @@ router.get("/login", (req, res) => {
     company = "nothing";
   }
 
-  res.render("login", { status, user, company, admin });
+  res.render("login", { status, user, company, admin ,webpage});
 });
 
-router.get("/registeruser", (req, res) => {
+router.get("/registeruser",async (req, res) => {
   let company;
   let admin;
+  let webpage;
   res.locals.status = "no";
   let status = res.locals.status;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
   // console.log(res.locals.status);
   // console.log(status);
   let user;
-  return res.render("registeruser.ejs", { company, user, admin, status });
+  return res.render("registeruser.ejs", { company, user, admin, status,webpage });
 });
-router.get("/registercompany", (req, res) => {
+router.get("/registercompany", async(req, res) => {
   let company;
   let admin;
+  let webpage;
   res.locals.status = "no";
   let status = res.locals.status;
   let user;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
   // console.log(res.locals.status);
   // console.log(status);
 
-  return res.render("registercompany", company, user, admin, status);
+  return res.render("registercompany", { company, user, admin, status,webpage });
 });
 router.get("/registeradmin", (req, res) => {
   let company;

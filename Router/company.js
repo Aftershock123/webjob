@@ -111,8 +111,7 @@ router.post(
                   const content =
                     "http://localhost:5000/company/verify?token= " +
                     verificationToken;
-                  const TemplatePath = path.join(
-                    __dirname,
+                  const TemplatePath = path.join( __dirname,
                     "../views/email.ejs"
                   );
                   const data = await ejs.renderFile(TemplatePath, { content });
@@ -575,8 +574,11 @@ router.post("/updatejob_company/:id/", loggedIn, async (req, res) => {
 router.get("/jobbyidjob/:id", loggedIn, async (req, res) => {
   try {
     let user = res.locals.users;
+    // console.log(user);
     let admin = res.locals.admins;
     let company = res.locals.companys;
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
 
     const { id } = req.params;
 
@@ -594,7 +596,7 @@ router.get("/jobbyidjob/:id", loggedIn, async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    res.render("detailjob", { company, job: rows[0], user, admin });
+    res.render("detailjob", { company, job: rows[0], user, admin ,webpage});
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
