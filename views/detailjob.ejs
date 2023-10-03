@@ -12,16 +12,17 @@
 <body>
   <!-- คิดว่าหน้านี้จะใช้สำหรับโชว์รายละเอียดและใส่เงื่อนไขเข้าไปเพื่ออัพเดต -->
   <%- include('navbar') %>
-  ชื่องาน : <%= job.name_job %>
-  ชื่องาน : <%= job.salary %>
-  ชื่องาน : <%= job.name_job %>
-  ชื่องาน : <%= job.name_job %>
-  ชื่องาน : <%= job.name_job %>
-  ชื่องาน : <%= job.name_job %>
-  ชื่องาน : <%= job.name_job %>
-  ชื่องาน : <%= job.name_job %>
-  ชื่องาน : <%= job.name_job %>
   
+  <% if(user) { %>
+    ชื่องาน : <%= job.name_job %>
+    ชื่องาน : <%= job.salary %>
+    ชื่องาน : <%= job.name_job %>
+    ชื่องาน : <%= job.name_job %>
+    ชื่องาน : <%= job.name_job %>
+    ชื่องาน : <%= job.name_job %>
+    ชื่องาน : <%= job.name_job %>
+    ชื่องาน : <%= job.name_job %>
+    ชื่องาน : <%= job.name_job %>
   <form action="/user/apply/<%= user.id_user %>/<%= job.idjob_company %>" method="post">
 
   <div class="inputbox-regis">
@@ -38,7 +39,17 @@
         <button type="submit" class="btn btn-wanning">save</button> 
     
       </form> 
-     
+      <% } else { %>
+        ชื่องาน : <%= job.name_job %>
+        ชื่องาน : <%= job.salary %>
+        ชื่องาน : <%= job.name_job %>
+        ชื่องาน : <%= job.name_job %>
+        ชื่องาน : <%= job.name_job %>
+        ชื่องาน : <%= job.name_job %>
+        ชื่องาน : <%= job.name_job %>
+        ชื่องาน : <%= job.name_job %>
+        ชื่องาน : <%= job.name_job %>
+        <% } %>
 </body>
 
 </html>

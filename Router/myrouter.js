@@ -267,6 +267,7 @@ router.get("/", loggedIn, async (req, res) => {
       // console.log(req.body.userindex);
       [adminindex] = await db.promise().query("SELECT * FROM admins ");
       // console.log(req.body.adminindex);
+      [webpage] = await db.promise().query("SELECT * FROM webpage ");
     } else if (res.locals.admins) {
       status = "loggedIn";
       admin = res.locals.admins;

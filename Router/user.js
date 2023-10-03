@@ -9,7 +9,7 @@ const router = express.Router();
 const loggedIn = require("../controllers/loggedin");
 const multer = require("multer");
 const sendMail = require("../controllers/sendmail");
-const generatePDF =require("../controllers/generatePDF");
+const generatePDF = require("../controllers/generatePDF");
 const path = require("path");
 const ejs = require("ejs");
 
@@ -175,8 +175,6 @@ router.get("/verify", async (req, res) => {
   }
 });
 
-
-
 //-------------------------------------------------profile---------------------------------------
 //ได้แล้ว
 router.get(
@@ -188,22 +186,39 @@ router.get(
       let company;
       let admin;
       const { id } = req.params;
-      let webpage;
-[webpage] = await db.promise().query("SELECT * FROM webpage ");
-      const [rows] = await db.promise().query("SELECT * FROM users  where id_user = ?", [id]);
+
+      let [webpage] = await db.promise().query("SELECT * FROM webpage ");
+      const [rows] = await db
+        .promise()
+        .query("SELECT * FROM users  where id_user = ?", [id]);
       console.log(rows);
-      const [row4] = await db.promise().query('SELECT * FROM resume where resume.id_user = ?',[id]);
-      console.log(row4);
-      const [row1] = await db.promise().query('SELECT * FROM historyuser where historyuser.id_resume = ? ',[row4[0].id_resume]);
-      console.log(row1);
-      const [row2] =await db.promise().query('SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company where job_company.idjob_company = ? ',[row1[0].idjob_company])
-      console.log(row2);
-      
+      let [resume] = await db
+        .promise()
+        .query("SELECT * FROM resume where resume.id_user = ?", [id]);
+
+      if (resume) {
+      } else {
+        console.log(row4);
+        const [row1] = await db
+          .promise()
+          .query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [
+            row4[0].id_resume,
+          ]);
+        console.log(row1);
+        const [row2] = await db
+          .promise()
+          .query(
+            "SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company where job_company.idjob_company = ? ",
+            [row1[0].idjob_company]
+          );
+        console.log(row2);
+      }
+
       if (rows.length === 0) {
         return res.status(404).send("User not found");
       }
 
-      res.render("profile", { user: rows[0], company, admin ,webpage});
+      res.render("profile", { user: rows[0], company, admin, webpage });
       // if(jobId){
 
       //   res.redirect('/user/:resumeId/job/:jobId');
@@ -223,27 +238,49 @@ router.post(
     try {
       let company;
       let admin;
-
+      let [webpage] = await db.promise().query("SELECT * FROM webpage ");
       const { id } = req.params;
-      // console.log(id);
-      const { username, email, image } = req.body;
-      // console.log(req.body);
-      const [rows] = await db
-        .promise()
-        .query(
-          "UPDATE users SET username = ?, email = ? ,image =?,WHERE id_user = ?",
-          [username, email, image, id]
-        );
       const [row1] = await db
         .promise()
         .query("SELECT * FROM users  where id_user = ?", [id]);
-
-      console.log(row1[0]);
+      const { username, email } = req.body;
+      const image = req.file ? req.file.filename : row1[0].image;
+      const [rows] = await db
+        .promise()
+        .query(
+          "UPDATE users SET username = ?, email = ? ,image =? WHERE id_user = ?",
+          [username, email, image, id]
+        );
+      const [row2] = await db
+        .promise()
+        .query("SELECT * FROM users  where id_user = ?", [id]);
+      // console.log(row1[0].image);
       if (rows.length === 0) {
         return res.status(404).send("User not found");
       }
+      let [resume] = await db
+        .promise()
+        .query("SELECT * FROM resume where resume.id_user = ?", [id]);
 
-      res.render("profile", { user: row1[0], company, admin });
+      if (resume) {
+      } else {
+        console.log(row4);
+        const [row1] = await db
+          .promise()
+          .query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [
+            row4[0].id_resume,
+          ]);
+        console.log(row1);
+        const [row2] = await db
+          .promise()
+          .query(
+            "SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company where job_company.idjob_company = ? ",
+            [row1[0].idjob_company]
+          );
+        console.log(row2);
+      }
+
+      res.render("profile", { user: row2[0], company, admin, webpage });
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
@@ -256,27 +293,28 @@ router.post(
 //ได้แล้ว
 router.get("/addresume/:id", loggedIn, async (req, res) => {
   try {
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
+
     const { id } = req.params;
 
-    // const [rows] = await db.promise().query('SELECT * FROM users where id_user = ?', [id]);
-    const [row] = await db
+    const [rows] = await db
+      .promise()
+      .query("SELECT * FROM users where users.id_user = ?", [id]);
+    let [resume] = await db
       .promise()
       .query(
         "SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?",
         [id]
       );
-
-    // // const [rows] = await db.promise().query('SELECT * FROM users  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
-
-    // console.log(rows[0]);
-    console.log(row[0]);
-    if (row.length === 0) {
+    console.log(resume);
+    // const [rows] = await db.promise().query('SELECT * FROM users  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
+    if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
 
-    res.render("resume", { user: row[0], resume: row[0], company, admin });
+    res.render("resume", { user: rows[0], resume, company, admin, webpage });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -286,6 +324,7 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
 //ได้แล้ว
 router.post("/addresume/:id", loggedIn, async (req, res) => {
   try {
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
     const { id } = req.params;
@@ -300,7 +339,7 @@ router.post("/addresume/:id", loggedIn, async (req, res) => {
       contact,
     } = req.body;
 
-    const [rows] = await db.promise().query("INSERT INTO resume SET ?", {
+    await db.promise().query("INSERT INTO resume SET ?", {
       professional_summary: professional_summary,
       work_experience: work_experience,
       skills: skills,
@@ -310,6 +349,10 @@ router.post("/addresume/:id", loggedIn, async (req, res) => {
       contact: contact,
       id_user: id,
     });
+
+    const [rows] = await db
+      .promise()
+      .query("SELECT * FROM users where users.id_user = ?", [id]);
     const [row] = await db
       .promise()
       .query(
@@ -321,7 +364,13 @@ router.post("/addresume/:id", loggedIn, async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    res.render("resume", { user: row[0], resume: row[0], company, admin });
+    res.render("resume", {
+      user: rows[0],
+      resume: row[0],
+      company,
+      admin,
+      webpage,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -334,7 +383,8 @@ router.get("/updateresume/:id", loggedIn, async (req, res) => {
   try {
     let company;
     let admin;
-
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
     // console.log(id);
 
@@ -360,6 +410,8 @@ router.get("/updateresume/:id", loggedIn, async (req, res) => {
 //ได้แล้ว
 router.post("/updateresume/:id", loggedIn, async (req, res) => {
   try {
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let user;
     let company;
 
@@ -394,7 +446,13 @@ router.post("/updateresume/:id", loggedIn, async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
-    res.render("resume", { user: rows[0], resume: rows, company, admin });
+    res.render("resume", {
+      user: rows[0],
+      resume: rows,
+      company,
+      admin,
+      webpage,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -403,6 +461,8 @@ router.post("/updateresume/:id", loggedIn, async (req, res) => {
 
 router.get("/resetpassword/:id", loggedIn, async (req, res) => {
   try {
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
     let user;
@@ -416,7 +476,12 @@ router.get("/resetpassword/:id", loggedIn, async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
-    return res.render("resetpassword", { user: rows[0], company, admin });
+    return res.render("resetpassword", {
+      user: rows[0],
+      company,
+      admin,
+      webpage,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -428,6 +493,8 @@ router.post("/resetpassword/:email", loggedIn, async (req, res) => {
     let company;
     let admin;
     let user;
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { email } = req.params;
 
     db.query(
@@ -462,7 +529,12 @@ router.post("/resetpassword/:email", loggedIn, async (req, res) => {
               }
             }
           );
-        return res.render("emailverify", { user: result[0], company, admin });
+        return res.render("emailverify", {
+          user: result[0],
+          company,
+          admin,
+          webpage,
+        });
       }
     );
   } catch (error) {
@@ -472,6 +544,8 @@ router.post("/resetpassword/:email", loggedIn, async (req, res) => {
 });
 
 router.get("/changepassword/:id", async (req, res) => {
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
   let company;
   let admin;
   let status = res.locals.status;
@@ -488,6 +562,7 @@ router.get("/changepassword/:id", async (req, res) => {
     user: rows[0],
     admin,
     status,
+    webpage,
   });
 });
 
@@ -539,6 +614,8 @@ router.post("/changepassword/:id", loggedIn, async (req, res, next) => {
 
 router.get("/pdf/:id", loggedIn, async (req, res) => {
   try {
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let user;
     let admin;
     const { id } = req.params;
@@ -570,67 +647,74 @@ router.get("/pdf/:id", loggedIn, async (req, res) => {
   }
 });
 
-
-
 router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
   const userId = req.params.userId; // Extract the user ID
   const jobId = req.params.jobId; // Extract the order ID
   let company;
   let admin;
   let user;
-let webpage;
-[webpage] = await db.promise().query("SELECT * FROM webpage ");
- console.log(userId);//128
- console.log(jobId);//14
-  const [rows] = await db.promise().query( "SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.idjob_company = ?",[jobId]);
-  // console.log(rows);
-  // console.log("rows");
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
+  console.log(userId); //128
+  console.log(jobId); //14
+  const [rows] = await db
+    .promise()
+    .query(
+      "SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.idjob_company = ?",
+      [jobId]
+    );
+  console.log(rows);
+  console.log("rows");
 
-  const [row] = await db.promise().query("SELECT * FROM resume  inner join users  on resume.id_user = users.id_user where  resume.id_user = ?",[userId]);
-  // console.log(row);
-  // console.log("row");
-  // console.log( row[0].id_resume);//11
-try{
-  db.query("INSERT INTO historyuser SET ?", {
-    id_resume: row[0].id_resume,
-    idjob_company: jobId,
-  });
-  let mailSubjects ="resume" 
-  const content = row;
-  // console.log(content[0].username);
-  // console.log("content");
-  const name =content[0].username
-  let email =row[0].email;
-  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-  const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
-  const data =await ejs.renderFile(TemplatePath,{content});
-  console.log(content[0].id_resume);
+  const [row] = await db
+    .promise()
+    .query(
+      "SELECT * FROM resume  inner join users  on resume.id_user = users.id_user where  resume.id_user = ?",
+      [userId]
+    );
+  console.log(row);
+  console.log("row");
+  console.log( row[0].id_resume);//11
+  try {
+    db.query("INSERT INTO historyuser SET ?", {
+      id_resume: row[0].id_resume,
+      idjob_company: jobId,
+    });
+    let mailSubjects = "resume";
+    const content = row;
+    // console.log(content[0].username);
+    // console.log("content");
+    const name = content[0].username;
+    let email = row[0].email;
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+    const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
+    const data = await ejs.renderFile(TemplatePath, { content });
+    console.log(content[0].id_resume);
     // console.log(data);
-    
-    await generatePDF(email, mailSubjects, data,name)
-    let [roww] = await db
-                    .promise()
-                    .query(
-                      "SELECT * FROM users WHERE users.id_user = ? ",
-                      [userId],
-                      async (error, result) => {
-                        if (error) {
-                          console.log("insert user error");
-                          throw error;
-                        }
 
-                      }
-                      );
-                      console.log(roww[0]);
-                      res.render("profile", { user: roww[0], company, admin ,webpage}); 
-        //เรียกใช้router.get profile
-}
-  catch (error) {
-  console.log("Internal server error");
-  return res
-    .status(500)
-    .json({ status: "error", error: "Internal server error" });
-}}
-);
+    await generatePDF(email, mailSubjects, data, name);
+    let [roww] = await db
+      .promise()
+      .query(
+        "SELECT * FROM users WHERE users.id_user = ? ",
+        [userId],
+        async (error, result) => {
+          if (error) {
+            console.log("insert user error");
+            throw error;
+          }
+        }
+      );
+    console.log(roww[0]);
+    res.render("profile", { user: roww[0], company, admin, webpage });
+    //เรียกใช้router.get profile
+  } catch (error) {
+    console.log("Internal server error");
+    return res
+      .status(500)
+      .json({ status: "error", error: "Internal server error" });
+  }
+});
 
 module.exports = router;

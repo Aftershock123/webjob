@@ -345,6 +345,7 @@ router.get("/profile/:id", loggedIn, async (req, res) => {
   try {
     let user;
     let admin;
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
 
     const [rows] = await db
@@ -356,7 +357,7 @@ router.get("/profile/:id", loggedIn, async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    res.render("profile", { company: rows[0], user, admin });
+    res.render("profile", { company: rows[0], user, admin ,webpage});
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -364,28 +365,26 @@ router.get("/profile/:id", loggedIn, async (req, res) => {
 });
 
 //อัพเดตโปรไฟล์
-router.post("/updateprofile/:id", loggedIn, async (req, res) => {
+router.post("/updateprofile/:id",upload.single("image"), loggedIn, async (req, res) => {
   try {
     let user;
     let admin;
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
-
+    const [row] = await db.promise().query("SELECT * FROM companies WHERE id_company = ?", [id]);
     const { username, email } = req.body;
 
-    const [rows] = await db
-      .promise()
-      .query(
-        "UPDATE companies SET username = ?, email = ? WHERE companies.id_company = ?",
-        [username, email, id]
-      );
-    const [updatedCompany] = await db
-      .promise()
-      .query("SELECT * FROM companies WHERE id_company = ?", [id]); // console.log(rows);
-    if (rows.length === 0) {
+    const image = req.file ? req.file.filename : row[0].image;
+    console.log(image)
+    const [rows] = await db.promise().query("UPDATE companies SET username = ?, email = ? ,image =? WHERE id_company = ?",[username, email,image, id]);
+    const [upCompany] = await db.promise().query("SELECT * FROM companies WHERE id_company = ?", [id]); 
+    console.log(upCompany[0]);
+  
+    if (upCompany.length === 0) {
       return res.status(404).send("companies not found");
     }
 
-    res.render("profile", { company: updatedCompany[0], user, admin });
+    res.render("profile", { company: upCompany[0], user, admin,webpage });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -400,16 +399,18 @@ router.get("/addjob_company/:id", loggedIn, async (req, res) => {
   try {
     let user;
     let admin;
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
+    console.log(id)
 
     const [rows] = await db
       .promise()
-      .query("SELECT * FROM companies  where id_company = ?", [id]);
+      .query("SELECT * FROM companies  where companies.id_company = ?", [id]);
 
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
-    res.render("addjob", { company: rows[0], user, admin });
+    res.render("addjob", { company: rows[0], user, admin,webpage });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -418,9 +419,12 @@ router.get("/addjob_company/:id", loggedIn, async (req, res) => {
 //ได้แล้ว
 router.post("/addjob_company/:id", loggedIn, async (req, res) => {
   try {
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let user;
     let admin;
     const { id } = req.params;
+    console.log(id);
+    // let [company]=await db.promise().query("SELECT * FROM companies where id_company = ? ",[id]);
 
     const {
       name_job,
@@ -436,9 +440,7 @@ router.post("/addjob_company/:id", loggedIn, async (req, res) => {
       deadline_offer,
     } = req.body;
 
-    const [rows] = await db
-      .promise()
-      .query("INSERT INTO job_company SET ?", {
+     await db.promise().query("INSERT INTO job_company SET ?", {
         name_job: name_job,
         role: role,
         detail_work: detail_work,
@@ -452,20 +454,18 @@ router.post("/addjob_company/:id", loggedIn, async (req, res) => {
         deadline_offer: deadline_offer,
         id_company: id,
       });
+      const [row] = await db
+      .promise()
+      .query("SELECT * FROM job_company  where job_company.id_company = ?", [id]);
 
     const [updatedCompany] = await db
       .promise()
       .query("SELECT * FROM companies  where id_company = ?", [id]);
 
-    if (rows.length === 0) {
+    if (updatedCompany.length === 0) {
       return res.status(404).send("User not found");
     }
-    res.render("addjob", {
-      job: rows[0],
-      company: updatedCompany[0],
-      user,
-      admin,
-    });
+    res.redirect(`/company/joball/${id}`);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -474,45 +474,49 @@ router.post("/addjob_company/:id", loggedIn, async (req, res) => {
 //ได้แล้ว
 router.get("/joball/:id", loggedIn, async (req, res) => {
   try {
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let user;
     let admin;
     const { id } = req.params;
-
-    const [rows] = await db
-      .promise()
-      .query(
-        "SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?",
-        [id]
-      );
-
+    // console.log(id);
+    const [row] = await db.promise().query("SELECT * FROM companies  where id_company = ?", [id]);
+// console.log(row)
+    const [rows] = await db.promise().query("SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?",[id]);
+    // console.log(rows)
     if (rows.length === 0) {
-      return res.status(404).send("User not found");
+      res.redirect(`/company/addjob_company/${id}`);
+    
+    }else {
+
+      res.render("jobgetall", { company: row[0], job: rows, user, admin ,webpage});
     }
 
-    res.render("jobgetall", { company: rows[0], job: rows, user, admin });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
 //////เหลือ Updateที่ยังไม่ได้
-
+///////
 router.get("/updatejob_company/:id", loggedIn, async (req, res) => {
   try {
+    let company;
+    let user;
+    let admin ;
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
-
-    const [rows] = await db
-      .promise()
-      .query(
-        "SELECT * FROM job_company  INNER JOIN companys ON job_company.id_company = companys.id_company where job_company.id_company = ?",
+    // const [row] = await db.promise().query("SELECT * FROM companies  where id_company = ?", [id]);
+//i want to id_company
+    const [rows] = await db.promise().query("SELECT * FROM job_company  INNER JOIN companies ON job_company.id_company = companies.id_company where job_company.idjob_company = ?",
         [id]
       );
+      // console.log(rows[0].id_company);
 
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
 
-    res.render("updatejob", { company: rows[0], job: rows[0] });
+    res.render("updatejob", { company: rows[0], job: rows[0] ,webpage,user,admin});
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -521,8 +525,15 @@ router.get("/updatejob_company/:id", loggedIn, async (req, res) => {
 
 router.post("/updatejob_company/:id/", loggedIn, async (req, res) => {
   try {
+    let company;
+    let admin;
+    let user;
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
-
+    
+    const [rows] = await db.promise().query("SELECT * FROM job_company INNER JOIN companies ON companies.id_company = job_company.id_company WHERE job_company.idjob_company = ?", [id]);
+    const [row] =await db.promise().query("SELECT * FROM companies where id_company = ?",[rows[0].id_company]);
+  
     const {
       name_job,
       role,
@@ -537,10 +548,7 @@ router.post("/updatejob_company/:id/", loggedIn, async (req, res) => {
       deadline_offer,
     } = req.body;
 
-    const [rows] = await db
-      .promise()
-      .query(
-        "UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ?,id = ? WHERE  idjob_company job_company.id_company = ?",
+    await db.promise().query("UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ? WHERE job_company.idjob_company = ?",
         [
           name_job,
           role,
@@ -554,14 +562,16 @@ router.post("/updatejob_company/:id/", loggedIn, async (req, res) => {
           day_off,
           deadline_offer,
           id,
+          
         ]
       );
 
-    if (rows.length === 0) {
+
+    if (rows[0].length === 0) {
       return res.status(404).send("User not found");
     }
-
-    res.redirect("/company/updatejob_company/" + id);
+const currentURL =req.get("Referer")
+    res.redirect(currentURL);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

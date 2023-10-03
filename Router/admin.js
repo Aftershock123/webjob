@@ -2,6 +2,7 @@ const db =require("../Router/db-config");
 const bcrypt = require("bcryptjs");
 const express =require("express");
 const router =express.Router();
+const multer = require("multer");
 const loggedIn =require("../controllers/loggedin")
 
 // router.post('/registeradmin' , async (req, res) => {
@@ -37,20 +38,40 @@ const loggedIn =require("../controllers/loggedin")
 //         });
 //     }
 // });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/image/");
+  },
+  filename: function (req, file, cb) {
+    const image = file ? `${Date.now() + file.originalname}` : "default.png";
+    cb(null, image);
+  },
+});
+const filefilter = (req, file, cb) => {
+  file.mimetype == "image/jpeg" || file.mimetype == "image/png"
+    ? cb(null, true)
+    : cb(null, true);
+};
+
+const upload = multer({ storage: storage, fileFilter: filefilter });
+
 //---------------------------------------------------profile-----------------------------
-router.get('/profile/:id', loggedIn,async (req, res) => {
+router.get('/profile/:id',upload.single("image"), loggedIn,async (req, res) => {
     try {
       let user;
       let company;
       const {id} = req.params;
+      let webpage;
+      [webpage] = await db.promise().query("SELECT * FROM webpage ");
 
       const [rows] = await db.promise().query('SELECT * FROM admins  where id_admin = ?', [id]);
-
+      
       if (rows.length === 0) {
         return res.status(404).send('admin not found');
       }
   
-      res.render('profile', { admin: rows[0] ,user,company});
+      res.render('profile', { admin: rows[0] ,user,company,webpage});
   
     } catch (error) {
       console.error(error);
@@ -58,21 +79,25 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
     }
   });
 
-  router.post('/updateprofile/:id', loggedIn,async (req, res) => {
+  router.post('/updateprofile/:id',upload.single("image"), loggedIn,async (req, res) => {
     try {
       let user;
       let company;
-      const {id} = req.params;
-
-      const {username,email}= req.body;
       
-      const [rows] = await db.promise().query('UPDATE admins SET username = ?, email = ? WHERE admins.id_admin = ?', [username, email, id]);      
+      const {id} = req.params;
+      let webpage;
+      [webpage] = await db.promise().query("SELECT * FROM webpage ");
+      const {username,email}= req.body;
+       const image = req.file ? req.file.filename : "updatedadmin[0].image";
+      
+      const [rows] = await db.promise().query('UPDATE admins SET username = ?, email = ?,image = ? WHERE admins.id_admin = ?', [username, email,image, id]);      
       const [updatedadmin] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);// console.log(rows);
        if (rows.length === 0 ) {
         return res.status(404).send('User not found');
       }
-  
-      res.render('profile', { admin: updatedadmin[0],user,company});
+      // console.log(updatedadmin.image);
+      // console.log(updatedadmin[0].image);
+      res.render('profile', { admin: updatedadmin[0],user,company,webpage});
   
     } catch (error) {
       console.error(error);
@@ -83,17 +108,19 @@ router.get('/profile/:id', loggedIn,async (req, res) => {
 //--------------------------------------------------------web----------------------------------
 router.get('/webpage/:id',loggedIn,async(req,res)=>{
   try{
-    
+    let user;
+    let company;
     const {id} =req.params;
     
-   
-    const [rows] = await db.promise().query('SELECT * FROM webpage');
-   const webpage =rows[0]
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
+    // const [rows] = await db.promise().query('SELECT * FROM webpage');
+  //  const webpage =rows[0]
     res.locals.webpage = webpage;
     // console.log(res.locals.webpage)
     const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
     
-    res.render('webpage', { admin:row[0],webpage});
+    res.render('webpage', { admin:row[0],webpage,user,company,eweb:webpage[0]});
        
   }catch (error) {
     console.error(error);
@@ -102,22 +129,27 @@ router.get('/webpage/:id',loggedIn,async(req,res)=>{
   
   router.post('/editwebpage/:id', loggedIn, async (req, res) => {
     try {
-     
-      const [rows] = await db.promise().query('SELECT * FROM webpage');
-      const webpage =rows[0]
-       res.locals.webpage = webpage;
-      //  console.log(res.locals.webpage.id_webpage)
-       
+      let webpage;
+      [webpage] = await db.promise().query("SELECT * FROM webpage ");
+      let user ;
+      let company;
+      let jobindex;
+      // const [rows] = await db.promise().query('SELECT * FROM webpage');
+      // const webpage =rows[0]
+      // console.log(webpage.id_webpage);
+      //  res.locals.webpage = webpage;
+      //  console.log(res.locals.webpage.id_webpage);
+      
       const { id } = req.params;
       
       const { namepage, address, email, call} = req.body;
+      console.log(webpage[0].id_webpage);
 
-      // Update the webpage details using the webpage ID
-      const [rowq] = await db.promise().query("UPDATE webpage SET namepage = ?, address = ?, email = ?, `call` = ? WHERE id_webpage = ?",
-      [namepage, address, email, call,parseInt(res.locals.webpage.id_webpage)]);
-      // console.log(rowq);
-      // Fetch the updated webpage data
-      const [updatedWebpageRows] = await db.promise().query('SELECT * FROM webpage WHERE id_webpage = ?', [res.locals.webpage.id_webpage]);
+
+   
+      await db.promise().query("UPDATE webpage SET namepage = ?, address = ?, email = ?, `call` = ? WHERE webpage.id_webpage = ?",[namepage, address, email, call,webpage[0].id_webpage]);
+     
+      const [updatedWebpageRows] = await db.promise().query('SELECT * FROM webpage WHERE id_webpage = ?', [webpage[0].id_webpage]);
   
       const [admin] = await db.promise().query('SELECT * FROM admins WHERE id_admin = ?', [id]);
   
@@ -125,7 +157,7 @@ router.get('/webpage/:id',loggedIn,async(req,res)=>{
         return res.status(404).send("User not found");
       }
   
-      res.render('webpage', { admin: admin[0], webpage: updatedWebpageRows[0] });
+      res.redirect("/");
   
     } catch (error) {
       console.error(error);

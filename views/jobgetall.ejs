@@ -26,9 +26,10 @@
                   <div class="card" style="width: 18rem; margin-top: 50px">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
+                      <h5 class="card-title"><%= job.idjob_company %></h5>
                       <h5 class="card-title"><%= job.name_job %></h5>
                       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <button type="submit" class="btn btn-primary"><a href="#"></a>edit</button>
+                      <a  class="nav-link" href="/company/updatejob_company/<%= job.idjob_company %>">edit</a>
                       <button type="reset" class="btn btn-danger">delete</button>
                       <!-- <a  href="company/updatejob_company/:id">edit</a>   เรียกใช้update -->
                     </div>
@@ -49,9 +50,6 @@
                 
                 
 
-<script>
-  
-</script>
     </body>
     
 

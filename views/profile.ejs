@@ -17,17 +17,14 @@
   
   <%- include('navbar') %>
           <% if(user) { %>
-            <form action="/user/updateprofile/<%= user.id_user %>" method="post">
+            <form action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
               <div>
                 <input type="text" id="username" name="username" value="<%= user.username %>" />
                 <label for="username">username</label>
               </div>
-              <div class="data">
-                <label for="image">image</label>
-                <img class="card" src="/image/<%= user.image %>" alt="user Logo"/>
-                <input type="file" id="image" name="image" accept="image/*" />
-          
-              </div>
+              <label for="image">Image</label>
+          <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
+          <img id="imagePreview" src="/image/<%= user.image %>" alt="Default Image" width="100" height="100">
               <div >
                 <ion-icon name="mail-outline"></ion-icon>
                 <input type="email" id="email" name="email" value="<%= user.email %>" />
@@ -37,7 +34,7 @@
               <button type="submit" class="btn btn-primary">save</button>
             </form>
             <% } else if(company) { %>
-              <form action="/company/updateprofile/<%= company.id_company %>" method="post">
+              <form action="/company/updateprofile/<%= company.id_company %>" method="post" enctype="multipart/form-data">
 
                 <div >
                   <input type="text" id="username" name="username" value="<%= company.username %>" />
@@ -46,8 +43,9 @@
                 <div >
                   
                  
-                  <img class="card" src="/image/<%= company.image %>" alt="Company Logo"/>
-                  
+                  <label for="image">Image</label>
+          <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
+          <img id="imagePreview" src="/image/<%= company.image %>" alt="Default Image" width="100" height="100">
                   <!-- <label for="image">image</label> -->
                 </div>
                 <div >
@@ -60,12 +58,15 @@
               </form>
 
               <% } else if(admin) { %>
-                <form action="/admin/updateprofile/<%= admin.id_admin %>" method="post">
+                <form action="/admin/updateprofile/<%= admin.id_admin %>" method="post"enctype="multipart/form-data">
 
                   <div >
                     <input type="text" id="username" name="username" value="<%= admin.username %>" />
                     <label for="username">username</label>
                   </div>
+                  <label for="image">Image</label>
+                  <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
+                  <img id="imagePreview" src="/image/<%= admin.image %>" alt="Default Image" width="100" height="100">
                   <div>
                     <ion-icon name="mail-outline"></ion-icon>
                     <input type="email" id="email" name="email" value="<%= admin.email %>" />
@@ -73,10 +74,33 @@
                   </div>
                   
                   <button type="submit" class="btn btn-primary">save</button>
+                  
                 </form>
 
 
                 <% } %>
+                <script>
+                  function displayImage(event) {
+                    const imagePreview = document.getElementById('imagePreview');
+                    const file = event.target.files[0];
+      
+                    if (file) {
+                      const reader = new FileReader();
+      
+                      reader.onload = function (e) {
+                        imagePreview.src = e.target.result;
+                      }
+      
+                      reader.readAsDataURL(file);
+                    } else {
+                      if(user){
+                      imagePreview.src = '/image/<%= admin.image %>'; // Set default image
+                      } 
+                     
+                    }
+                  }
+      
+                </script>
                   
      
 
