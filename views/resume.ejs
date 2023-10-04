@@ -25,8 +25,8 @@
 <body>
 <!--if resume.id_user ==undefined ให้แสดงหน้าaddแต่ถ้าไม่ให้แสดงhistory -->
 <%- include('navbar') %>
-<% if(resume) { %>
-  <form action="/user/addresume/<%= user.id_user %>" method="post" enctype="multipart/form-data">
+<% if(resume == 'undefined' || resume == null) { %>
+  <form action="/user/addresume/<%= user.id_user %>" method="post">
 
     <div class="inputbox-regis">
       <input type="text" id="professional_summary"  name="professional_summary" />
@@ -68,15 +68,10 @@
             <label for="contact">contact</label>
           </div>
         
-        <!-- <div class="inputbox-regis">
-          <ion-icon name="mail-outline"></ion-icon>
-          <input type="password" id="password" autocomplete="off" required>
-          <label for="password">Password</label>
-        </div> -->
         <button type="submit" class="btn btn-primary">save</button>
 
       </form>
-<% } else { %>
+<% } else  { %>
 
  <form action="/user/updateresume/<%= user.id_user %>" method="post">
 

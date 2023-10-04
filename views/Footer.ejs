@@ -1,8 +1,10 @@
   <!-- Footer -->
   <footer class="text-center text-lg-start bg-white text-muted bg-primary">
     <!-- Section: Social media -->
-    <% if(webpage.length > 0) { %>
-    
+    <%= webpage[0].namepage %>
+    <%= webpage[0].address %>
+    <%= webpage[0].email %>
+    <%= webpage[0].call %>
     <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom bg-warning">
       <!-- Left -->
       <div class="me-5 d-none d-lg-block">
@@ -13,27 +15,27 @@
       <!-- Right -->
       <div >
         <a href="" class="me-4 link-secondary">
-          <%= webpage.facebook %>
+          <%= webpage[0].address %>
           <i class="bi bi-facebook"></i>
         </a>
         <a href="" class="me-4 link-secondary">
-          <%= webpage.twitter %>
+          <%= webpage[0].address %>
           <i class="bi bi-twitter"></i>
         </a>
         <a href="" class="me-4 link-secondary">
-          <%= webpage.google %>
+          <%= webpage[0].address %>
           <i class="bi bi-google"></i>
         </a>
         <a href="" class="me-4 link-secondary">
-          <%= webpage.instagram %>
+          <%= webpage[0].address %>
           <i class="bi bi-instagram"></i>
         </a>
         <a href="" class="me-4 link-secondary">
-          <%= webpage.linkedin %>
+          <%= webpage[0].address %>
           <i class="bi bi-linkedin"></i>
         </a>
         <a href="" class="me-4 link-secondary">
-          <%= webpage.github %>
+          <%= webpage[0].address %>
           <i class="bi bi-github"></i>
         </a>
       </div>
@@ -50,7 +52,7 @@
           <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
             <!-- Content -->
             <h6 class="text-uppercase fw-bold mb-4">
-              <i class="bi bi-gem me-3 text-secondary"></i><%= webpage.name %>
+              <i class="bi bi-gem me-3 text-secondary"></i> <%= webpage[0].address %>
             </h6>
             <p>
               Here you can use rows and columns to organize your footer content. Lorem ipsum
@@ -119,35 +121,12 @@
       </div>
     </section>
     <!-- Section: Links  -->
-<% } else {%>
-<script> console.log("fail data webpage")</script>
-<% } %>
 
 
 
 
-<!-- เอาไว้ใส่ข้อมูลหน้าweb ยังไม่ทำdatabase
-  ใช้แค่อัพเดตเอาที่เหลือใส่เป้นdefault
-<div class="inputbox-regis">
-  <input type="text" id="gender"  name="gender" value="<%= job.gender %>" />
-  <label for="gender">gender</label>
-</div>
-<div class="inputbox-regis">
-  <input type="text" id="gender"  name="gender" value="<%= job.gender %>" />
-  <label for="gender">gender</label>
-</div>
-<div class="inputbox-regis">
-  <input type="text" id="gender"  name="gender" value="<%= job.gender %>" />
-  <label for="gender">gender</label>
-</div>
-<div class="inputbox-regis">
-  <input type="text" id="gender"  name="gender" value="<%= job.gender %>" />
-  <label for="gender">gender</label>
-</div>
-<div class="inputbox-regis">
-  <input type="text" id="gender"  name="gender" value="<%= job.gender %>" />
-  <label for="gender">gender</label>
-</div> -->
+
+
 
 
 

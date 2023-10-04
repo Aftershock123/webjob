@@ -16,7 +16,7 @@
 <body>
   
   <%- include('navbar') %>
-          <% if(user) { %>
+          
             <form action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
               <div>
                 <input type="text" id="username" name="username" value="<%= user.username %>" />
@@ -33,52 +33,10 @@
               
               <button type="submit" class="btn btn-primary">save</button>
             </form>
-            <% } else if(company) { %>
-              <form action="/company/updateprofile/<%= company.id_company %>" method="post" enctype="multipart/form-data">
-
-                <div >
-                  <input type="text" id="username" name="username" value="<%= company.username %>" />
-                  <label for="username">username</label>
-                </div>
-                <div >
-                  
-                 
-                  <label for="image">Image</label>
-          <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
-          <img id="imagePreview" src="/image/<%= company.image %>" alt="Default Image" width="100" height="100">
-                  <!-- <label for="image">image</label> -->
-                </div>
-                <div >
-                  <ion-icon name="mail-outline"></ion-icon>
-                  <input type="email" id="email" name="email" value="<%= company.email %>" />
-                  <label for="email">Email</label>
-                </div>
-               
-                <button type="submit" class="btn btn-primary">save</button>
-              </form>
-
-              <% } else if(admin) { %>
-                <form action="/admin/updateprofile/<%= admin.id_admin %>" method="post"enctype="multipart/form-data">
-
-                  <div >
-                    <input type="text" id="username" name="username" value="<%= admin.username %>" />
-                    <label for="username">username</label>
-                  </div>
-                  <label for="image">Image</label>
-                  <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
-                  <img id="imagePreview" src="/image/<%= admin.image %>" alt="Default Image" width="100" height="100">
-                  <div>
-                    <ion-icon name="mail-outline"></ion-icon>
-                    <input type="email" id="email" name="email" value="<%= admin.email %>" />
-                    <label for="email">Email</label>
-                  </div>
-                  
-                  <button type="submit" class="btn btn-primary">save</button>
-                  
-                </form>
+            
 
 
-                <% } %>
+                
                 <script>
                   function displayImage(event) {
                     const imagePreview = document.getElementById('imagePreview');
@@ -94,7 +52,7 @@
                       reader.readAsDataURL(file);
                     } else {
                       if(user){
-                      imagePreview.src = '/image/<%= admin.image %>'; // Set default image
+                      imagePreview.src = '/image/<%= user.image %>'; // Set default image
                       } 
                      
                     }

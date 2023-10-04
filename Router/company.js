@@ -35,6 +35,7 @@ router.post(
   upload.single("image"),
   signUpValidation,
   async (req, res) => {
+    
     let admin;
     let user;
     let company;
@@ -295,6 +296,7 @@ router.get("/changepassword/:id", async (req, res) => {
 
 router.post("/changepassword/:id", loggedIn, async (req, res, next) => {
   try {
+
     const { id } = req.params;
     const token = req.body.otp;
     console.log("token: " + token);
@@ -357,7 +359,7 @@ router.get("/profile/:id", loggedIn, async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    res.render("profile", { company: rows[0], user, admin ,webpage});
+    res.render("profilecompany", { company: rows[0], user, admin ,webpage});
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

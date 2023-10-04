@@ -5,14 +5,32 @@ const path =require('path')
 const ejs =require('ejs')
 const nodemailer = require("nodemailer");
 const fs = require("fs");
+const puppeteer = require('puppeteer');
 
 
-const generatePDF = async (email,mailSubjects ,data,name) =>{
+const generatePDF = async (email,mailSubjects ,data,name,emailcom) =>{
   try{
+    
+    const pdfFolder = path.join(__dirname,"../public/pdf" );
+    const pdfFileName = `${name}_resume_${Date.now()}.pdf`;
+    const pdfPath = path.join(pdfFolder, pdfFileName);
+    
+    const browser = await puppeteer.launch({ headless: "new" });
+    const page = await browser.newPage();
+    await page.setContent(data);
+   
+    await page.pdf({ path: pdfPath, format: 'A4' });
 
+  await browser.close();
 
-    console.log("hahahahahahahahahahahah");
-console.log(data.username);
+  console.log('PDF created at:', pdfPath);
+    // const doc = new PDFDocument();
+    // doc.pipe(fs.createWriteStream(pdfPath));
+    // doc.text(data, 50, 50);
+    // doc.end();
+
+//     console.log("hahahahahahahahahahahah");
+// console.log(data.username);
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -21,22 +39,14 @@ console.log(data.username);
       }
     });
   
-    const pdfFolder = path.join(__dirname,"../public/pdf" );
-    const pdfFileName = `${name}_resume_${Date.now()}.pdf`;
-    const pdfPath = path.join(pdfFolder, pdfFileName);
-    
-    const doc = new PDFDocument();
-    doc.pipe(fs.createWriteStream(pdfPath));
-    doc.text(data, 50, 50);
-    doc.end();
     
 
    
    
-      console.log("kkkkkkkkkkkkkkkkkk");
+      // console.log("kkkkkkkkkkkkkkkkkk");
       const mailOptions = {
         from: "Andrew.ColtOoO@gmail.com",
-        to: email,
+        to: email,emailcom,
         subject: mailSubjects,
         attachments: [{
           filename:  pdfFileName,

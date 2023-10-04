@@ -71,7 +71,7 @@ router.get('/profile/:id',upload.single("image"), loggedIn,async (req, res) => {
         return res.status(404).send('admin not found');
       }
   
-      res.render('profile', { admin: rows[0] ,user,company,webpage});
+      res.render('profileadmin', { admin: rows[0] ,user,company,webpage});
   
     } catch (error) {
       console.error(error);

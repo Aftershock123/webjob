@@ -299,22 +299,15 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
 
     const { id } = req.params;
 
-    const [rows] = await db
-      .promise()
-      .query("SELECT * FROM users where users.id_user = ?", [id]);
-    let [resume] = await db
-      .promise()
-      .query(
-        "SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?",
-        [id]
-      );
-    console.log(resume);
-    // const [rows] = await db.promise().query('SELECT * FROM users  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?', [id]);
-    if (rows.length === 0) {
-      return res.status(404).send("User not found");
-    }
+    const [rows] = await db.promise().query("SELECT * FROM users WHERE id_user = ?", [id]);
 
-    res.render("resume", { user: rows[0], resume, company, admin, webpage });
+    // Fetch resume data
+    const [resumeRows] = await db.promise().query("SELECT * FROM resume WHERE id_user = ?", [id]);
+
+    // Check if resume data exists
+    const resume = resumeRows.length > 0 ? resumeRows[0] : null;
+
+    res.render("resume", { user: rows[0], resume:resumeRows[0], company, admin, webpage });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -363,14 +356,9 @@ router.post("/addresume/:id", loggedIn, async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
-
-    res.render("resume", {
-      user: rows[0],
-      resume: row[0],
-      company,
-      admin,
-      webpage,
-    });
+    // /updateresume/:id
+    res.render("resume", { user: rows[0], resume:row[0], company, admin, webpage });
+    // res.redirect(`/updateresume/${id}`);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -379,33 +367,7 @@ router.post("/addresume/:id", loggedIn, async (req, res) => {
 
 //ไม่โชว์ข้อมูลล่าสุดที่เพิ่ม
 //เพิ่มแล้วลบอันเก่าออกเลย ยังไม่ได้ทำแค่คิดเฉยๆแก้ปันหาเพิ่มแล้วค่าล่าสุดไม่มา
-router.get("/updateresume/:id", loggedIn, async (req, res) => {
-  try {
-    let company;
-    let admin;
-    let webpage;
-    [webpage] = await db.promise().query("SELECT * FROM webpage ");
-    const { id } = req.params;
-    // console.log(id);
 
-    const [rows] = await db
-      .promise()
-      .query(
-        "SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?",
-        [id]
-      );
-
-    // console.log(rows);
-    if (rows.length === 0) {
-      return res.status(404).send("User not found");
-    }
-
-    res.render("resume", { user: rows[0], resume: rows, company, admin });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
 
 //ได้แล้ว
 router.post("/updateresume/:id", loggedIn, async (req, res) => {
@@ -414,6 +376,7 @@ router.post("/updateresume/:id", loggedIn, async (req, res) => {
     [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let user;
     let company;
+    let admin;
 
     const { id } = req.params;
 
@@ -426,7 +389,7 @@ router.post("/updateresume/:id", loggedIn, async (req, res) => {
       interests,
       contact,
     } = req.body;
-
+    const [row1] = await db.promise().query("SELECT * FROM users WHERE id_user = ?", [id]);
     const [rows] = await db
       .promise()
       .query(
@@ -442,17 +405,19 @@ router.post("/updateresume/:id", loggedIn, async (req, res) => {
           id,
         ]
       );
+      const [row] = await db
+            .promise()
+            .query(
+              "SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?",
+              [id]
+            );
+      
 
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
-    res.render("resume", {
-      user: rows[0],
-      resume: rows,
-      company,
-      admin,
-      webpage,
-    });
+    // res.redirect(`/user/updateresume/${id}` );
+    res.render("resume", { user: row1[0], resume:row[0], company, admin, webpage });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -655,16 +620,17 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
   let user;
   let webpage;
   [webpage] = await db.promise().query("SELECT * FROM webpage ");
-  console.log(userId); //128
-  console.log(jobId); //14
+  // console.log(userId); //128
+  // console.log(jobId); //14
   const [rows] = await db
     .promise()
     .query(
       "SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.idjob_company = ?",
       [jobId]
     );
-  console.log(rows);
-  console.log("rows");
+  // console.log(rows[0].id_company);
+  // console.log("rows");
+  let emailcom =rows[0].id_company;
 
   const [row] = await db
     .promise()
@@ -672,9 +638,9 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
       "SELECT * FROM resume  inner join users  on resume.id_user = users.id_user where  resume.id_user = ?",
       [userId]
     );
-  console.log(row);
-  console.log("row");
-  console.log( row[0].id_resume);//11
+  // console.log(row);
+  // console.log("row");
+  // console.log( row[0].id_resume);//11
   try {
     db.query("INSERT INTO historyuser SET ?", {
       id_resume: row[0].id_resume,
@@ -682,7 +648,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
     });
     let mailSubjects = "resume";
     const content = row;
-    // console.log(content[0].username);
+    console.log(content[0]);
     // console.log("content");
     const name = content[0].username;
     let email = row[0].email;
@@ -692,8 +658,8 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
     const data = await ejs.renderFile(TemplatePath, { content });
     console.log(content[0].id_resume);
     // console.log(data);
-
-    await generatePDF(email, mailSubjects, data, name);
+///emailcom จริงๆไม่ต้องใช้emailก็ได้ที่ใช้เพราะเช็คค่า
+    await generatePDF(email, mailSubjects, data, name,emailcom);
     let [roww] = await db
       .promise()
       .query(
@@ -706,7 +672,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
           }
         }
       );
-    console.log(roww[0]);
+  
     res.render("profile", { user: roww[0], company, admin, webpage });
     //เรียกใช้router.get profile
   } catch (error) {
