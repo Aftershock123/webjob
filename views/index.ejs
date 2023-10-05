@@ -19,7 +19,7 @@
   
     <% if(status==="loggedIn") { %>
       
-      <% if(user) { %>
+      <% if(user && user.status ==="active") { %>
         
         <% if(jobindex.length > 0) { %>
           <% jobindex.forEach((jobindex) => {%>

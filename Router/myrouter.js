@@ -247,7 +247,10 @@ router.get("/", loggedIn, async (req, res) => {
     if (res.locals.users) {
       status = "loggedIn";
       user = res.locals.users;
-      // console.log(user);
+      if( user.status=== "active"){
+      
+      
+      
       [companyindex] = await db.promise().query("SELECT * FROM companies ");
       // console.log(companyindex);
       [jobindex] = await db
@@ -260,7 +263,9 @@ router.get("/", loggedIn, async (req, res) => {
       // console.log(resumeindex);
       [webpage] = await db.promise().query("SELECT * FROM webpage ");
     
-    
+        }else{
+          return res.render("banuser", { status, user, company, admin ,webpage});
+        }
     // console.log(webpage);
     // res.locals.webpage=webpage;
     // console.log(res.locals.webpage);
