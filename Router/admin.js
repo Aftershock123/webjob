@@ -165,9 +165,87 @@ router.get('/webpage/:id',loggedIn,async(req,res)=>{
     }
   });
   
+router.get("/usermanagement/:id", loggedIn, upload.single("image"), async (req, res) => {
+try{
+  let {id} =req.params
+  let user ;
+  let company;
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
+  let admin ;
+ let [usermanage] = await db.promise().query("SELECT * FROM users ");
+//  console.log(usermanage);
+  const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
+ res.render("usermanagement",{admin:row[0],usermanage,webpage,user,company})
+}catch(error){
+
+}
+
+});
+
+router.post("/unban/:id", loggedIn, async(req,res) =>{
+  try{
+    let id  = req.params.id;
+  
+    let admin ;
+    let user ;
+    
+    await db.promise().execute('UPDATE users SET status = ? WHERE id_user = ?', ['banned', id]);
+  // console.log(`User with ID ${id} has been banned.`);
+  res.redirect(`/admin/usermanagement/${id}`);
+}
+catch (error) {
+  console.error('Error banning user:', error);
+}
+});
+  
+
+router.post("/ban/:id", loggedIn, async(req,res) =>{
+  try{
+    let id  = req.params.id;
+    let admin ;
+    let user ;
+   
+    await db.promise().execute('UPDATE users SET status = ? WHERE id_user = ?', ['active', id]);
+  // console.log(`User with ID ${id} has been unbanned.`);
+  res.redirect(`/admin/usermanagement/${id}`);
+}
+catch (error) {
+  console.error('Error banning user:', error);
+}
+  
+});
 
 
 
+
+//provecompany
+
+// router.get("/companymanagement/:id", loggedIn, async (req, res) => {
+//   try{
+//     let {id} =req.params
+//     let webpage;
+//     [webpage] = await db.promise().query("SELECT * FROM webpage ");
+//     let admin ;
+//    let [usermanage] = await db.promise().query("SELECT * FROM companies ");
+//     const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
+//    res.render("usermanagement",{admin:row[0],usermanage})
+//   }catch(error){
+  
+//   }});
+
+// router.post("/companymanagement/:id", loggedIn, async (req, res) => {
+//   try{
+//     let {id} =req.params
+//     let webpage;
+//     [webpage] = await db.promise().query("SELECT * FROM webpage ");
+//     let admin ;
+//    let [usermanage] = await db.promise().query("SELECT * FROM companies ");
+//     const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
+//    res.render("usermanagement",{admin:row[0],usermanage})
+//   }catch(error){
+  
+//   }});
   
 
 
