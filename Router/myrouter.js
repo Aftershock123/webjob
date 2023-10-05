@@ -3,29 +3,36 @@ const logout = require("../controllers/logout");
 const db = require("../Router/db-config");
 const loggedIn = require("../controllers/loggedin");
 const router = express.Router();
-const nodemailer = require("nodemailer");
 
 const sendMail = require("../controllers/sendmail");
 const path = require("path");
 const ejs = require("ejs");
 const bcrypt = require("bcryptjs");
-const { Script } = require("vm");
+
 
 router.get("/forgotpassword", async (req, res) => {
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
   let user;
+  let company;
+  let admin;
   const [row] = await db.promise().query("SELECT * FROM users");
-  res.render("forgotpassword", { user: row[0] });
+  res.render("forgotpassword", { user: row[0] ,webpage,company,admin});
 });
 
 router.get("/forget", async (req, res) => {
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
   let user;
   let company;
+  let admin;
 
-  res.render("forget", { user, company });
+  res.render("forget", { user, company,admin,webpage });
 });
 
 router.post("/forget/:email", loggedIn, async (req, res) => {
   try {
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
     let user;
@@ -66,7 +73,7 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
                 }
               }
             );
-          return res.render("emailverify", { user: result[0], company, admin });
+          return res.render("emailverify", { user: result[0], company, admin,webpage });
         } else if (result.length === 0) {
           db.query(
             "SELECT * FROM companies where companies.email = ?",
@@ -103,6 +110,7 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
                 user: result[0],
                 company,
                 admin,
+                webpage
               });
             }
           );
@@ -118,6 +126,8 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
 });
 
 router.get("/forgetchangepassword/:id", async (req, res) => {
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
   let company;
   let admin;
   let status = res.locals.status;
@@ -138,11 +148,14 @@ router.get("/forgetchangepassword/:id", async (req, res) => {
     user: row[0],
     admin,
     status,
+    webpage
   });
 });
 
 router.post("/forgetchangepassword/:id", loggedIn, async (req, res, next) => {
   try {
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
     const token = req.body.otp;
     console.log("token: " + token);
@@ -391,7 +404,9 @@ router.get("/registeradmin", (req, res) => {
 
 router.get("/logout", logout);
 
-router.get("/emailverify", (req, res) => {
+router.get("/emailverify", async(req, res) => {
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
   let company;
   let admin;
   res.locals.status = "no";
@@ -400,7 +415,7 @@ router.get("/emailverify", (req, res) => {
   // console.log(res.locals.status);
   // console.log(status);
 
-  return res.render("emailverify", company, user, admin, status);
+  return res.render("emailverify", company, user, admin, status,webpage);
 });
 
 module.exports = router;

@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const express = require("express");
 const { validationResult } = require("express-validator");
 const { signUpValidation } = require("../controllers/validation");
-const fs = require("fs");
 const crypto = require("crypto");
 const router = express.Router();
 const loggedIn = require("../controllers/loggedin");
@@ -122,6 +121,8 @@ router.post(
 
 router.get("/verify", async (req, res) => {
   try {
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let user;
     let company;
     let admin;
@@ -160,7 +161,7 @@ router.get("/verify", async (req, res) => {
               }
 
               console.log("Update result:", updateResult);
-              return res.render("login", { user, company, admin });
+              return res.render("login", { user, company, admin ,webpage});
             }
           );
         } else {
@@ -185,40 +186,38 @@ router.get(
     try {
       let company;
       let admin;
+      let history;
+      let resume;
       const { id } = req.params;
 
       let [webpage] = await db.promise().query("SELECT * FROM webpage ");
-      const [rows] = await db
-        .promise()
-        .query("SELECT * FROM users  where id_user = ?", [id]);
-      console.log(rows);
-      let [resume] = await db
-        .promise()
-        .query("SELECT * FROM resume where resume.id_user = ?", [id]);
-
-      if (resume) {
+      const [rows] = await db.promise().query("SELECT * FROM users  where id_user = ?", [id]);
+      // console.log(rows);
+      let [row] = await db.promise().query("SELECT * FROM resume where resume.id_user = ?", [id]);
+      // console.log(row);
+      const [row1] = await db.promise().query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [row[0].id_resume]);
+      // console.log("his:" ,row1);
+      if (row1.length == 0) {
+         res.render("profile", { user: rows[0], company, admin, webpage,resume:row[0],history });
       } else {
-        console.log(row4);
-        const [row1] = await db
-          .promise()
-          .query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [
-            row4[0].id_resume,
-          ]);
-        console.log(row1);
-        const [row2] = await db
-          .promise()
-          .query(
-            "SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company where job_company.idjob_company = ? ",
-            [row1[0].idjob_company]
-          );
-        console.log(row2);
-      }
+        console.log("hishhhhhhhhhhhhhhhhh:" ,row1);
+        // for(let i=0 ;i < row1.length;i++){
+        const [row2] = await db.promise().query("SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company  inner join historyuser on job_company.idjob_company = historyuser.idjob_company where historyuser.id_resume = ? ",[row[0].id_resume]);
+        console.log("job:" ,[row2]);
 
-      if (rows.length === 0) {
-        return res.status(404).send("User not found");
-      }
+        return  res.render("profile", { user: rows[0], company, admin, webpage,resume:row[0],history:row2 });
+      
+      
+    }
+    //     if (rows.length === 0) {
+    //       return res.status(404).send("User not found");
+    //     }
+  
+        
+      
+      
+        
 
-      res.render("profile", { user: rows[0], company, admin, webpage });
       // if(jobId){
 
       //   res.redirect('/user/:resumeId/job/:jobId');
@@ -533,6 +532,8 @@ router.get("/changepassword/:id", async (req, res) => {
 
 router.post("/changepassword/:id", loggedIn, async (req, res, next) => {
   try {
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
     const token = req.body.otp;
     console.log("token: " + token);
@@ -613,12 +614,15 @@ router.get("/pdf/:id", loggedIn, async (req, res) => {
 });
 
 router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
+  try {
   const userId = req.params.userId; // Extract the user ID
   const jobId = req.params.jobId; // Extract the order ID
   let company;
   let admin;
   let user;
   let webpage;
+  let history;
+  let resume;
   [webpage] = await db.promise().query("SELECT * FROM webpage ");
   // console.log(userId); //128
   // console.log(jobId); //14
@@ -641,14 +645,23 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
   // console.log(row);
   // console.log("row");
   // console.log( row[0].id_resume);//11
-  try {
+ 
     db.query("INSERT INTO historyuser SET ?", {
       id_resume: row[0].id_resume,
       idjob_company: jobId,
     });
+    const [rowss] = await db
+    .promise()
+    .query(
+      "SELECT * FROM historyuser   where  historyuser.id_resume = ?",
+      [row[0].id_resume]
+    );
+
+
+    console.log(rowss);
     let mailSubjects = "resume";
     const content = row;
-    console.log(content[0]);
+    console.log("ssssssssssssssssssssssssssssssssssssss",content[0]);
     // console.log("content");
     const name = content[0].username;
     let email = row[0].email;
@@ -656,7 +669,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
 
     const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
     const data = await ejs.renderFile(TemplatePath, { content });
-    console.log(content[0].id_resume);
+    // console.log(content[0].id_resume);
     // console.log(data);
 ///emailcom จริงๆไม่ต้องใช้emailก็ได้ที่ใช้เพราะเช็คค่า
     await generatePDF(email, mailSubjects, data, name,emailcom);
@@ -673,7 +686,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
         }
       );
   
-    res.render("profile", { user: roww[0], company, admin, webpage });
+      res.render("profile", { user: roww[0], company, admin, webpage, resume: row ,history:rowss});
     //เรียกใช้router.get profile
   } catch (error) {
     console.log("Internal server error");

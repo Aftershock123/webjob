@@ -33,8 +33,31 @@
               
               <button type="submit" class="btn btn-primary">save</button>
             </form>
-            
+           <% if (history == 'undefined' || history == null) { %>
+        <p>adsadadasdads</p>
 
+            <%}else {%>
+              
+              <% if (history.length > 0) { %>
+                <% history.forEach((historyItem) => { %> <!-- Added ( before historyItem -->
+                  
+                  <p class="card-text"><%= historyItem.id_resume %></p> 
+                  <p class="card-text"><%= historyItem.id_historyuser %></p>
+                  <p class="card-text"><%= historyItem.id_company %></p>
+                  <div class="col-3 p-4 border bg-light">
+                    <div class="card text-center" style="width: 15rem;">
+                      <img class="card-img-top" src="./image/AIS.png" alt="Card image cap">
+                      <div class="card-body">
+                        <!-- Content for card body -->
+                      </div>
+                    </div>
+                  </div>
+                <% }); %> <!-- Corrected the location of closing }); -->
+              <% } %>
+              
+              
+
+          <%  } %>
 
                 
                 <script>
