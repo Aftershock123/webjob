@@ -173,9 +173,9 @@ try{
   let webpage;
   [webpage] = await db.promise().query("SELECT * FROM webpage ");
   let admin ;
+  const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
  let [usermanage] = await db.promise().query("SELECT * FROM users ");
 //  console.log(usermanage);
-  const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
  res.render("usermanagement",{admin:row[0],usermanage,webpage,user,company})
 }catch(error){
 
@@ -183,16 +183,48 @@ try{
 
 });
 
-router.post("/unban/:id", loggedIn, async(req,res) =>{
+
+
+
+router.get("/companymanagement/:id", loggedIn, upload.single("image"), async (req, res) => {
   try{
-    let id  = req.params.id;
+    let {id} =req.params
+    
+    let user ;
+    let company;
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
+    let admin ;
+    const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
+   let [companymanage] = await db.promise().query("SELECT * FROM companies ");
+  //  console.log(usermanage);
+   res.render("companymanagement",{admin:row[0],companymanage,webpage,user,company})
+  }catch(error){
   
+  }
+  
+  });
+
+
+
+
+router.post("/ban/:id", loggedIn, async(req,res) =>{
+  try{
+    let id  = req.body.id;
+    
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
+    
+    const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
+   let [companymanage] = await db.promise().query("SELECT * FROM companies ");
     let admin ;
     let user ;
     
     await db.promise().execute('UPDATE users SET status = ? WHERE id_user = ?', ['banned', id]);
+    
   // console.log(`User with ID ${id} has been banned.`);
-  res.redirect(`/admin/usermanagement/${id}`);
+  const currentURL =req.get("Referer")
+    res.redirect(currentURL);
 }
 catch (error) {
   console.error('Error banning user:', error);
@@ -200,7 +232,7 @@ catch (error) {
 });
   
 
-router.post("/ban/:id", loggedIn, async(req,res) =>{
+router.post("/unban/:id", loggedIn, async(req,res) =>{
   try{
     let id  = req.params.id;
     let admin ;
@@ -208,7 +240,43 @@ router.post("/ban/:id", loggedIn, async(req,res) =>{
    
     await db.promise().execute('UPDATE users SET status = ? WHERE id_user = ?', ['active', id]);
   // console.log(`User with ID ${id} has been unbanned.`);
-  res.redirect(`/admin/usermanagement/${id}`);
+  const currentURL =req.get("Referer")
+  res.redirect(currentURL);
+}
+catch (error) {
+  console.error('Error banning user:', error);
+}
+  
+});
+
+router.post("/bancompany/:id", loggedIn, async(req,res) =>{
+  try{
+    let id  = req.params.id;
+  
+    let admin ;
+    let user ;
+    
+    await db.promise().execute('UPDATE companies SET status = ? WHERE id_company = ?', ['banned', id]);
+  // console.log(`User with ID ${id} has been banned.`);
+  const currentURL =req.get("Referer")
+  res.redirect(currentURL);
+}
+catch (error) {
+  console.error('Error banning user:', error);
+}
+});
+  
+
+router.post("/unbancompany/:id", loggedIn, async(req,res) =>{
+  try{
+    let id  = req.params.id;
+    let admin ;
+    let user ;
+   
+    await db.promise().execute('UPDATE companies SET status = ? WHERE id_company = ?', ['active', id]);
+  // console.log(`User with ID ${id} has been unbanned.`);
+  const currentURL =req.get("Referer")
+    res.redirect(currentURL);
 }
 catch (error) {
   console.error('Error banning user:', error);

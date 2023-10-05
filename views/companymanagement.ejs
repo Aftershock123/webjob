@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <%- include('navbar') %>
+
+
+  
+  <section class="intro">
+    <div class="bg-image h-100" style="background-color: #f5f7fa;">
+      <div class="mask d-flex align-items-center h-100">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body p-0">
+                  <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px;">
+                    <% if (companymanage.length > 0) { %>
+                    <table class="table table-striped mb-0">
+                      <thead style="background-color: #0d6af5;">
+                        <tr>
+                          <th scope="col">Company ID</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Username</th>
+                          <th scope="col">Image</th>
+                          <th scope="col">status</th>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% companymanage.forEach((company) => { %>
+                        <!-- Table rows for class information -->
+                        <tr>
+                          <td><%= company.id_company %></td>
+                          <td><%= company.email %></td>
+                          <td><%= company.username %></td>
+                          <td><%= company.status %></td>
+                          <td> <img src="/image/<%= company.image %>" class="img-fluid"></td>
+                          <td> 
+                            <form action="/admin/bancompany/<%= company.id_company %>" method="post">
+                            <input type="hidden" name="id" value="<%= company.id_company %>">
+                            <button type="submit" name="action" value="ban">Ban User</button>
+                          </form>
+                        </td>
+                        <td>
+                          <form action="/admin/unbancompany/<%=  company.id_company %>" method="post">
+                            <input type="hidden" name="id" value="<%= company.id_company %>">
+                            <button type="submit" name="action" value="unban">Unban User</button>
+                          </form>
+                        </td>
+                        </tr>
+                        <% }); %>
+                        <!-- ... (other rows for class information) ... -->
+                      </tbody>
+                    </table>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+
+
+</body>
+
+</html>

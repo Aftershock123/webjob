@@ -63,7 +63,7 @@
           <p> no data</p>
           <% } %>
 
-          <% } else if(company) { %>
+          <% } else if(company && company.status ==="active") { %>
             <% if(jobindex.length > 0) { %>
               <% jobindex.forEach((jobindex) => {%>
                 <% if( jobindex != undefined) { %>

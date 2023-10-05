@@ -272,6 +272,7 @@ router.get("/", loggedIn, async (req, res) => {
     } else if (res.locals.companys) {
       status = "loggedIn";
       company = res.locals.companys;
+      if( company.status=== "active"){
       // console.log(company);
       [jobindex] = await db
         .promise()
@@ -286,6 +287,9 @@ router.get("/", loggedIn, async (req, res) => {
       [adminindex] = await db.promise().query("SELECT * FROM admins ");
       // console.log(req.body.adminindex);
       [webpage] = await db.promise().query("SELECT * FROM webpage ");
+    }else{
+      return res.render("bancompany", { status, user, company, admin ,webpage});
+    }
     } else if (res.locals.admins) {
       status = "loggedIn";
       admin = res.locals.admins;
