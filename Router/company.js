@@ -8,6 +8,7 @@ const fs = require("fs");
 const crypto = require("crypto");
 const { validationResult } = require("express-validator");
 const { signUpValidation } = require("../controllers/validation");
+
 const sendMail = require("../controllers/sendmail");
 const path = require("path");
 const ejs = require("ejs");
@@ -473,6 +474,49 @@ router.post("/addjob_company/:id", loggedIn, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+
+
+//ปุ้มปิดงาน
+
+router.post("/banjob/:id", loggedIn, async(req,res) =>{
+  try{
+    let id  = req.body.id;
+    
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
+    
+    let admin ;
+    let user ;
+    
+    await db.promise().execute('UPDATE job_company SET status = ? WHERE idjob_company = ?', ['banned', id]);
+    
+  // console.log(`User with ID ${id} has been banned.`);
+  const currentURL =req.get("Referer")
+    res.redirect(currentURL);
+}
+catch (error) {
+  console.error('Error banning user:', error);
+}
+});
+  
+
+router.post("/unbanjob/:id", loggedIn, async(req,res) =>{
+  try{
+    let id  = req.params.id;
+    let admin ;
+    let user ;
+   
+    await db.promise().execute('UPDATE job_company SET status = ? WHERE idjob_company = ?', ['active', id]);
+  // console.log(`User with ID ${id} has been unbanned.`);
+  const currentURL =req.get("Referer")
+  res.redirect(currentURL);
+}
+catch (error) {
+  console.error('Error banning user:', error);
+}
+  
+});
 //ได้แล้ว
 router.get("/joball/:id", loggedIn, async (req, res) => {
   try {
@@ -509,10 +553,11 @@ router.get("/updatejob_company/:id", loggedIn, async (req, res) => {
     const { id } = req.params;
     // const [row] = await db.promise().query("SELECT * FROM companies  where id_company = ?", [id]);
 //i want to id_company
-    const [rows] = await db.promise().query("SELECT * FROM job_company  INNER JOIN companies ON job_company.id_company = companies.id_company where job_company.idjob_company = ?",
+    const [rows] = await db.promise().query("SELECT *,DATE_FORMAT(deadline_offer, '%Y-%m-%dT%H:%i')as deadline_offer FROM job_company  INNER JOIN companies ON job_company.id_company = companies.id_company where job_company.idjob_company = ?",
         [id]
       );
       // console.log(rows[0].id_company);
+      
 
     if (rows.length === 0) {
       return res.status(404).send("User not found");

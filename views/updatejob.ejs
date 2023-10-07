@@ -71,17 +71,22 @@
               <label for="day_off">day_off</label>
             </div>
 
-
+           
             <div class="inputbox-regis">
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="text" id="deadline_offer" name= "deadline_offer"value="<%= job.deadline_offer %>" />
+                <input type="datetime-local" id="deadline_offer" name= "deadline_offer"value="<%= job.deadline_offer %>" />
                 <label for="deadline_offer">deadline_offer</label>
                  </div>
+
+              
+              
+             
         
             
         <button type="submit" class="btn btn-wanning">save</button> 
     
       </form> 
+      
 </body>
 
 </html>

@@ -31,6 +31,16 @@
                       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                       <a  class="nav-link" href="/company/updatejob_company/<%= job.idjob_company %>">edit</a>
                       <button type="reset" class="btn btn-danger">delete</button>
+                      <form action="/company/banjob/<%= job.idjob_company %>" method="post">
+                        <input type="hidden" name="id" value="<%= job.idjob_company %>">
+                        <button type="submit" name="action" value="ban">Close Job</button>
+                      </form>
+                    </td>
+                    <td>
+                      <form action="/company/unbanjob/<%= job.idjob_company %>" method="post">
+                        <input type="hidden" name="id" value="<%= job.idjob_company %>">
+                        <button type="submit" name="action" value="unban">Open Job</button>
+                      </form>
                       <!-- <a  href="company/updatejob_company/:id">edit</a>   เรียกใช้update -->
                     </div>
                   </div>

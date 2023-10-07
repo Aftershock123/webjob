@@ -8,7 +8,7 @@ const sendMail = require("../controllers/sendmail");
 const path = require("path");
 const ejs = require("ejs");
 const bcrypt = require("bcryptjs");
-
+const Deadlinedata = require("../controllers/deadlinedata");
 
 router.get("/forgotpassword", async (req, res) => {
   let webpage;
@@ -242,7 +242,7 @@ router.get("/", loggedIn, async (req, res) => {
     let companyindex;
     let userindex;
     let webpage;
-    
+   
 
     if (res.locals.users) {
       status = "loggedIn";
@@ -256,9 +256,11 @@ router.get("/", loggedIn, async (req, res) => {
       [jobindex] = await db
         .promise()
         .query(
-          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company '
+          'SELECT * ,DATE_FORMAT(deadline_offer,  "%Y-%m-%dT%H:%i")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company '
         );
-      // console.log(jobindex);
+        
+      // console.log([jobindex]);
+      // await Deadlinedata(jobindex);
       [resumeindex] = await db.promise().query("SELECT * FROM resume ");
       // console.log(resumeindex);
       [webpage] = await db.promise().query("SELECT * FROM webpage ");
@@ -274,12 +276,42 @@ router.get("/", loggedIn, async (req, res) => {
       company = res.locals.companys;
       if( company.status=== "active"){
       // console.log(company);
-      [jobindex] = await db
-        .promise()
-        .query(
-          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company '
+
+      // [jobindex] = await db
+      //   .promise()
+      //   .query(
+      //     'SELECT * ,DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company '
+      //   );
+    
+
+      let [jobindexdata] = await db
+      .promise()
+      .query(
+        'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
         );
-      // console.log(req.body.jobindex);
+         jobindex = [];
+      
+        const currentDatetime = new Date();
+        jobindexdata.filter(jobindexdata => {
+          const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
+          
+         
+    if( currentDatetime < maturityDatetime){ // Only show data before maturity
+    jobindex.push(jobindexdata);}
+        });
+        // console.log('Filtered data after maturity time:', filteredData);
+      
+
+      // console.log(jobindex);
+      // jobindex.forEach(jobindex => {
+      //   
+        
+      //   const isFuture = Deadlinedata(jobindex.deadline_offer);
+      //   if (isFuture) {
+      //     let jobindex
+      //   }
+      // });
+
       [resumeindex] = await db.promise().query("SELECT * FROM resume ");
       // console.log(req.body.resumeindex);
       [userindex] = await db.promise().query("SELECT * FROM users ");
