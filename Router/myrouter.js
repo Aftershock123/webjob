@@ -296,13 +296,13 @@ router.get("/", loggedIn, async (req, res) => {
           const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
           
          
-    if( currentDatetime < maturityDatetime){ // Only show data before maturity
+    if( currentDatetime < maturityDatetime && jobindexdata.statusjob =="active"){ // Only show data before maturity
     jobindex.push(jobindexdata);}
         });
         // console.log('Filtered data after maturity time:', filteredData);
       
 
-      // console.log(jobindex);
+      console.log(jobindex);
       // jobindex.forEach(jobindex => {
       //   
         

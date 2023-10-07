@@ -489,7 +489,7 @@ router.post("/banjob/:id", loggedIn, async(req,res) =>{
     let admin ;
     let user ;
     
-    await db.promise().execute('UPDATE job_company SET status = ? WHERE idjob_company = ?', ['banned', id]);
+    await db.promise().execute('UPDATE job_company SET statusjob = ? WHERE idjob_company = ?', ['banned', id]);
     
   // console.log(`User with ID ${id} has been banned.`);
   const currentURL =req.get("Referer")
@@ -507,7 +507,7 @@ router.post("/unbanjob/:id", loggedIn, async(req,res) =>{
     let admin ;
     let user ;
    
-    await db.promise().execute('UPDATE job_company SET status = ? WHERE idjob_company = ?', ['active', id]);
+    await db.promise().execute('UPDATE job_company SET statusjob = ? WHERE idjob_company = ?', ['active', id]);
   // console.log(`User with ID ${id} has been unbanned.`);
   const currentURL =req.get("Referer")
   res.redirect(currentURL);
