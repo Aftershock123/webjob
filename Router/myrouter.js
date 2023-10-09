@@ -253,12 +253,21 @@ router.get("/", loggedIn, async (req, res) => {
       
       [companyindex] = await db.promise().query("SELECT * FROM companies ");
       // console.log(companyindex);
-      [jobindex] = await db
-        .promise()
-        .query(
-          'SELECT * ,DATE_FORMAT(deadline_offer,  "%Y-%m-%dT%H:%i")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company '
+      let [jobindexdata] = await db
+      .promise()
+      .query(
+        'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
         );
-        
+         jobindex = [];
+      
+        const currentDatetime = new Date();
+        jobindexdata.filter(jobindexdata => {
+          const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
+          
+         
+    if( currentDatetime < maturityDatetime && jobindexdata.statusjob =="active"){ // Only show data before maturity
+    jobindex.push(jobindexdata);}
+        });
       // console.log([jobindex]);
       // await Deadlinedata(jobindex);
       [resumeindex] = await db.promise().query("SELECT * FROM resume ");
@@ -325,11 +334,21 @@ router.get("/", loggedIn, async (req, res) => {
     } else if (res.locals.admins) {
       status = "loggedIn";
       admin = res.locals.admins;
-      [jobindex] = await db
-        .promise()
-        .query(
-          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company  '
+      let [jobindexdata] = await db
+      .promise()
+      .query(
+        'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
         );
+         jobindex = [];
+      
+        const currentDatetime = new Date();
+        jobindexdata.filter(jobindexdata => {
+          const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
+          
+         
+    if( currentDatetime < maturityDatetime && jobindexdata.statusjob =="active"){ // Only show data before maturity
+    jobindex.push(jobindexdata);}
+        });
       // console.log(req.body.jobindex);
       [resumeindex] = await db.promise().query("SELECT * FROM resume ");
       // console.log(req.body.resumeindex);
