@@ -35,6 +35,7 @@ router.post(
   signUpValidation,
   async (req, res, err) => {
     let company;
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let admin;
     let user;
     res.locals.status = "no";
@@ -191,37 +192,31 @@ router.get(
       const { id } = req.params;
 
       let [webpage] = await db.promise().query("SELECT * FROM webpage ");
+
       const [rows] = await db.promise().query("SELECT * FROM users  where id_user = ?", [id]);
       // console.log(rows);
-      let [row] = await db.promise().query("SELECT * FROM resume where resume.id_user = ?", [id]);
+      const [row] = await db.promise().query("SELECT * FROM resume where resume.id_user = ?", [id]);
       // console.log(row);
-      const [row1] = await db.promise().query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [row[0].id_resume]);
-      // console.log("his:" ,row1);
-      if (row1.length == 0) {
-         res.render("profile", { user: rows[0], company, admin, webpage,resume:row[0],history });
-      } else {
-        console.log("hishhhhhhhhhhhhhhhhh:" ,row1);
-        // for(let i=0 ;i < row1.length;i++){
+
+      if(row.length< 1 ){
+      
+        res.render("profile", { user: rows[0], company, admin, webpage,resume,history });
+      }else {
+        let [webpage] = await db.promise().query("SELECT * FROM webpage ");
+
+      const [row] = await db.promise().query("SELECT * FROM users  where id_user = ?", [id]);
+      console.log("user: ", row);
+        const [rows] = await db.promise().query("SELECT * FROM resume where resume.id_user = ?", [id]);
+     console.log("resume: ", rows);
+        const [row1] = await db.promise().query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [rows[0].id_resume]);
+        console.log("history: ", row1);
+        
         const [row2] = await db.promise().query("SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company  inner join historyuser on job_company.idjob_company = historyuser.idjob_company where historyuser.id_resume = ? ",[row[0].id_resume]);
         console.log("job:" ,[row2]);
 
-        return  res.render("profile", { user: rows[0], company, admin, webpage,resume:row[0],history:row2 });
-      
-      
-    }
-    //     if (rows.length === 0) {
-    //       return res.status(404).send("User not found");
-    //     }
+        return  res.render("profile", { user: row[0], company, admin, webpage,resume:row[0],history:row2 }) 
+      }
   
-        
-      
-      
-        
-
-      // if(jobId){
-
-      //   res.redirect('/user/:resumeId/job/:jobId');
-      // }
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
@@ -237,50 +232,29 @@ router.post(
     try {
       let company;
       let admin;
+      let history;
+      let resume;
       let [webpage] = await db.promise().query("SELECT * FROM webpage ");
       const { id } = req.params;
-      const [row1] = await db
-        .promise()
-        .query("SELECT * FROM users  where id_user = ?", [id]);
+      const [row1] = await db.promise().query("SELECT * FROM users  where id_user = ?", [id]);
       const { username, email } = req.body;
       const image = req.file ? req.file.filename : row1[0].image;
-      const [rows] = await db
-        .promise()
-        .query(
-          "UPDATE users SET username = ?, email = ? ,image =? WHERE id_user = ?",
-          [username, email, image, id]
-        );
-      const [row2] = await db
-        .promise()
-        .query("SELECT * FROM users  where id_user = ?", [id]);
-      // console.log(row1[0].image);
-      if (rows.length === 0) {
+      const [rows] = await db.promise().query("UPDATE users SET username = ?, email = ? ,image =? WHERE id_user = ?",[username, email, image, id]);
+      
+      if (row1.length < 1) {
         return res.status(404).send("User not found");
       }
-      let [resume] = await db
-        .promise()
-        .query("SELECT * FROM resume where resume.id_user = ?", [id]);
-
-      if (resume) {
-      } else {
-        console.log(row4);
-        const [row1] = await db
-          .promise()
-          .query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [
-            row4[0].id_resume,
-          ]);
-        console.log(row1);
-        const [row2] = await db
-          .promise()
-          .query(
-            "SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company where job_company.idjob_company = ? ",
-            [row1[0].idjob_company]
-          );
-        console.log(row2);
+      let [row3] = await db.promise().query("SELECT * FROM resume where resume.id_user = ?", [id]);
+      
+      if (row3.length < 1) {
+        const currentURL = req.get("Referer")
+      res.redirect(currentURL);
+      }
+      
       }
 
-      res.render("profile", { user: row2[0], company, admin, webpage });
-    } catch (error) {
+      // res.render("profile", { user: row2[0], company, admin, webpage });
+    catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
     }
