@@ -36,7 +36,7 @@ router.post(
   upload.single("image"),
   signUpValidation,
   async (req, res) => {
-    
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let admin;
     let user;
     let company;
@@ -149,6 +149,7 @@ router.post(
 
 router.get("/verify", async (req, res) => {
   try {
+    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let user;
     let company;
     let admin;
@@ -187,7 +188,7 @@ router.get("/verify", async (req, res) => {
               }
 
               console.log("Update result:", updateResult);
-              return res.render("login", { user, company, admin });
+              return res.render("login", { user, company, admin ,webpage});
             }
           );
         } else {
