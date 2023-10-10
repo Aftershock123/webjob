@@ -29,7 +29,7 @@ const filefilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: storage, fileFilter: filefilter });
-
+///////////////////////////////////////////--------------------------------------------registercompany------------------------------------////////////////////////
 //ลงทะเบียน
 router.post(
   "/registercompany",
@@ -146,7 +146,7 @@ router.post(
     }
   }
 );
-
+/////////////////////////////-------------------------------------------------verify------------------------------/////////////////////
 router.get("/verify", async (req, res) => {
   try {
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
@@ -202,14 +202,16 @@ router.get("/verify", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
+////////////////////////////////-----------------------------------------------resetpassword--------------------------/////////////////////////
 router.get("/resetpassword/:id", loggedIn, async (req, res) => {
   try {
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
     let user;
     const { id } = req.params;
-    // console.log(email);
+    console.log(id);
 
     const [rows] = await db
       .promise()
@@ -218,7 +220,7 @@ router.get("/resetpassword/:id", loggedIn, async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
-    return res.render("resetpassword", { user, company: rows[0], admin });
+    return res.render("resetpassword", { user, company: rows[0], admin ,webpage});
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -227,6 +229,9 @@ router.get("/resetpassword/:id", loggedIn, async (req, res) => {
 
 router.post("/resetpassword/:email", loggedIn, async (req, res) => {
   try {
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
+
     let company;
     let admin;
     let user;
@@ -267,7 +272,7 @@ router.post("/resetpassword/:email", loggedIn, async (req, res) => {
               }
             }
           );
-        return res.render("emailverify", { user, company: result[0], admin });
+        return res.render("emailtext", { user, company: result[0], admin,webpage });
       }
     );
   } catch (error) {
@@ -278,6 +283,9 @@ router.post("/resetpassword/:email", loggedIn, async (req, res) => {
 
 router.get("/changepassword/:id", async (req, res) => {
   let company;
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
+  let user ;
   let admin;
   let status = res.locals.status;
   let { id } = req.params;
@@ -293,6 +301,7 @@ router.get("/changepassword/:id", async (req, res) => {
     user,
     admin,
     status,
+    webpage
   });
 });
 
@@ -342,7 +351,7 @@ router.post("/changepassword/:id", loggedIn, async (req, res, next) => {
   }
 });
 
-//--------------------------------------------- profile------------------------------------------------------
+//////////////////////--------------------------------------------- profile------------------------------------------------------//////////
 
 //แสดงโปรไฟล์
 router.get("/profile/:id", loggedIn, async (req, res) => {
@@ -395,7 +404,7 @@ router.post("/updateprofile/:id",upload.single("image"), loggedIn, async (req, r
   }
 });
 
-//-----------------------------------------------------------job-------------------------------
+/////////////////////////-----------------------------------------------------------job-------------------------------/////////
 
 //เพิ่มเส้จไปหน้าjoball
 //ได้แล้วเพิ่มต้องแก้นิดหน่อย

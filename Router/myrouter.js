@@ -8,7 +8,7 @@ const sendMail = require("../controllers/sendmail");
 const path = require("path");
 const ejs = require("ejs");
 const bcrypt = require("bcryptjs");
-const Deadlinedata = require("../controllers/deadlinedata");
+
 
 router.get("/forgotpassword", async (req, res) => {
   let webpage;
@@ -26,9 +26,25 @@ router.get("/forget", async (req, res) => {
   let user;
   let company;
   let admin;
+  res.locals.status = "no";
+  let status = res.locals.status;
 
-  res.render("forget", { user, company, admin, webpage });
+  res.render("forget", { user, company, admin, webpage,status });
 });
+
+router.get("/emailtext", async (req, res) => {
+  let webpage;
+  [webpage] = await db.promise().query("SELECT * FROM webpage ");
+  let user;
+  let company;
+  let admin;
+  res.locals.status = "no";
+  let status = res.locals.status;
+
+  res.render("emailtext", { user, company, admin, webpage,status });
+});
+
+
 
 router.post("/forget/:email", loggedIn, async (req, res) => {
   try {
@@ -73,7 +89,7 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
                 }
               }
             );
-          return res.render("emailverify", {
+          return res.render("emailtext", {
             user: result[0],
             company,
             admin,

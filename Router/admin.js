@@ -164,7 +164,7 @@ router.get('/webpage/:id',loggedIn,async(req,res)=>{
       res.status(500).send('Internal Server Error');
     }
   });
-  
+  ////////////////////////////////-----------------------------usermanagement------------------------------------///////////////////////////
 router.get("/usermanagement/:id", loggedIn, upload.single("image"), async (req, res) => {
 try{
   let {id} =req.params
@@ -174,38 +174,14 @@ try{
   [webpage] = await db.promise().query("SELECT * FROM webpage ");
   let admin ;
   const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
- let [usermanage] = await db.promise().query("SELECT * FROM users ");
-//  console.log(usermanage);
- res.render("usermanagement",{admin:row[0],usermanage,webpage,user,company})
+  let [usermanage] = await db.promise().query("SELECT * FROM users ");
+  //  console.log(usermanage);
+  res.render("usermanagement",{admin:row[0],usermanage,webpage,user,company})
 }catch(error){
-
+  
 }
 
 });
-
-
-
-
-router.get("/companymanagement/:id", loggedIn, upload.single("image"), async (req, res) => {
-  try{
-    let {id} =req.params
-    
-    let user ;
-    let company;
-    let webpage;
-    [webpage] = await db.promise().query("SELECT * FROM webpage ");
-    let admin ;
-    const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
-   let [companymanage] = await db.promise().query("SELECT * FROM companies ");
-  //  console.log(usermanage);
-   res.render("companymanagement",{admin:row[0],companymanage,webpage,user,company})
-  }catch(error){
-  
-  }
-  
-  });
-
-
 
 
 router.post("/ban/:id", loggedIn, async(req,res) =>{
@@ -249,6 +225,31 @@ catch (error) {
   
 });
 
+///////////////////////////////////---------------------------------------companymanagement-------------------///////////////////////////////
+
+router.get("/companymanagement/:id", loggedIn, upload.single("image"), async (req, res) => {
+  try{
+    let {id} =req.params
+    
+    let user ;
+    let company;
+    let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
+    let admin ;
+    const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
+   let [companymanage] = await db.promise().query("SELECT * FROM companies ");
+  //  console.log(usermanage);
+   res.render("companymanagement",{admin:row[0],companymanage,webpage,user,company})
+  }catch(error){
+  
+  }
+  
+  });
+
+
+
+
+
 router.post("/bancompany/:id", loggedIn, async(req,res) =>{
   try{
     let id  = req.params.id;
@@ -283,39 +284,6 @@ catch (error) {
 }
   
 });
-
-
-
-
-//provecompany
-
-// router.get("/companymanagement/:id", loggedIn, async (req, res) => {
-//   try{
-//     let {id} =req.params
-//     let webpage;
-//     [webpage] = await db.promise().query("SELECT * FROM webpage ");
-//     let admin ;
-//    let [usermanage] = await db.promise().query("SELECT * FROM companies ");
-//     const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
-//    res.render("usermanagement",{admin:row[0],usermanage})
-//   }catch(error){
-  
-//   }});
-
-// router.post("/companymanagement/:id", loggedIn, async (req, res) => {
-//   try{
-//     let {id} =req.params
-//     let webpage;
-//     [webpage] = await db.promise().query("SELECT * FROM webpage ");
-//     let admin ;
-//    let [usermanage] = await db.promise().query("SELECT * FROM companies ");
-//     const [row] =await db.promise().query('SELECT * FROM admins where admins.id_admin =? ',[id]);
-//    res.render("usermanagement",{admin:row[0],usermanage})
-//   }catch(error){
-  
-//   }});
-  
-
 
 
 module.exports= router;

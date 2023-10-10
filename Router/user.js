@@ -28,6 +28,7 @@ const filefilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: storage, fileFilter: filefilter });
+//////////////////////// -----------------------------------------------------register----------------------------------------------------------------------------------////////////////////////////////////////
 
 router.post(
   "/registeruser",
@@ -119,6 +120,7 @@ router.post(
     }
   }
 );
+//////////////////////// -----------------------------------------------------verify----------------------------------------------------------------------------------////////////////////////////////////////
 
 router.get("/verify", async (req, res) => {
   try {
@@ -129,7 +131,6 @@ router.get("/verify", async (req, res) => {
     let admin;
     res.locals.status = "no";
     let status = res.locals.status;
-
     // console.log('Request object:', req);
     // console.log('Request URL:', req.url);
     // console.log('Parsed Query Parameters:', req.query);
@@ -145,9 +146,7 @@ router.get("/verify", async (req, res) => {
           console.error("Error querying the database:", err);
           return res.status(500).send("Internal Server Error");
         }
-
         // console.log('Query result:', result);
-
         if (result.length > 0) {
           const userId = result[0].id_user; // Assuming 'id' is the correct column name
           // console.log(userId);
@@ -177,7 +176,7 @@ router.get("/verify", async (req, res) => {
   }
 });
 
-//-------------------------------------------------profile---------------------------------------
+//////////////////////////////////-------------------------------------------------profile---------------------------------------/////////////////////////////////////////
 //ได้แล้ว
 router.get(
   "/profile/:id",
@@ -261,7 +260,7 @@ router.post(
   }
 );
 
-///----------------------------------------------------resume-------------------------------------//////////////////
+///////////////////////////////////----------------------------------------------------resume-------------------------------------//////////////////
 //รวมหน้าaddresume กับupdateresume
 //ได้แล้ว
 router.get("/addresume/:id", loggedIn, async (req, res) => {
@@ -396,6 +395,7 @@ router.post("/updateresume/:id", loggedIn, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+//////////////////////// -----------------------------------------------------resetpassword----------------------------------------------------------------------------------////////////////////////////////////////
 
 router.get("/resetpassword/:id", loggedIn, async (req, res) => {
   try {
@@ -467,7 +467,7 @@ router.post("/resetpassword/:email", loggedIn, async (req, res) => {
               }
             }
           );
-        return res.render("emailverify", {
+        return res.render("emailtext", {
           user: result[0],
           company,
           admin,
@@ -551,6 +551,7 @@ router.post("/changepassword/:id", loggedIn, async (req, res, next) => {
 });
 
 //userid
+//////////////////////// -----------------------------------------------------pdf----------------------------------------------------------------------------------////////////////////////////////////////
 
 router.get("/pdf/:id", loggedIn, async (req, res) => {
   try {
@@ -575,7 +576,7 @@ router.get("/pdf/:id", loggedIn, async (req, res) => {
     if (resume.length > 0) {
       return res.status(404).send("User not found");
     }
-    console.log(resume[0]);
+    // console.log(resume[0]);
     let mailSubject = "Resume" + resume.username;
 
     let [content] = resume[0];
@@ -635,11 +636,11 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
     console.log(rowss);
     let mailSubjects = "resume";
     const content = row;
-    console.log("ssssssssssssssssssssssssssssssssssssss",content[0]);
+    // console.log("ssssssssssssssssssssssssssssssssssssss",content[0]);
     // console.log("content");
     const name = content[0].username;
     let email = row[0].email;
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
     const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
     const data = await ejs.renderFile(TemplatePath, { content });
