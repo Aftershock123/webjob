@@ -20,6 +20,8 @@ router.get("/forgotpassword", async (req, res) => {
   res.render("forgotpassword", { user: row[0], webpage, company, admin });
 });
 
+
+/////////////
 router.get("/forget", async (req, res) => {
   let webpage;
   [webpage] = await db.promise().query("SELECT * FROM webpage ");
@@ -104,7 +106,7 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
               const otp = otp_before.toString();
 
               let mailSubjects = "resetpassword";
-              const content = result.id_company;
+              const content = result[0].id_company;
               console.log(content);
 
               const TemplatePath = path.join(
@@ -127,7 +129,7 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
                     }
                   }
                 );
-              return res.render("emailverify", {
+              return res.render("emailtext", {
                 user: result[0],
                 company,
                 admin,
@@ -182,11 +184,9 @@ router.post("/forgetchangepassword/:id", loggedIn, async (req, res, next) => {
     console.log("token: " + token);
     console.log("id: " + id);
 
-    db.query(
-      "SELECT * FROM users  where users.token = ? and users.id_user = ?",
-      [token, id],
-      async (error, result) => {
+    db.query("SELECT * FROM users  where users.token = ? and users.id_user = ?",[token, id], async (error, result) => {
         console.log("sele");
+        console.log(result);
         if (result.length > 0) {
           const password = req.body.password;
           const salt = await bcrypt.genSalt(10);
@@ -208,13 +208,11 @@ router.post("/forgetchangepassword/:id", loggedIn, async (req, res, next) => {
 
           console.log("resetToken: " + token);
           res.redirect("/login");
-        } else if (result.length === 0) {
-          await db
-            .promise()
-            .query(
-              "SELECT * FROM companies  where companies.token = ? and companies.id_company",
-              [token, id],
-              async (error, result) => {
+        } else if (result.length == 0) {
+          console.log("kkkkkkkkkkkk");
+           db.query( "SELECT * FROM companies  where companies.token = ? and companies.id_company",[token, id],async (error, result) => {
+              console.log("hhhhhhhhhhhhhhh");
+              console.log(result);
                 if (result.length > 0) {
                   const password = req.body.password;
                   const salt = await bcrypt.genSalt(10);
