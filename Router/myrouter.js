@@ -9,7 +9,6 @@ const path = require("path");
 const ejs = require("ejs");
 const bcrypt = require("bcryptjs");
 
-
 router.get("/forgotpassword", async (req, res) => {
   let webpage;
   [webpage] = await db.promise().query("SELECT * FROM webpage ");
@@ -19,7 +18,6 @@ router.get("/forgotpassword", async (req, res) => {
   const [row] = await db.promise().query("SELECT * FROM users");
   res.render("forgotpassword", { user: row[0], webpage, company, admin });
 });
-
 
 /////////////
 router.get("/forget", async (req, res) => {
@@ -31,7 +29,7 @@ router.get("/forget", async (req, res) => {
   res.locals.status = "no";
   let status = res.locals.status;
 
-  res.render("forget", { user, company, admin, webpage,status });
+  res.render("forget", { user, company, admin, webpage, status });
 });
 
 router.get("/emailtext", async (req, res) => {
@@ -43,10 +41,8 @@ router.get("/emailtext", async (req, res) => {
   res.locals.status = "no";
   let status = res.locals.status;
 
-  res.render("emailtext", { user, company, admin, webpage,status });
+  res.render("emailtext", { user, company, admin, webpage, status });
 });
-
-
 
 router.post("/forget/:email", loggedIn, async (req, res) => {
   try {
@@ -72,13 +68,13 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
 
           let mailSubjects = "resetpassword";
           const content = result[0].id_user;
-          console.log(content);
+          // console.log(content);
 
           const TemplatePath = path.join(__dirname, "../views/forgetreset.ejs");
           const data = await ejs.renderFile(TemplatePath, { otp, content });
 
           await sendMail(req.body.email, mailSubjects, data);
-          console.log("after send repass", req.body.email);
+          // console.log("after send repass", req.body.email);
           await db
             .promise()
             .query(
@@ -107,7 +103,7 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
 
               let mailSubjects = "resetpassword";
               const content = result[0].id_company;
-              console.log(content);
+              // console.log(content);
 
               const TemplatePath = path.join(
                 __dirname,
@@ -116,7 +112,7 @@ router.post("/forget/:email", loggedIn, async (req, res) => {
               const data = await ejs.renderFile(TemplatePath, { otp, content });
 
               await sendMail(req.body.email, mailSubjects, data);
-              console.log("after send repass", req.body.email);
+              // console.log("after send repass", req.body.email);
               await db
                 .promise()
                 .query(
@@ -181,12 +177,15 @@ router.post("/forgetchangepassword/:id", loggedIn, async (req, res, next) => {
     [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
     const token = req.body.otp;
-    console.log("token: " + token);
-    console.log("id: " + id);
+    // console.log("token: " + token);
+    // console.log("id: " + id);
 
-    db.query("SELECT * FROM users  where users.token = ? and users.id_user = ?",[token, id], async (error, result) => {
-        console.log("sele");
-        console.log(result);
+    db.query(
+      "SELECT * FROM users  where users.token = ? and users.id_user = ?",
+      [token, id],
+      async (error, result) => {
+        // console.log("sele");
+        // console.log(result);
         if (result.length > 0) {
           const password = req.body.password;
           const salt = await bcrypt.genSalt(10);
@@ -206,38 +205,41 @@ router.post("/forgetchangepassword/:id", loggedIn, async (req, res, next) => {
               token,
             ]);
 
-          console.log("resetToken: " + token);
+          // console.log("resetToken: " + token);
           res.redirect("/login");
         } else if (result.length == 0) {
-          console.log("kkkkkkkkkkkk");
-           db.query( "SELECT * FROM companies  where companies.token = ? and companies.id_company",[token, id],async (error, result) => {
-              console.log("hhhhhhhhhhhhhhh");
-              console.log(result);
-                if (result.length > 0) {
-                  const password = req.body.password;
-                  const salt = await bcrypt.genSalt(10);
-                  const newPassword = await bcrypt.hash(password, salt);
-                  // console.log("password: " + password);
-                  // console.log("newPassword: " + newPassword);
-                  await db
-                    .promise()
-                    .query(
-                      "UPDATE companies SET  password  = ? where companies.token = ?",
-                      [newPassword, token]
-                    );
+          // console.log("kkkkkkkkkkkk");
+          db.query(
+            "SELECT * FROM companies  where companies.token = ? and companies.id_company",
+            [token, id],
+            async (error, result) => {
+              // console.log("hhhhhhhhhhhhhhh");
+              // console.log(result);
+              if (result.length > 0) {
+                const password = req.body.password;
+                const salt = await bcrypt.genSalt(10);
+                const newPassword = await bcrypt.hash(password, salt);
+                // console.log("password: " + password);
+                // console.log("newPassword: " + newPassword);
+                await db
+                  .promise()
+                  .query(
+                    "UPDATE companies SET  password  = ? where companies.token = ?",
+                    [newPassword, token]
+                  );
 
-                  await db
-                    .promise()
-                    .query(
-                      "UPDATE companies SET  token  = null  where companies.token = ?",
-                      [token]
-                    );
+                await db
+                  .promise()
+                  .query(
+                    "UPDATE companies SET  token  = null  where companies.token = ?",
+                    [token]
+                  );
 
-                  console.log("resetToken: " + token);
-                  res.redirect("/login");
-                }
+                console.log("resetToken: " + token);
+                res.redirect("/login");
               }
-            );
+            }
+          );
         } else {
           console.log("not match email");
         }
@@ -267,14 +269,21 @@ router.get("/", loggedIn, async (req, res) => {
       user = res.locals.users;
       if (user.status === "active") {
         [companyindex] = await db.promise().query("SELECT * FROM companies ");
-        let [jobindexdata] = await db.promise().query('SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company');
+        let [jobindexdata] = await db
+          .promise()
+          .query(
+            'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
+          );
         jobindex = [];
 
         const currentDatetime = new Date();
         jobindexdata.filter((jobindexdata) => {
           const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
 
-          if (currentDatetime < maturityDatetime &&jobindexdata.statusjob == "active") {
+          if (
+            currentDatetime < maturityDatetime &&
+            jobindexdata.statusjob == "active"
+          ) {
             jobindex.push(jobindexdata);
           }
         });
@@ -285,27 +294,30 @@ router.get("/", loggedIn, async (req, res) => {
       } else {
         return res.render("banuser", { status, user, company, admin, webpage });
       }
-
-
     } else if (res.locals.companys) {
       status = "loggedIn";
       company = res.locals.companys;
       if (company.status === "active") {
-
-        let [jobindexdata] = await db.promise().query('SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company');
+        let [jobindexdata] = await db
+          .promise()
+          .query(
+            'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
+          );
         jobindex = [];
 
         const currentDatetime = new Date();
         jobindexdata.filter((jobindexdata) => {
           const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
 
-          if (currentDatetime < maturityDatetime &&jobindexdata.statusjob == "active") {
+          if (
+            currentDatetime < maturityDatetime &&
+            jobindexdata.statusjob == "active"
+          ) {
             jobindex.push(jobindexdata);
           }
         });
-        
 
-        console.log(jobindex);
+        // console.log(jobindex);
 
         [resumeindex] = await db.promise().query("SELECT * FROM resume ");
         // console.log(req.body.resumeindex);
@@ -315,21 +327,32 @@ router.get("/", loggedIn, async (req, res) => {
         // console.log(req.body.adminindex);
         [webpage] = await db.promise().query("SELECT * FROM webpage ");
       } else {
-        return res.render("bancompany", {status,user,company,admin,webpage});
+        return res.render("bancompany", {
+          status,
+          user,
+          company,
+          admin,
+          webpage,
+        });
       }
-
-
     } else if (res.locals.admins) {
       status = "loggedIn";
       admin = res.locals.admins;
-      let [jobindexdata] = await db.promise().query('SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company');
+      let [jobindexdata] = await db
+        .promise()
+        .query(
+          'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
+        );
       jobindex = [];
 
       const currentDatetime = new Date();
       jobindexdata.filter((jobindexdata) => {
         const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
 
-        if (currentDatetime < maturityDatetime &&jobindexdata.statusjob == "active") {
+        if (
+          currentDatetime < maturityDatetime &&
+          jobindexdata.statusjob == "active"
+        ) {
           jobindex.push(jobindexdata);
         }
       });
@@ -347,26 +370,40 @@ router.get("/", loggedIn, async (req, res) => {
       status = "no";
       user = "nothing";
       company = "nothing";
-      [jobindex] = await db.promise().query('SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company   ');
+      [jobindex] = await db
+        .promise()
+        .query(
+          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company   '
+        );
       // console.log(req.body.jobindex);
       [resumeindex] = await db.promise().query("SELECT * FROM resume ");
       // console.log(req.body.resumeindex);
       [userindex] = await db.promise().query("SELECT * FROM users ");
       // console.log(req.body.userindex);
       [companyindex] = await db.promise().query("SELECT * FROM companies ");
-      console.log(req.body.companyindex);
+      // console.log(req.body.companyindex);
       [adminindex] = await db.promise().query("SELECT * FROM admins ");
       // console.log(req.body.adminindex);
       [webpage] = await db.promise().query("SELECT * FROM webpage ");
     }
 
-    res.render("index.ejs", {status,user,company,admin,jobindex,resumeindex,companyindex,userindex,adminindex,webpage });
+    res.render("index.ejs", {
+      status,
+      user,
+      company,
+      admin,
+      jobindex,
+      resumeindex,
+      companyindex,
+      userindex,
+      adminindex,
+      webpage,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 router.get("/login", async (req, res) => {
   let status;
@@ -455,7 +492,6 @@ router.get("/emailverify", async (req, res) => {
   let user;
   return res.render("emailverify", { company, user, admin, status, webpage });
 });
-
 
 // router.get("/banuser", async (req, res) => {
 //   let company;

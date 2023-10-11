@@ -193,9 +193,22 @@ aside hr{
   border-top:.5mm solid var(--text-color);
   height:0;
 }
+.container-box{
 
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  height: 100%; /* Take full height of the viewport */
+}
 
-
+.profile{
+  padding: 20px;
+  border: 1px solid #ccc;
+flex-shrink: 0;
+background-color: rgb(130, 128, 128);
+}
 
 
 

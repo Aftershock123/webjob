@@ -60,12 +60,10 @@ router.post(
       email,
     } = req.body;
     if (!email || !Npassword || errors.isEmpty()) {
-      return res
-        .status(401)
-        .json({
-          status: "error",
-          error: "Please enter your email and password",
-        });
+      return res.status(401).json({
+        status: "error",
+        error: "Please enter your email and password",
+      });
     } else {
       db.query(
         "SELECT email FROM companies WHERE email = ?",
@@ -96,7 +94,7 @@ router.post(
                   district_company: district_company,
                   zipcode_company: zipcode_company,
                   tell_company: tell_company,
-                  amphoe:amphoe,
+                  amphoe: amphoe,
                   email: email,
                   image: image,
                 },
@@ -113,7 +111,8 @@ router.post(
                   const content =
                     "http://localhost:5000/company/verify?token= " +
                     verificationToken;
-                  const TemplatePath = path.join( __dirname,
+                  const TemplatePath = path.join(
+                    __dirname,
                     "../views/email.ejs"
                   );
                   const data = await ejs.renderFile(TemplatePath, { content });
@@ -188,7 +187,7 @@ router.get("/verify", async (req, res) => {
               }
 
               console.log("Update result:", updateResult);
-              return res.render("login", { user, company, admin ,webpage});
+              return res.render("login", { user, company, admin, webpage });
             }
           );
         } else {
@@ -220,7 +219,12 @@ router.get("/resetpassword/:id", loggedIn, async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
-    return res.render("resetpassword", { user, company: rows[0], admin ,webpage});
+    return res.render("resetpassword", {
+      user,
+      company: rows[0],
+      admin,
+      webpage,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -272,7 +276,12 @@ router.post("/resetpassword/:email", loggedIn, async (req, res) => {
               }
             }
           );
-        return res.render("emailtext", { user, company: result[0], admin,webpage });
+        return res.render("emailtext", {
+          user,
+          company: result[0],
+          admin,
+          webpage,
+        });
       }
     );
   } catch (error) {
@@ -285,7 +294,7 @@ router.get("/changepassword/:id", async (req, res) => {
   let company;
   let webpage;
   [webpage] = await db.promise().query("SELECT * FROM webpage ");
-  let user ;
+  let user;
   let admin;
   let status = res.locals.status;
   let { id } = req.params;
@@ -301,13 +310,12 @@ router.get("/changepassword/:id", async (req, res) => {
     user,
     admin,
     status,
-    webpage
+    webpage,
   });
 });
 
 router.post("/changepassword/:id", loggedIn, async (req, res, next) => {
   try {
-
     const { id } = req.params;
     const token = req.body.otp;
     console.log("token: " + token);
@@ -365,12 +373,12 @@ router.get("/profile/:id", loggedIn, async (req, res) => {
       .promise()
       .query("SELECT * FROM companies  where id_company = ?", [id]);
 
-    console.log(rows[0].image);
+    // console.log(rows[0].image);
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
 
-    res.render("profilecompany", { company: rows[0], user, admin ,webpage});
+    res.render("profilecompany", { company: rows[0], user, admin, webpage });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -378,31 +386,47 @@ router.get("/profile/:id", loggedIn, async (req, res) => {
 });
 
 //อัพเดตโปรไฟล์
-router.post("/updateprofile/:id",upload.single("image"), loggedIn, async (req, res) => {
-  try {
-    let user;
-    let admin;
-    let [webpage] = await db.promise().query("SELECT * FROM webpage ");
-    const { id } = req.params;
-    const [row] = await db.promise().query("SELECT * FROM companies WHERE id_company = ?", [id]);
-    const { username, email } = req.body;
+router.post(
+  "/updateprofile/:id",
+  upload.single("image"),
+  loggedIn,
+  async (req, res) => {
+    try {
+      let user;
+      let admin;
+      let [webpage] = await db.promise().query("SELECT * FROM webpage ");
+      const { id } = req.params;
+      const [row] = await db
+        .promise()
+        .query("SELECT * FROM companies WHERE id_company = ?", [id]);
+      const { username, email } = req.body;
 
-    const image = req.file ? req.file.filename : row[0].image;
-    console.log(image)
-    const [rows] = await db.promise().query("UPDATE companies SET username = ?, email = ? ,image =? WHERE id_company = ?",[username, email,image, id]);
-    const [upCompany] = await db.promise().query("SELECT * FROM companies WHERE id_company = ?", [id]); 
-    console.log(upCompany[0]);
-  
-    if (upCompany.length === 0) {
-      return res.status(404).send("companies not found");
+      const image = req.file ? req.file.filename : row[0].image;
+      // console.log(image)
+      const [rows] = await db
+        .promise()
+        .query(
+          "UPDATE companies SET username = ?, email = ? ,image =? WHERE id_company = ?",
+          [username, email, image, id]
+        );
+      const [upCompany] = await db
+        .promise()
+        .query("SELECT * FROM companies WHERE id_company = ?", [id]);
+      // console.log(upCompany[0]);
+
+      if (upCompany.length === 0) {
+        return res.status(404).send("companies not found");
+      }
+
+      // res.render("profilecompany", { company: upCompany[0], user, admin,webpage });
+      const currentURL = req.get("Referer");
+      res.redirect(currentURL);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
     }
-
-    res.render("profile", { company: upCompany[0], user, admin,webpage });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
   }
-});
+);
 
 /////////////////////////-----------------------------------------------------------job-------------------------------/////////
 
@@ -414,7 +438,7 @@ router.get("/addjob_company/:id", loggedIn, async (req, res) => {
     let admin;
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
-    console.log(id)
+    // console.log(id)
 
     const [rows] = await db
       .promise()
@@ -423,7 +447,7 @@ router.get("/addjob_company/:id", loggedIn, async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
-    res.render("addjob", { company: rows[0], user, admin,webpage });
+    res.render("addjob", { company: rows[0], user, admin, webpage });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -436,7 +460,7 @@ router.post("/addjob_company/:id", loggedIn, async (req, res) => {
     let user;
     let admin;
     const { id } = req.params;
-    console.log(id);
+    // console.log(id);
     // let [company]=await db.promise().query("SELECT * FROM companies where id_company = ? ",[id]);
 
     const {
@@ -453,23 +477,25 @@ router.post("/addjob_company/:id", loggedIn, async (req, res) => {
       deadline_offer,
     } = req.body;
 
-     await db.promise().query("INSERT INTO job_company SET ?", {
-        name_job: name_job,
-        role: role,
-        detail_work: detail_work,
-        experience: experience,
-        gender: gender,
-        education: education,
-        welfare: welfare,
-        salary: salary,
-        workday: workday,
-        day_off: day_off,
-        deadline_offer: deadline_offer,
-        id_company: id,
-      });
-      const [row] = await db
+    await db.promise().query("INSERT INTO job_company SET ?", {
+      name_job: name_job,
+      role: role,
+      detail_work: detail_work,
+      experience: experience,
+      gender: gender,
+      education: education,
+      welfare: welfare,
+      salary: salary,
+      workday: workday,
+      day_off: day_off,
+      deadline_offer: deadline_offer,
+      id_company: id,
+    });
+    const [row] = await db
       .promise()
-      .query("SELECT * FROM job_company  where job_company.id_company = ?", [id]);
+      .query("SELECT * FROM job_company  where job_company.id_company = ?", [
+        id,
+      ]);
 
     const [updatedCompany] = await db
       .promise()
@@ -485,47 +511,51 @@ router.post("/addjob_company/:id", loggedIn, async (req, res) => {
   }
 });
 
-
-
 //ปุ้มปิดงาน
 
-router.post("/banjob/:id", loggedIn, async(req,res) =>{
-  try{
-    let id  = req.body.id;
-    
+router.post("/banjob/:id", loggedIn, async (req, res) => {
+  try {
+    let id = req.body.id;
+
     let webpage;
     [webpage] = await db.promise().query("SELECT * FROM webpage ");
-    
-    let admin ;
-    let user ;
-    
-    await db.promise().execute('UPDATE job_company SET statusjob = ? WHERE idjob_company = ?', ['banned', id]);
-    
-  // console.log(`User with ID ${id} has been banned.`);
-  const currentURL =req.get("Referer")
-    res.redirect(currentURL);
-}
-catch (error) {
-  console.error('Error banning user:', error);
-}
-});
-  
 
-router.post("/unbanjob/:id", loggedIn, async(req,res) =>{
-  try{
-    let id  = req.params.id;
-    let admin ;
-    let user ;
-   
-    await db.promise().execute('UPDATE job_company SET statusjob = ? WHERE idjob_company = ?', ['active', id]);
-  // console.log(`User with ID ${id} has been unbanned.`);
-  const currentURL =req.get("Referer")
-  res.redirect(currentURL);
-}
-catch (error) {
-  console.error('Error banning user:', error);
-}
-  
+    let admin;
+    let user;
+
+    await db
+      .promise()
+      .execute("UPDATE job_company SET statusjob = ? WHERE idjob_company = ?", [
+        "banned",
+        id,
+      ]);
+
+    // console.log(`User with ID ${id} has been banned.`);
+    const currentURL = req.get("Referer");
+    res.redirect(currentURL);
+  } catch (error) {
+    console.error("Error banning user:", error);
+  }
+});
+
+router.post("/unbanjob/:id", loggedIn, async (req, res) => {
+  try {
+    let id = req.params.id;
+    let admin;
+    let user;
+
+    await db
+      .promise()
+      .execute("UPDATE job_company SET statusjob = ? WHERE idjob_company = ?", [
+        "active",
+        id,
+      ]);
+    // console.log(`User with ID ${id} has been unbanned.`);
+    const currentURL = req.get("Referer");
+    res.redirect(currentURL);
+  } catch (error) {
+    console.error("Error banning user:", error);
+  }
 });
 //ได้แล้ว
 router.get("/joball/:id", loggedIn, async (req, res) => {
@@ -535,18 +565,28 @@ router.get("/joball/:id", loggedIn, async (req, res) => {
     let admin;
     const { id } = req.params;
     // console.log(id);
-    const [row] = await db.promise().query("SELECT * FROM companies  where id_company = ?", [id]);
-// console.log(row)
-    const [rows] = await db.promise().query("SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?",[id]);
+    const [row] = await db
+      .promise()
+      .query("SELECT * FROM companies  where id_company = ?", [id]);
+    // console.log(row)
+    const [rows] = await db
+      .promise()
+      .query(
+        "SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?",
+        [id]
+      );
     // console.log(rows)
     if (rows.length === 0) {
       res.redirect(`/company/addjob_company/${id}`);
-    
-    }else {
-
-      res.render("jobgetall", { company: row[0], job: rows, user, admin ,webpage});
+    } else {
+      res.render("jobgetall", {
+        company: row[0],
+        job: rows,
+        user,
+        admin,
+        webpage,
+      });
     }
-
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -558,22 +598,30 @@ router.get("/updatejob_company/:id", loggedIn, async (req, res) => {
   try {
     let company;
     let user;
-    let admin ;
+    let admin;
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
     // const [row] = await db.promise().query("SELECT * FROM companies  where id_company = ?", [id]);
-//i want to id_company
-    const [rows] = await db.promise().query("SELECT *,DATE_FORMAT(deadline_offer, '%Y-%m-%dT%H:%i')as deadline_offer FROM job_company  INNER JOIN companies ON job_company.id_company = companies.id_company where job_company.idjob_company = ?",
+    //i want to id_company
+    const [rows] = await db
+      .promise()
+      .query(
+        "SELECT *,DATE_FORMAT(deadline_offer, '%Y-%m-%dT%H:%i')as deadline_offer FROM job_company  INNER JOIN companies ON job_company.id_company = companies.id_company where job_company.idjob_company = ?",
         [id]
       );
-      // console.log(rows[0].id_company);
-      
+    // console.log(rows[0].id_company);
 
     if (rows.length === 0) {
       return res.status(404).send("User not found");
     }
 
-    res.render("updatejob", { company: rows[0], job: rows[0] ,webpage,user,admin});
+    res.render("updatejob", {
+      company: rows[0],
+      job: rows[0],
+      webpage,
+      user,
+      admin,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -587,10 +635,19 @@ router.post("/updatejob_company/:id/", loggedIn, async (req, res) => {
     let user;
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     const { id } = req.params;
-    
-    const [rows] = await db.promise().query("SELECT * FROM job_company INNER JOIN companies ON companies.id_company = job_company.id_company WHERE job_company.idjob_company = ?", [id]);
-    const [row] =await db.promise().query("SELECT * FROM companies where id_company = ?",[rows[0].id_company]);
-  
+
+    const [rows] = await db
+      .promise()
+      .query(
+        "SELECT * FROM job_company INNER JOIN companies ON companies.id_company = job_company.id_company WHERE job_company.idjob_company = ?",
+        [id]
+      );
+    const [row] = await db
+      .promise()
+      .query("SELECT * FROM companies where id_company = ?", [
+        rows[0].id_company,
+      ]);
+
     const {
       name_job,
       role,
@@ -605,7 +662,10 @@ router.post("/updatejob_company/:id/", loggedIn, async (req, res) => {
       deadline_offer,
     } = req.body;
 
-    await db.promise().query("UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ? WHERE job_company.idjob_company = ?",
+    await db
+      .promise()
+      .query(
+        "UPDATE job_company SET name_job = ?, role = ?, detail_work = ?, experience = ?, gender = ?, education = ?, welfare = ?, salary = ?, workday = ?, day_off = ?, deadline_offer = ? WHERE job_company.idjob_company = ?",
         [
           name_job,
           role,
@@ -619,15 +679,13 @@ router.post("/updatejob_company/:id/", loggedIn, async (req, res) => {
           day_off,
           deadline_offer,
           id,
-          
         ]
       );
-
 
     if (rows[0].length === 0) {
       return res.status(404).send("User not found");
     }
-const currentURL =req.get("Referer")
+    const currentURL = req.get("Referer");
     res.redirect(currentURL);
   } catch (error) {
     console.error(error);
@@ -663,7 +721,7 @@ router.get("/jobbyidjob/:id", loggedIn, async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    res.render("detailjob", { company, job: rows[0], user, admin ,webpage});
+    res.render("detailjob", { company, job: rows[0], user, admin, webpage });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -675,12 +733,12 @@ router.get("/jobbyidjob/:id", loggedIn, async (req, res) => {
 router.post("/searchcompany", loggedIn, async (req, res) => {
   try {
     const search = req.body.searchcompany;
-    console.log(search);
+    // console.log(search);
 
     let [rows] = await db
       .promise()
       .query('SELECT * FROM companies where username like "%' + search + '%"');
-    console.log(rows);
+    // console.log(rows);
     var data = [];
     for (i = 0; i < rows.length; i++) {
       data.push(rows[i]);
@@ -702,7 +760,7 @@ router.post("/searchjob", loggedIn, async (req, res) => {
         ["%${searchjob}%"],
         (err, result)
       );
-    console.log(rows);
+    // console.log(rows);
     // res.send(result);
   } catch (error) {
     console.error(error);

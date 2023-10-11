@@ -10,80 +10,90 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-  
+
   <%- include('navbar') %>
-          
-            <form action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
-              <div>
-                <input type="text" id="username" name="username" value="<%= user.username %>" />
-                <label for="username">username</label>
-              </div>
-              <label for="image">Image</label>
-          <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
-          <img id="imagePreview" src="/image/<%= user.image %>" alt="Default Image" width="100" height="100">
-              <div >
-                <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" id="email" name="email" value="<%= user.email %>" />
-                <label for="email">Email</label>
-              </div>
-              
-              <button type="submit" class="btn btn-primary">save</button>
-            </form>
-           <% if (history == 'undefined' || history == null || resume === 'undefined' || resume === null) { %>
-        <p>adsadadasdads</p>
+  <div class="container-box">
+    <div class="profile">
+      <form class="profile" action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
+        <div>
+          <input type="text" id="username" name="username" value="<%= user.username %>" />
+          <label for="username">username</label>
+        </div>
+        <label for="image">Image</label>
+        <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
+        <img id="imagePreview" src="/image/<%= user.image %>" alt="Default Image" width="100" height="100">
+        <div>
+          <ion-icon name="mail-outline"></ion-icon>
+          <input type="email" id="email" name="email" value="<%= user.email %>" />
+          <label for="email">Email</label>
+        </div>
 
-            <%}else {%>
-              
-              <% if (history.length > 0) { %>
-                <% history.forEach((historyItem) => { %> <!-- Added ( before historyItem -->
-                  
-                  <p class="card-text"><%= historyItem.id_resume %></p> 
-                  <p class="card-text"><%= historyItem.id_historyuser %></p>
-                  <p class="card-text"><%= historyItem.id_company %></p>
-                  <div class="col-3 p-4 border bg-light">
-                    <div class="card text-center" style="width: 15rem;">
-                      <img class="card-img-top" src="./image/AIS.png" alt="Card image cap">
-                      <div class="card-body">
-                        <!-- Content for card body -->
-                      </div>
-                    </div>
-                  </div>
-                <% }); %> <!-- Corrected the location of closing }); -->
+        <button type="submit" class="btn btn-primary">save</button>
+      </form>
+    </div>
+  </div>
+    <% if (history=='undefined' || history==null || resume==='undefined' || resume===null) { %>
+      <p>adsadadasdads</p>
+
+      <%}else {%>
+
+        <% if (history.length> 0) { %>
+          <% history.forEach((historyItem)=> { %> <!-- Added ( before historyItem -->
+
+            <p class="card-text">
+              <%= historyItem.id_resume %>
+            </p>
+            <p class="card-text">
+              <%= historyItem.id_historyuser %>
+            </p>
+            <p class="card-text">
+              <%= historyItem.id_company %>
+            </p>
+            <div class="col-3 p-4 border bg-light">
+              <div class="card text-center" style="width: 15rem;">
+                <img class="card-img-top" src="./image/AIS.png" alt="Card image cap">
+                <div class="card-body">
+                  <!-- Content for card body -->
+                </div>
+              </div>
+            </div>
+            <% }); %> <!-- Corrected the location of closing }); -->
               <% } %>
-              
-              
 
-          <%  } %>
 
-                
-                <script>
-                  function displayImage(event) {
-                    const imagePreview = document.getElementById('imagePreview');
-                    const file = event.target.files[0];
-      
-                    if (file) {
-                      const reader = new FileReader();
-      
-                      reader.onload = function (e) {
-                        imagePreview.src = e.target.result;
+
+                <% } %>
+
+
+                  <script>
+                    function displayImage(event) {
+                      const imagePreview = document.getElementById('imagePreview');
+                      const file = event.target.files[0];
+
+                      if (file) {
+                        const reader = new FileReader();
+
+                        reader.onload = function (e) {
+                          imagePreview.src = e.target.result;
+                        }
+
+                        reader.readAsDataURL(file);
+                      } else {
+                        if (user) {
+                          imagePreview.src = '/image/<%= user.image %>'; // Set default image
+                        }
+
                       }
-      
-                      reader.readAsDataURL(file);
-                    } else {
-                      if(user){
-                      imagePreview.src = '/image/<%= user.image %>'; // Set default image
-                      } 
-                     
                     }
-                  }
-      
-                </script>
-                  
-     
+
+                  </script>
+
+
+</div>
 
 </body>
 
