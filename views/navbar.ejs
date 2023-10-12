@@ -5,211 +5,482 @@
     margin-left: 20px;
     /* Adjust the margin value as needed */
   }
+
+  .rounded-circle {
+      width: 40px; /* Adjust the width as needed */
+      height: 40px; /* Adjust the height as needed */
+      border-radius: 50%; /* Create a circular shape */
+      object-fit: cover; /* Maintain the aspect ratio and fill the container */
+    }
+
+    #header {
+  background: #e9e8e6;
+  box-shadow: 0px 0px 25px 0 rgba(0, 0, 0, 0.08);
+  z-index: 997;
+  padding: 15px 0;
+}
+
+#header .logo {
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+#header .logo a {
+  color: #222222;
+}
+
+#header .logo img {
+  max-height: 40px;
+}
+
+@media (max-width: 992px) {
+  #header .logo {
+    font-size: 28px;
+  }
+}
+
+/*--------------------------------------------------------------
+# Header Social Links
+--------------------------------------------------------------*/
+.header-social-links {
+  padding-right: 15px;
+}
+
+.header-social-links a {
+  color: #6f6f6f;
+  padding-left: 6px;
+  display: inline-block;
+  line-height: 0px;
+  transition: 0.3s;
+  font-size: 16px;
+}
+
+.header-social-links a:hover {
+  color: #34b7a7;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.navbar li {
+  position: relative;
+  padding: 10px 0 10px 28px;
+}
+
+.navbar a,
+.navbar a:focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Raleway", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #888888;
+  white-space: nowrap;
+  transition: 0.3s;
+  position: relative;
+}
+
+.navbar a i,
+.navbar a:focus i {
+  font-size: 12px;
+  line-height: 0;
+  margin-left: 5px;
+}
+
+.navbar>ul>li>a:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #34b7a7;
+  visibility: hidden;
+  width: 0px;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.navbar a:hover:before,
+.navbar li:hover>a:before,
+.navbar .active:before {
+  visibility: visible;
+  width: 25px;
+}
+
+.navbar a:hover,
+.navbar .active,
+.navbar .active:focus,
+.navbar li:hover>a {
+  color: #222222;
+}
+
+.navbar .dropdown ul {
+  display: block;
+  position: absolute;
+  left: 14px;
+  top: calc(100% + 30px);
+  margin: 0;
+  padding: 10px 0;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  background: #fff;
+  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+  transition: 0.3s;
+  border-radius: 4px;
+}
+
+.navbar .dropdown ul li {
+  min-width: 200px;
+  padding: 0;
+}
+
+.navbar .dropdown ul a {
+  padding: 10px 20px;
+  font-size: 15px;
+  text-transform: none;
+  font-weight: 600;
+}
+
+.navbar .dropdown ul a i {
+  font-size: 12px;
+}
+
+.navbar .dropdown ul a:hover,
+.navbar .dropdown ul .active:hover,
+.navbar .dropdown ul li:hover>a {
+  color: #34b7a7;
+}
+
+.navbar .dropdown:hover>ul {
+  opacity: 1;
+  top: 100%;
+  visibility: visible;
+}
+
+.navbar .dropdown .dropdown ul {
+  top: 0;
+  left: calc(100% - 30px);
+  visibility: hidden;
+}
+
+.navbar .dropdown .dropdown:hover>ul {
+  opacity: 1;
+  top: 0;
+  left: 100%;
+  visibility: visible;
+}
+
+@media (max-width: 1366px) {
+  .navbar .dropdown .dropdown ul {
+    left: -90%;
+  }
+
+  .navbar .dropdown .dropdown:hover>ul {
+    left: -100%;
+  }
+}
+
+/**
+* Mobile Navigation 
+*/
+.mobile-nav-toggle {
+  color: #222222;
+  font-size: 28px;
+  cursor: pointer;
+  display: none;
+  line-height: 0;
+  transition: 0.5s;
+}
+
+.mobile-nav-toggle.bi-x {
+  color: #fff;
+}
+
+@media (max-width: 991px) {
+  .mobile-nav-toggle {
+    display: block;
+  }
+
+  .navbar ul {
+    display: none;
+  }
+}
+
+.navbar-mobile {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(9, 9, 9, 0.9);
+  transition: 0.3s;
+  z-index: 999;
+}
+
+.navbar-mobile .mobile-nav-toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.navbar-mobile ul {
+  display: block;
+  position: absolute;
+  top: 55px;
+  right: 15px;
+  bottom: 15px;
+  left: 15px;
+  padding: 10px 0;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow-y: auto;
+  transition: 0.3s;
+}
+
+.navbar-mobile a,
+.navbar-mobile a:focus {
+  font-size: 15px;
+  padding-right: 15px;
+  color: #222222;
+}
+
+.navbar-mobile a:hover,
+.navbar-mobile .active,
+.navbar-mobile li:hover>a {
+  color: #34b7a7;
+}
+
+.navbar-mobile .getstarted,
+.navbar-mobile .getstarted:focus {
+  margin: 15px;
+}
+
+.navbar-mobile .dropdown ul {
+  position: static;
+  display: none;
+  margin: 10px 20px;
+  padding: 10px 0;
+  z-index: 99;
+  opacity: 1;
+  visibility: visible;
+  background: #fff;
+  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+}
+
+.navbar-mobile .dropdown ul li {
+  min-width: 200px;
+}
+
+.navbar-mobile .dropdown ul a {
+  padding: 10px 20px;
+}
+
+.navbar-mobile .dropdown ul a i {
+  font-size: 12px;
+}
+
+.navbar-mobile .dropdown ul a:hover,
+.navbar-mobile .dropdown ul .active:hover,
+.navbar-mobile .dropdown ul li:hover>a {
+  color: #34b7a7;
+}
+
+.navbar-mobile .dropdown>.dropdown-active {
+  display: block;
+}
+
 </style>
 
-<div class="container-xxl position-relative p-0">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 px-lg-5 py-3 py-lg-0 ">
+<% if (status==="loggedIn" ) { %>
+  <% if (user) { %>
+<div class="container-fluid d-flex justify-content-between align-items-center">
 
-    <div class="container-fluid">
-      <i class="fa fa-briefcase fa-2x "><span class="content-with-space"></span></i>
+  <a class="navbar-brand mt-5"  href="/">
+   
+    <h6 class="text-dark m-0 fs-2">
+      
+      <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
+    </h6>
+  </a>
 
-      <a class="navbar-brand" href="/">
-        <h1 class="text-dark m-0 fs-2">
-          <%= webpage[0].namepage %>
-        </h1>
-      </a>
+  <nav id="navbar" class="navbar order-last order-lg-0">
+    <ul>
+      <li><a class="active" href="/">Home</a></li>
+      <li><a href="/user/addresume/<%= user.id_user %>">RESUME</a></li>
+      
 
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+  </nav><!-- .navbar -->
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-        <% if (status==="loggedIn" ) { %>
-          <% if (user) { %>
-            <div class="navbar-nav ms-auto py-0 pe-4">
-              <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item dropdown me-auto ms-auto">
-                <li class="nav-item me-auto">
-                  <a class="nav-link" href="/">
-                    <h5 class="text-dark m-0">
-                      HOME
-                    </h5>
-                  </a>
-                </li>
-                <!-- <li class="nav-item me-auto">
-          <a class="nav-link" href="/user/addresume/<%= user.id_user %>">Article</a>
-        </li>
-        <li class="nav-item me-auto">
-          <a class="nav-link" href="/user/updateresume/<%= user.id_user %>">JobSearch</a>
-        </li> -->
-                <li class="nav-item me-auto">
-                  <a class="nav-link" href="/user/addresume/<%= user.id_user %>">
-                    <h5 class="text-dark m-0">RESUME</h5>
-                  </a>
-                </li>
-                <!-- <div class="img-account-profile rounded-circle"> </div> -->
-                <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle  btn btn-primary py-2 px-4" href="#" id="navbarDropdownuser"
-                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <%= user.username %>
-                  </a>
-
-                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownuser">
-                    <li><a class="dropdown-item" href="/user/profile/<%= user.id_user %>">Profile</a></li>
-                    <li><a class="dropdown-item" href="/user/resetpassword/<%= user.id_user %>">ResetPassword</a></li>
-                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                  </ul>
-                </div>
-
-                </li>
-              </ul>
-            </div>
-      </div>
-  </nav>
+  <div class="header-social-links">
+    <img src="/image/<%= user.image %>" alt="Profile" class="rounded-circle">
+    
+    <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdownuser"
+    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <%= user.username %></a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdownuser">
+    <li><a class="dropdown-item" href="/user/profile/<%= user.id_user %>">Profile</a></li>
+    <li><a class="dropdown-item" href="/user/resetpassword/<%= user.id_user %>">ResetPassword</a></li>
+    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+  </ul>
+    
+  </div>
 </div>
 
 <% } else if(company){ %>
 
-
-
-
-  <div class="container-xxl position-relative p-0">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 px-lg-5 py-3 py-lg-0 ">
-
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-
-        <div class="navbar-nav ms-auto py-0 pe-4">
-          <ul class="navbar-nav mb-2 mb-lg-0">
-            <li class="nav-item dropdown me-auto ms-auto">
-              <!-- <li class="nav-item me-auto">
-                    <a class="nav-link" href="/company/addjob_company/<%= company.id_company %>">Article</a>
-                  </li>
-                  <li class="nav-item me-auto">
-                    <a class="nav-link"
-                      href="/company/addjob_company/<%= company.id_company %>">JobSerach(ค้นหาบริษัท)</a>
-                  </li> -->
-              <!-- <li class="nav-item me-auto">
-            <a class="nav-link" href="/company/addjob_company/<%= company.id_company %>">Job</a>
-          </li> -->
-            <li class="nav-item me-auto">
-              <a class="nav-link" href="/">
-                <h5 class="text-dark m-0">
-                  HOME
-                </h5>
-              </a>
-            </li>
-
-            <li class="nav-item me-auto">
-              <a class="nav-link" href="/company/addjob_company/<%= company.id_company %>">
-                <h5 class="text-dark m-0">AddJob</h5>
-              </a>
-            </li>
-            <li class="nav-item me-auto">
-              <a class="nav-link" href="/company/joball/<%= company.id_company %>">
-                <h5 class="text-dark m-0">MyJob</h5>
-              </a>
-            </li>
-
-            <div class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle btn btn-primary py-2 px-4" href="#" id="navbarDropdowncompany"
-                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <%= company.username %>
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdowncompany">
-                <li><a class="dropdown-item" href="/company/profile/<%= company.id_company %>">Profile</a></li>
-                <li><a class="dropdown-item" href="/company/resetpassword/<%= company.id_company %>">ResetPassword</a>
-                </li>
-                <li><a class="dropdown-item" href="/logout">Logout</a></li>
-              </ul>
-            </div>
-            </li>
-          </ul>
-        </div>
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    
+      <a class="navbar-brand" href="/">
+       
+        <h6 class="text-dark m-0 fs-2">
+          
+          <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
+        </h6>
+      </a>
+    
+    
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="active" href="/">Home</a></li>
+          <li><a href="/company/addjob_company/<%= company.id_company %>">AddJob</a></li>
+          <li><a href="/company/joball/<%= company.id_company %>">MyJob</a></li>
+          <!-- <li><a href="resume.html">Resume</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="contact.html">Contact</a></li> -->
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+    
+      <div class="header-social-links">
+        <img src="/image/<%= company.image %>" alt="Profile" class="rounded-circle">
+        
+        <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdowncompany"
+        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <%= company.username %></a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdowncompany">
+        <li><a class="dropdown-item" href="/company/profile/<%= company.id_company %>">Profile</a></li>
+        <li><a class="dropdown-item" href="/company/resetpassword/<%= company.id_company %>">ResetPassword</a></li>
+        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+      </ul>
+        
       </div>
-    </nav>
-  </div>
+    </div>
 
-  <% } else if(admin){ %>
-    <div class="container-xxl position-relative p-0">
+    <% } else if(admin){ %>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 px-lg-5 py-3 py-lg-0 ">
-
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-
-          <div class="navbar-nav ms-auto py-0 pe-4">
-            <ul class="navbar-nav mb-2 mb-lg-0">
-              <li class="nav-item dropdown me-auto ms-auto">
-              <li class="nav-item me-auto">
-                <a class="nav-link" href="/">
-                  <h5 class="text-dark m-0">
-                    HOME
-                  </h5>
-                </a>
-              </li>
-
-              <li class="nav-item me-auto">
-                <a class="nav-link" href="/admin/companymanagement/<%= admin.id_admin %>">
-                  <h5 class="text-dark m-0">CompanyManagement</h5>
-                </a>
-              </li>
+      <div class="container-fluid d-flex justify-content-between align-items-center">
+        
+          <a class="navbar-brand" href="/">
+           
+            <h6 class="text-dark m-0 fs-2">
+              
+              <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
+            </h6>
+          </a>
+        
+        
+          <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+              <li><a class="active" href="/">Home</a></li>
+              <li><a href="/admin/companymanagement/<%= admin.id_admin %>">CompanyManagement</a></li>
               <li class="nav-item me-auto">
                 <a class="nav-link" href="/admin/usermanagement/<%= admin.id_admin %>">
-                  <h5 class="text-dark m-0">UserManagement</h5>
+                  UserManagement
                 </a>
               </li>
-              <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle btn btn-primary py-2 px-4" href="#" id="navbarDropdownadmin"
-                  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <%= admin.username %>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownadmin">
-                  <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">ProFile</a></li>
-                  <li><a class="dropdown-item" href="/admin/webpage/<%= admin.id_admin %>">EditWeb</a></li>
-                  <li><a class="dropdown-item" href="/logout">LogOut</a></li>
-                  <!-- แก้ไขเว็ปได้ยังไม่ได้ทำ -->
-                </ul>
-              </div>
-
-              </li>
+            
             </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <% } %>
-
-      <% } else { %>
-        <div class="navbar-nav ms-auto py-0 pe-4">
-
-
-          <div class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle btn btn-primary py-2 px-4" href="#" id="navbarDropdown1" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              Login
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-              <li><a class="dropdown-item" href="/login">Login</a></li>
-              <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
-              <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
-            </ul>
-          </div>
-        </div>
-
-
-        </li>
-        </ul>
-        </div>
-        </div>
-        </nav>
-        </div>
-        <% } %>
-          </li>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+          </nav><!-- .navbar -->
+        
+          <div class="header-social-links">
+            <img src="/image/<%= admin.image %>" alt="Profile" class="rounded-circle">
+            
+            <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdownuser"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <%= admin.username %></a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownuser">
+            <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">ProFile</a></li>
+            <li><a class="dropdown-item" href="/admin/webpage/<%= admin.id_admin %>">EditWeb</a></li>
+            <li><a class="dropdown-item" href="/logout">LogOut</a></li>
           </ul>
+            
           </div>
+        </div>
+
+
+      <% } %>
+      <% } else { %>
+<div class="container-fluid d-flex justify-content-between align-items-center">
+        
+          <a class="navbar-brand" href="/">
+           
+            <h6 class="text-dark m-0 fs-2">
+              
+              <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
+            </h6>
+          </a>
+       
+        
+          <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+              <li><a class="active" href="/">Home</a></li>
+              
+            </ul>
+          
+          </nav><!-- .navbar -->
+        
+          <div class="header-social-links">
+          
+            <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdown1"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Login</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+            <li><a class="dropdown-item" href="/login">Login</a></li>
+            <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
+            <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
+           
+          </ul>
+            
           </div>
-          </nav>
-          </div>
+        </div>
+
+        <% } %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
