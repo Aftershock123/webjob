@@ -311,15 +311,17 @@
 
 <% if (status==="loggedIn" ) { %>
   <% if (user) { %>
-<div class="container-fluid d-flex justify-content-between align-items-center">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+    
+      <a class="navbar-brand" href="/">
+       
+        <h6 class="text-dark m-0 fs-2">
+          
+          <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
+        </h6>
+      </a>
 
-  <a class="navbar-brand mt-5"  href="/">
-   
-    <h6 class="text-dark m-0 fs-2">
-      
-      <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
-    </h6>
-  </a>
+  
 
   <nav id="navbar" class="navbar order-last order-lg-0">
     <ul>
