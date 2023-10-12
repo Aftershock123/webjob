@@ -16,70 +16,82 @@
 
 <body>
   <%- include('navbar') %>
-
-
   
-  <section class="intro">
-    <div class="bg-image h-100" style="background-color: #f5f7fa;">
-      <div class="mask d-flex align-items-center h-100">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-body p-0">
-                  <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px;">
-                    <% if (usermanage.length > 0) { %>
-                    <table class="table table-striped mb-0">
-                      <thead style="background-color: #0d6af5;">
-                        <tr>
-                          <th scope="col">User ID</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Username</th>
-                          <th scope="col">Image</th>
-                          <th scope="col">status</th>
-                          <th scope="col"></th>
-                          <th scope="col"></th>
-
-                         
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% usermanage.forEach((user) => { %>
-                        <!-- Table rows for class information -->
-                        <tr>
-                          <td><%= user.id_user %></td>
-                          <td><%= user.email %></td>
-                          <td><%= user.username %></td>
-                          <td><%= user.status %></td>
-                          <td> <img src="/image/<%= user.image %>" class="img-fluid"></td>
-                          <td> 
-                            <form action="/admin/ban/<%= user.id_user %>" method="post">
-                            <input type="hidden" name="id" value="<%= user.id_user %>">
-                            <button type="submit" name="action" value="ban">Ban User</button>
-                          </form>
-                        </td>
-                        <td>
-                          <form action="/admin/unban/<%=  user.id_user %>" method="post">
-                            <input type="hidden" name="id" value="<%= user.id_user %>">
-                            <button type="submit" name="action" value="unban">Unban User</button>
-                          </form>
-                        </td>
-                        </tr>
-                        <% }); %>
-                        <!-- ... (other rows for class information) ... -->
-                      </tbody>
-                    </table>
-                    <% } %>
-                  </div>
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table align-items-center mb-0">
+        <% if (usermanage.length > 0) { %>
+        <thead>
+          <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User ID</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Image</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Username</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">status</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ban</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Unban</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% usermanage.forEach((user) => { %>
+          <tr>
+            <td>
+              <div class="d-flex px-2">
+                <div>
+                  <%= user.id_user %>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+            </td>
+            <td>
+              <img src="/image/<%= user.image %>" class="avatar avatar-sm rounded-circle me-2">
+
+            </td>
+
+            <td class="align-middle text-center">
+              <div class="d-flex align-items-center">
+                <b><%= user.username %></b>
+              </div>
+            </td>
+            
+            <td class="align-middle text-center">
+              <div class="d-flex align-items-center">
+                <span class="me-2 "><%= user.email %></span>
+              </div>
+            </td>
+            <td class="align-middle text-center">
+              <div class="d-flex align-items-center">
+                <span class="me-2 text-xs"><%= user.status %></span>
+              </div>
+            </td>
+            <td class="align-middle text-center">
+              <div class="d-flex align-items-center">
+                <form action="/admin/ban/<%= user.id_user %>" method="post">
+                  <input type="hidden" name="id" value="<%= user.id_user %>">
+                  <button type="submit" name="action" class="btn btn-outline-danger" value="ban">Ban User</button>
+                </form>
+              </div>
+            </td>
+            <td class="align-middle text-center">
+              <div class="d-flex align-items-center">
+                <form action="/admin/unban/<%=  user.id_user %>" method="post">
+                  <input type="hidden" name="id" value="<%= user.id_user %>">
+                  <button type="submit" name="action" class="btn btn-outline-dark" value="unban">Unban User</button>
+                </form>
+              </div>
+            </td>
+            
   
+          
+  
+          <% }); %>
+        </tbody>
+        <% } %>
+      </table>
+    </div>
+    </div>
+
+    
 
 
 
