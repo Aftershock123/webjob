@@ -11,13 +11,118 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/style.css">
+  <style>.gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+    
+    }
+    .colorless-input {
+background-color: transparent;
+border: none;
+}
+.border-custom {
+margin-top: 9px;
+margin-bottom: 9px;
+text-align-last: center;
+padding-top: 2px;
+padding-bottom: 2px;
+border: 2px solid rgb(0, 0, 0); /* Change the border style and color as needed */
+border-radius: 5px; /* Optional: Add rounded corners */
+}
+.label-profile{
+width: 117px;
+padding-top: 7px;
+height: 35px;
+flex-shrink: 0;
+background: linear-gradient(180deg, #5D406A 0%, rgba(106, 64, 64, 0.00) 100%);
+text-align-last: center;
+}
+.input-mid{
+padding-left:35px ;
+margin-bottom: 10px;
+}
+.form-control-input {
+
+padding: 10px; /* Add some padding */
+margin: 5px 0; /* Add margin at the top and bottom */
+box-sizing: border-box; /* Include padding and border in the element's total width and height */
+border: 1px solid #981818; /* Add a border */
+border-radius: 4px; /* Add rounded corners */
+}
+
+/* Style for when the input is focused */
+.form-control-input {
+border-color: #007BFF; /* Change border color when focused */
+}
+
+</style>
 </head>
 
 <body>
   
   <%- include('navbar') %>
+
+
+
+  <section style="background-color: #eeeeee;">
+    <form   action="/admin/updateprofile/<%= admin.id_admin %>" method="post" enctype="multipart/form-data">
+    
+        <div class="container py-5 h-100">
+          <p class="label-profile">Profile</p>
+          <div class="row d-flex justify-content-center align-items-center h-100 ">
+            <div class="col col-lg-6 mb-4 mb-lg-0 ">
+              <div class="card mb-3" style="border-radius: .5rem;">
+                <div class="row g-0">
+                  <div class="col-md-5 gradient-custom text-center text-white"
+                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                    <img src="/image/<%= admin.image %>" 
+                    alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
+                    <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)" class="input-mid">
+                    
+                    
+                    
+                     <button type="submit" class="btn btn-colorless ">
+                      <i class="far fa-edit"></i> Submit
+                    </button>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="card-body p-4">
+                      <h6>Information</h6>
+                      <hr class="mt-0 mb-4">
+                      <div class="row pt-1">
+                        <div class="col-6 mb-3 ">
+                          <h6>Username</h6>
+                           <input type="text" id="username" name="username"  class="form-control-input"  value="<%= admin.username %>" />
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                      <div class="col-6 mb-3">
+                        <h6>Email</h6>
+                        <input type="email" id="email" name="email" class="form-control-input"  value="<%= admin.email %>" />
+                      </div>
+                      
+                     
+                    
+                   
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        
+      </form>
+
          
-                <form action="/admin/updateprofile/<%= admin.id_admin %>" method="post"enctype="multipart/form-data">
+                <!-- <form action="/admin/updateprofile/<%= admin.id_admin %>" method="post"enctype="multipart/form-data">
 
                   <div >
                     <input type="text" id="username" name="username" value="<%= admin.username %>" />
@@ -35,7 +140,7 @@
                   <button type="submit" class="btn btn-primary">save</button>
                   
                 </form>
-
+ -->
 
               
                 <script>
