@@ -226,7 +226,7 @@ router.get(
           .query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [
             rows[0].id_resume,
           ]);
-        console.log("history: ", row1);
+        // console.log("history: ", row1);
 
         const [row2] = await db
           .promise()
@@ -235,7 +235,7 @@ router.get(
             [rows[0].id_resume]
           );
         //   console.log("job:" ,[rows[0].id_resume]);
-        // console.log("job:" ,[row2]);
+        console.log("job:" ,[row2]);
 
         return res.render("profile", {
           user: row[0],
@@ -718,15 +718,16 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
           }
         }
       );
-
-    res.render("profile", {
-      user: roww[0],
-      company,
-      admin,
-      webpage,
-      resume: row,
-      history: rowss,
-    });
+      let id=userId;
+res.redirect(`/user/profile/${id}`)
+    // res.render("profile", {
+    //   user: roww[0],
+    //   company,
+    //   admin,
+    //   webpage,
+    //   resume: row,
+    //   history: rowss,
+    // });
     //เรียกใช้router.get profile
   } catch (error) {
     console.log("Internal server error");

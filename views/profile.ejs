@@ -45,6 +45,20 @@ text-align-last: center;
 }
 .input-mid{
   padding-left:35px ;
+  margin-bottom: 10px;
+}
+.form-control-input {
+ 
+  padding: 10px; /* Add some padding */
+  margin: 5px 0; /* Add margin at the top and bottom */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  border: 1px solid #981818; /* Add a border */
+  border-radius: 4px; /* Add rounded corners */
+}
+
+/* Style for when the input is focused */
+.form-control-input {
+  border-color: #007BFF; /* Change border color when focused */
 }
 
 </style>
@@ -53,27 +67,8 @@ text-align-last: center;
 <body>
 
   <%- include('navbar') %>
-  <!-- <div class="container-box">
-    <div class="profile">
-      <form class="profile" action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
-        <div>
-          <input type="text" id="username" name="username" value="<%= user.username %>" />
-          <label for="username">username</label>
-        </div>
-        <label for="image">Image</label>
-        <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
-        <img id="imagePreview" src="/image/<%= user.image %>" alt="Default Image" width="100" height="100">
-        <div>
-          <ion-icon name="mail-outline"></ion-icon>
-          <input type="email" id="email" name="email" value="<%= user.email %>" />
-          <label for="email">Email</label>
-        </div>
-
-        <button type="submit" class="btn btn-primary">save</button>
-      </form>
-    </div>
-  </div> -->
-
+  
+<!-- 
   <form class="profile" action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
 
   <section class="vh-100" style="background-color: #eeeeee;">
@@ -134,40 +129,84 @@ text-align-last: center;
       </div>
     </div>
   </section>
-</form>
+</form> -->
 
-    <% if (history=='undefined' || history==null || resume==='undefined' || resume===null) { %>
-      <p>adsadadasdads</p>
+<section style="background-color: #eeeeee;">
+<form   action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
 
-      <%}else {%>
-
-        <% if (history.length> 0) { %>
-          <% history.forEach((historyItem)=> { %> <!-- Added ( before historyItem -->
-
-            <p class="card-text">
-              <%= historyItem.id_resume %>
-            </p>
-            <p class="card-text">
-              <%= historyItem.id_historyuser %>
-            </p>
-            <p class="card-text">
-              <%= historyItem.id_company %>
-            </p>
-            <div class="col-3 p-4 border bg-light">
-              <div class="card text-center" style="width: 15rem;">
-                <img class="card-img-top" src="./image/AIS.png" alt="Card image cap">
-                <div class="card-body">
-                  <!-- Content for card body -->
+    <div class="container py-5 h-100">
+      <p class="label-profile">Profile</p>
+      <div class="row d-flex justify-content-center align-items-center h-100 ">
+        <div class="col col-lg-6 mb-4 mb-lg-0 ">
+          <div class="card mb-3" style="border-radius: .5rem;">
+            <div class="row g-0">
+              <div class="col-md-5 gradient-custom text-center text-white"
+                style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                <img src="/image/<%= user.image %>" 
+                alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
+                <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)" class="input-mid">
+                
+                
+                
+                 <button type="submit" class="btn btn-colorless ">
+                  <i class="far fa-edit"></i> Submit
+                </button>
+              </div>
+              <div class="col-md-5">
+                <div class="card-body p-4">
+                  <h6>Information</h6>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3 ">
+                      <h6>Username</h6>
+                       <input type="text" id="username" name="username"  class="form-control-input"  value="<%= user.username %>" />
+                    </div>
                 </div>
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>Email</h6>
+                    <input type="email" id="email" name="email" class="form-control-input"  value="<%= user.email %>" />
+                  </div>
+                  
+                 
+                
+               
+              </div>
               </div>
             </div>
-            <% }); %> <!-- Corrected the location of closing }); -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </form>
+  
+  <% if (history=='undefined' || history==null || resume==='undefined' || resume===null) { %>
+
+    <%}else {%>
+      <p class="label-profile">Job sended</p>
+      <div class="container">
+        <div class="row">
+      <% if (history.length> 0) { %>
+        <% history.forEach((historyItem)=> { %> <!-- Added ( before historyItem -->
+                    <div class="col-md-3">
+                      <div class="card" style="width: 18rem; margin-top: 50px">
+                        <img src="/image/<%= historyItem.image %>"  class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <!-- <h5 class="card-title"><%= historyItem.idjob_company %></h5> -->
+                          <h5 class="card-title"><%= historyItem.name_company %></h5>
+                          <h4 class="card-title"><%= historyItem.name_job %></h4>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                    </div>
+          <% }); %> <!-- Corrected the location of closing }); -->
+            <% } %>
               <% } %>
 
-
-
-                <% } %>
-
+  
+</section>
 
 
 
