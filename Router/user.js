@@ -226,14 +226,15 @@ router.get(
           .query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [
             rows[0].id_resume,
           ]);
-        // console.log("history: ", row1);
+        console.log("history: ", row1);
 
         const [row2] = await db
           .promise()
           .query(
             "SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company  inner join historyuser on job_company.idjob_company = historyuser.idjob_company where historyuser.id_resume = ? ",
-            [row[0].id_resume]
+            [rows[0].id_resume]
           );
+        //   console.log("job:" ,[rows[0].id_resume]);
         // console.log("job:" ,[row2]);
 
         return res.render("profile", {
@@ -287,6 +288,8 @@ router.post(
         const currentURL = req.get("Referer");
         res.redirect(currentURL);
       }
+      const currentURL = req.get("Referer");
+        res.redirect(currentURL);
     } catch (error) {
       // res.render("profile", { user: row2[0], company, admin, webpage });
       console.error(error);
@@ -729,7 +732,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
     console.log("Internal server error");
     return res
       .status(500)
-      .json({ status: "error", error: "Internal server error" });
+      .json({ status: "error", error: "Please add resume" });
   }
 });
 
