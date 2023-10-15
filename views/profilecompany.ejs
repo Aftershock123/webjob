@@ -11,34 +11,161 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/style.css">
+  <style>.gradient-custom {
+    /* fallback for old browsers */
+    background: #f6d365;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+    
+    }
+    .colorless-input {
+background-color: transparent;
+border: none;
+}
+.border-custom {
+margin-top: 9px;
+margin-bottom: 9px;
+text-align-last: center;
+padding-top: 2px;
+padding-bottom: 2px;
+border: 2px solid rgb(0, 0, 0); /* Change the border style and color as needed */
+border-radius: 5px; /* Optional: Add rounded corners */
+}
+.label-profile{
+width: 117px;
+padding-top: 7px;
+height: 35px;
+flex-shrink: 0;
+background: linear-gradient(180deg, #5D406A 0%, rgba(106, 64, 64, 0.00) 100%);
+text-align-last: center;
+}
+.input-mid{
+padding-left:35px ;
+margin-bottom: 10px;
+}
+.form-control-input {
+
+padding: 10px; /* Add some padding */
+margin: 5px 0; /* Add margin at the top and bottom */
+box-sizing: border-box; /* Include padding and border in the element's total width and height */
+border: 1px solid #981818; /* Add a border */
+border-radius: 4px; /* Add rounded corners */
+}
+
+/* Style for when the input is focused */
+.form-control-input {
+border-color: #007BFF; /* Change border color when focused */
+}
+
+</style>
 </head>
 
 <body>
   
-  <%- include('navbar') %>
-          
-              <form action="/company/updateprofile/<%= company.id_company %>" method="post" enctype="multipart/form-data">
+   <%- include('navbar') %> 
 
-                <div >
-                  <input type="text" id="username" name="username" value="<%= company.username %>" />
-                  <label for="username">username</label>
-                </div>
-                <div >
-                  
+    
+
+
+        <section style="background-color: #eeeeee;">
+          <form action="/company/updateprofile/<%= company.id_company %>" method="post" enctype="multipart/form-data">
+          
+              <div class="container py-5 h-100">
+                <p class="label-profile">Profile</p>      
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <img src="/image/<%= company.image %>" 
+                  alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
+                  <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)" class="input-mid">
                  
-                  <label for="image">Image</label>
-          <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
-          <img id="imagePreview" src="/image/<%= company.image %>" alt="Default Image" width="100" height="100">
-                  <!-- <label for="image">image</label> -->
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Username</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" id="username" name="username" class="form-control-input"  value="<%= company.username %>" />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">NameContact</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="namecontact_company" id="namecontact_company" name="namecontact_company" class="form-control-input"  value="<%= company.namecontact_company %>" />
+                    </div>
+                  </div>
+                  
                 </div>
-                <div >
-                  <ion-icon name="mail-outline"></ion-icon>
-                  <input type="email" id="email" name="email" value="<%= company.email %>" />
-                  <label for="email">Email</label>
+              </div>
+              
+            </div>
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">NameCompany</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="name_company" id="name_company" name="name_company" class="form-control-input"  value="<%= company.name_company %>" />
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="email" id="email" name="email" class="form-control-input"  value="<%= company.email %>" />
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Phone</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="tell_company" id="tell_company" name="tell_company" class="form-control-input"  value="<%= company.tell_company %>" />
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">County</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="county_company" id="county_company" name="county_company" class="form-control-input"  value="<%= company.county_company %>" />
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Address</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="address_company" id="address_company" name="address_company" class="form-control-input"  value="<%= company.address_company %>" />
+                    </div>
+                    <button type="submit" class="btn btn-colorless ">
+                      <i class="far fa-edit"></i> Submit
+                    </button>
+                  </div>
                 </div>
-               
-                <button type="submit" class="btn btn-primary">save</button>
-              </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+          </form>
+      </section>
+            
+             
 
              
                 <script>
@@ -63,6 +190,7 @@
                   }
       
                 </script>
+                  
                   
      
 

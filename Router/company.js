@@ -362,7 +362,7 @@ router.post("/changepassword/:id", loggedIn, async (req, res, next) => {
 //////////////////////--------------------------------------------- profile------------------------------------------------------//////////
 
 //แสดงโปรไฟล์
-router.get("/profile/:id", loggedIn, async (req, res) => {
+router.get("/profile/:id", loggedIn,upload.single("image"), async (req, res) => {
   try {
     let user;
     let admin;
@@ -385,7 +385,7 @@ router.get("/profile/:id", loggedIn, async (req, res) => {
   }
 });
 
-//อัพเดตโปรไฟล์
+//อัพเดตโปรไฟล์ มีปันหาอยู่
 router.post(
   "/updateprofile/:id",
   upload.single("image"),
@@ -399,15 +399,40 @@ router.post(
       const [row] = await db
         .promise()
         .query("SELECT * FROM companies WHERE id_company = ?", [id]);
-      const { username, email } = req.body;
+   
 
+      const {
+        username,
+        name_company,
+        type_company,
+        namecontact_company,
+        address_company,
+        province_company,
+        county_company,
+        district_company,
+        zipcode_company,
+        amphoe,
+        tell_company,
+        email,
+      } = req.body;
       const image = req.file ? req.file.filename : row[0].image;
       // console.log(image)
       const [rows] = await db
         .promise()
         .query(
-          "UPDATE companies SET username = ?, email = ? ,image =? WHERE id_company = ?",
-          [username, email, image, id]
+          "UPDATE companies SET name_company = ?, type_company = ?,namecontact_company = ? ,address_company = ? , province_company= ?,county_company = ?,district_company = ?,zipcode_company= ?,amphoe= ?,tell_company= ?,email= ?,username = ?,image= ? WHERE id_company = ?",
+          [
+            name_company,
+            type_company,
+            namecontact_company,
+            address_company,
+            province_company,
+            county_company,
+            district_company,
+            zipcode_company,
+            amphoe,
+            tell_company,
+            email,username, image, id]
         );
       const [upCompany] = await db
         .promise()
