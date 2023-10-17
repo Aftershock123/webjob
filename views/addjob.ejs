@@ -12,85 +12,135 @@
 </head>
 <body>
   <%- include('navbar') %>
+  <section style="background-color: #eeeeee; ">
+  <div class="container py-5 h-100">
+    <p class="label-profile">Addjob</p>
+  </div>
 
-  <form action="/company/addjob_company/<%= company.id_company %>" method="post">
-    
-    <div class="inputbox-regis">
-      <input type="text" id="name_job"  name="name_job" />
-      <label for="name_job">name_job</label>
-    </div>
-    <div class="inputbox-regis">
-     
-     <ion-icon name="mail-outline"></ion-icon>
-     <input type="text" id="role" name= "role" />
-     <label for="role">role</label>
-      </div>
+   <form action="/company/addjob_company/<%= company.id_company %>" method="post">
+    <div class="row" style="justify-content:center;">
 
 
-      
-
-      <div class="inputbox-regis">
-        <input type="text" id="detail_work"  name="detail_work"  />
-        <label for="detail_work">detail_work</label>
-      </div>
-      <div class="inputbox-regis">
-       <ion-icon name="mail-outline"></ion-icon>
-       <input type="text" id="experience" name= "experience" />
-       <label for="experience">experience</label>
-        </div>
-
-
-        <div class="inputbox-regis">
-          <input type="text" id="gender"  name="gender"  />
-          <label for="gender">gender</label>
-        </div>
-        <div class="inputbox-regis">
-         <ion-icon name="mail-outline"></ion-icon>
-         <input type="text" id="education" name= "education" />
-         <label for="education">education</label>
-          </div>
-
-          <div class="inputbox-regis">
-            <input type="text" id="welfare"  name="welfare"  />
-            <label for="welfare">welfare</label>
-          </div>
-        
-          <div class="inputbox-regis">
-            <input type="text" id="salary"  name="salary"  />
-            <label for="salary">salary</label>
-          </div>
-          <div class="inputbox-regis">
-           <ion-icon name="mail-outline"></ion-icon>
-           <input type="text" id="workday" name= "workday" />
-           <label for="workday">workday</label>
-            </div>
-  
-            <div class="inputbox-regis">
-              <input type="text" id="day_off"  name="day_off"  />
-              <label for="day_off">day_off</label>
-            </div>
-
-
-            <div class="inputbox-regis">
-                <ion-icon name="mail-outline"></ion-icon>
-                <input type="datetime-local" id="deadline_offer" name= "deadline_offer"/>
-                <label for="deadline_offer">deadline_offer</label>
-                 </div>
-
-                 <div class="form-group">
-                  <label for="example-datetime-local-input" class="form-control-label">Datetime</label>
-                  <input class="form-control" type="datetime-local" value="2018-11-23T10:30:00" id="example-datetime-local-input">
+        <div class="col-lg-6">
+          <div class="card p-5">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Name Job</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="name_job"  name="name_job" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Role</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="role" name= "role" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Detail Work</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="detail_work"  name="detail_work"  />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Experience</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="experience" name= "experience" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Gender</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="gender"  name="gender"  />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Education</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="education" name= "education" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Welfare</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="welfare"  name="welfare"  />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Salary</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="salary"  name="salary"  />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Workday</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="workday" name= "workday" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Day Off</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="day_off"  name="day_off"  />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Deadline Offer</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="datetime-local" id="deadline_offer" name= "deadline_offer"/>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    
+                    <input type="hidden" id="id_company" name= "id_company"/>
+                  </div>
+                  <div class="col-sm-9">
+                    <button type="submit" class="btn btn-outline-primary" style="margin-left: 50vh;" data-mdb-ripple-color="dark">Submit</button>
+                  </div>
+                </div>
+                
               </div>
-
-                 <div class="inputbox-regis">
-                  <ion-icon name="mail-outline"></ion-icon>
-                  <input type="hidden" id="id_company" name= "id_company"/>
-                  
-                   </div>
-       
-            
-        <button type="submit" class="btn btn-wanning">save</button>    
-      </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
 </body>
 
 </html>

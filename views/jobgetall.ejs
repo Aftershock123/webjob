@@ -11,40 +11,81 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+        
+<style>
+  .button-unban{
 
+text-align: center;
+margin-top: -38px;
+padding-left: -15px;
+margin-left: -50px;
+
+  }
+  .btn-rounded {
+    border-radius: 20px; /* Adjust the value to control the roundness of the button */
+}
+.a-edit{
+  margin-left: -15px;
+}
+
+
+  .button-ban{
+padding-right: -10px;
+margin-top: -38px;
+
+text-align: right;
+
+  }
+  .label-profile{
+  width: 117px;
+  padding-top: 7px;
+height: 35px;
+flex-shrink: 0;
+background: linear-gradient(180deg, #5D406A 0%, rgba(106, 64, 64, 0.00) 100%);
+text-align-last: center;
+}
+</style>
 </head>
 
 
     <body>
+      
       <%- include('navbar') %>
+      <section style="background-color: #eeeeee; height: 100vh; ">
+      <div class="container py-5 h-100">
+        <p class="label-profile">MyJob</p>
       <div class="container">
         <div class="row">
       <% if(job.length > 0) { %>
         <% job.forEach((job) => {%>
           <% if( job != undefined) { %>
                 <div class="col-md-3">
-                  <div class="card" style="width: 18rem; margin-top: 50px">
-                    <img src="..." class="card-img-top" alt="...">
+                  <div class="card" style="width: 18rem; margin-top: 30px">
+                    
                     <div class="card-body">
-                      <h5 class="card-title"><%= job.idjob_company %></h5>
+                      
                       <h5 class="card-title"><%= job.name_job %></h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a  class="nav-link" href="/company/updatejob_company/<%= job.idjob_company %>">edit</a>
-                      <button type="reset" class="btn btn-danger">delete</button>
+                      <p class="card-title"><%= job.detail_work %></p>
+                      <p class="card-title"><%= job.deadline_offer %></p>
+                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                      <a  class="nav-link a-edit " href="/company/updatejob_company/<%= job.idjob_company %>"> <i class="far fa-edit ">edit</i></a>
+                     <div class="button-ban">
                       <form action="/company/banjob/<%= job.idjob_company %>" method="post">
                         <input type="hidden" name="id" value="<%= job.idjob_company %>">
-                        <button type="submit" name="action" value="ban">Close Job</button>
+                        <button type="submit" class="btn btn-outline-primary btn-rounded" name="action" value="ban">Close Job</button>
+
                       </form>
-                    </td>
-                    <td>
+                    </div>
+                      <div class="button-unban">
                       <form action="/company/unbanjob/<%= job.idjob_company %>" method="post">
                         <input type="hidden" name="id" value="<%= job.idjob_company %>">
-                        <button type="submit" name="action" value="unban">Open Job</button>
+                        <button type="submit" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" name="action" value="unban">Open Job</button>
                       </form>
-                      <!-- <a  href="company/updatejob_company/:id">edit</a>   เรียกใช้update -->
+                     </div>
                     </div>
                   </div>
                 </div>
+              
           <% } else { %>
             <p> something wrong</p>
            <% } %>
@@ -55,9 +96,8 @@
           <% } %>
        
     
-    
-         
-                
+  
+        </section>   
                 
 
     </body>

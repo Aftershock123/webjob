@@ -597,7 +597,7 @@ router.get("/joball/:id", loggedIn, async (req, res) => {
     const [rows] = await db
       .promise()
       .query(
-        "SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?",
+        "SELECT *, DATE_FORMAT(deadline_offer, '%Y-%m-%d %H:%i') as deadline_offer  FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.id_company = ?",
         [id]
       );
     // console.log(rows)

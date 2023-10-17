@@ -23,134 +23,212 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
+  <style>
+    .label-profile {
+      width: 117px;
+      padding-top: 7px;
+      height: 35px;
+      flex-shrink: 0;
+      background: linear-gradient(180deg, #5D406A 0%, rgba(106, 64, 64, 0.00) 100%);
+      text-align-last: center;
+    }
 
+    .gradient-custom {
+      /* fallback for old browsers */
+      background: #f6d365;
+
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+    }
+  </style>
 </head>
 
 <body>
   <%- include('navbar') %>
-  <form action="/company/registercompany" method="post" enctype="multipart/form-data">
-    <!-- Name input -->
-    <div class="data">
-      <label class="form-label" for="username">Username</label>
-      <input type="text" name="username" id="username" class="form-control"/>
-
-    </div>
-    <!-- Password input -->
-    <div class="data">
-      <label class="form-label" for="password">Password</label>
-      <input type="password" name="password" id="password" class="form-control"/>
-
-    </div>
 
 
-    <!-- Email input -->
-    <div class="data">
-      <label class="form-label" for="email">Email</label>
-      <input type="email" name="email" id="email" class="form-control" />
+    <section style="background-color: #eeeeee;">
+      <form action="/company/registercompany" method="post" enctype="multipart/form-data">
 
-    </div>
+        <div class="container py-5 h-100">
+          <p class="label-profile">Register</p>
 
-    <div class="data">
-      <label for="image">Image</label>
-      <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
-      <img id="imagePreview" src="/image/default.png" alt="Default Image" width="100" height="100">
-      <script>
-        function displayImage(event) {
-          const imagePreview = document.getElementById('imagePreview');
-          const file = event.target.files[0];
+          <div class="row d-flex justify-content-center align-items-center h-100 width-100 ">
+            <div class="col col-lg-9 mb-4 mb-xl-0 ">
+              <div class="card mb-5" style="border-radius: .5rem;">
+                <div class="row ">
+                  <div class="col-md-3 gradient-custom text-center text-white"
+                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; ">
+                    <img id="imagePreview" src="/image/default.png" alt="Avatar" class="img-fluid my-5 rounded-circle"
+                      style="width: 100px; height: 100px;" />
+                    <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
+                    <button type="submit" class="btn btn-colorless ">
+                      <i class="far fa-edit"></i> Submit
+                    </button>
+                  </div>
 
-          if (file) {
-            const reader = new FileReader();
+                  <div class="col-lg 9">
+                    <div class="card-body p-4">
+                      <h6>Information</h6>
+                      <hr class="mt-0 md-7">
+                      <div class="row pt-1">
+                        <div class="col-5 mb-4 ">
+                          <h6>Username</h6>
+                          <input type="text" name="username" id="username" class="form-control" />
+                        </div>
+                        <div class="col-5 mb-4">
+                          <h6>Email</h6>
+                          <input type="email" name="email" id="email" class="form-control" />
+                        </div>
+                      </div>
 
-            reader.onload = function (e) {
-              imagePreview.src = e.target.result;
-            }
+                      <div class="row pt-1">
+                        <div class="col-5 mb-4">
+                          <h6>Password</h6>
+                          <input type="password" name="password" id="password" class="form-control" />
+                        </div>
+                        <div class="col-5 mb-4">
+                          <h6>NameCompany</h6>
+                          <input type="name_company" name="name_company" id="name_company" class="form-control" />
+                        </div>
 
-            reader.readAsDataURL(file);
-          } else {
-            imagePreview.src = '/image/default.png'; // Set default image
+                      </div>
+
+                      
+
+                     
+
+                      <div class="row pt-1">
+                        <div class="col-5 mb-3">
+                          <h6>TypeCompany</h6>
+                          <input type="type_company" name="type_company" id="type_company" class="form-control" />
+                        </div>
+                        <div class="col-5 mb-3">
+                          <h6>CountyCompany</h6>
+                          <input type="county_company" name="county_company" id="county_company" class="form-control" />
+                        </div>
+                      </div>
+
+                      
+
+                      <div class="row pt-1">
+                        <div class="col-5 mb-3">
+                          <h6>ProvinceCompany </h6>
+                          <input type="province_company" name="province_company" id="province_company"
+                            class="form-control" />
+                        </div>
+                        <div class="col-5 mb-3">
+                          <h6>namecontact_company</h6>
+                          <input type="namecontact_company" name="namecontact_company" id="namecontact_company"
+                            class="form-control" />
+                        </div>
+                      </div>
+
+                      
+
+                      <div class="row pt-1">
+                        <div class="col-5 mb-3">
+                          <h6>amphoe</h6>
+                          <input type="amphoe" name="amphoe" id="amphoe" class="form-control" />
+                        </div>
+                        <div class="col-5 mb-3">
+                          <h6>AddressCompany</h6>
+                          <input type="address_company" name="address_company" id="address_company"
+                            class="form-control" />
+                        </div>
+                      </div>
+
+                      
+
+                      <div class="row pt-1">
+                        <div class="col-5 mb-3">
+                          <h6>DistrictCompany</h6>
+                          <input type="district_company" name="district_company" id="district_company"
+                            class="form-control" />
+                        </div>
+                        <div class="col-5 mb-3">
+                          <h6>ZipCompany</h6>
+                          <input type="zipcode_company" name="zipcode_company" id="zipcode_company"
+                            class="form-control" />
+                        </div>
+                      </div>
+
+                      
+
+
+                      <div class="row pt-1">
+                        <div class="col-8 mb-3">
+                          <h6>TellCompany</h6>
+                          <input type="tell_company" name="tell_company" id="tell_company" class="form-control" />
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+
+      $.Thailand({
+        $district: $('#district_company'), // input ของตำบล//ใช้idแต่ละinput
+        $amphoe: $('#amphoe'), // input ของอำเภอ ยังไม่มีในdb
+        $province: $('#province_company'), // input ของจังหวัด
+        $zipcode: $('#zipcode_company'), // input ของรหัสไปรษณีย์
+      });
+
+    </script>
+    <script>
+      function displayImage(event) {
+        const imagePreview = document.getElementById('imagePreview');
+        const file = event.target.files[0];
+
+        if (file) {
+          const reader = new FileReader();
+
+          reader.onload = function (e) {
+            imagePreview.src = e.target.result;
           }
+
+          reader.readAsDataURL(file);
+        } else {
+          imagePreview.src = '/image/default.png'; // Set default image
         }
+      }
 
-      </script>
-    </div>
-
-   
-
-
-    <!-- userCompany input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="name_company">NameCompany</label>
-      <input type="name_company" name="name_company" id="name_company" class="form-control" />
-
-    </div>
-
-    <!-- typeCompany input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="type_company">TypeCompany</label>
-      <input type="type_company" name="type_company" id="type_company" class="form-control" />
-    </div>
-    
-    <!-- typeCompany input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="county_company">CountyCompany</label>
-      <input type="county_company" name="county_company" id="county_company" class="form-control" />
-    </div>
-
-    <!-- typeCompany input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="province_company">ProvinceCompany</label>
-      <input type="province_company" name="province_company" id="province_company" class="form-control" />
-    </div>
-
-
-    <div class="form-outline mb-4">
-      <label class="form-label" for="namecontact_company">namecontact_company</label>
-      <input type="namecontact_company" name="namecontact_company" id="namecontact_company" class="form-control" />
-    </div>
-    <div class="form-outline mb-4">
-      <label class="form-label" for="amphoe">amphoe</label>
-      <input type="amphoe" name="amphoe" id="amphoe" class="form-control" />
-    </div>
-
-    <!-- typeCompany input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="address_company">AddressCompany</label>
-      <input type="address_company" name="address_company" id="address_company" class="form-control" />
-    </div>
-
-
-    <!-- typeCompany input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="district_company">DistrictCompany</label>
-      <input type="district_company" name="district_company" id="district_company" class="form-control" />
-    </div>
-
-    <!-- typeCompany input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="zipcode_company">ZipCompany</label>
-      <input type="zipcode_company" name="zipcode_company" id="zipcode_company" class="form-control" />
-    </div>
-
-    <!-- typeCompany input -->
-    <div class="form-outline mb-4">
-      <label class="form-label" for="tell_company">TellCompany</label>
-      <input type="tell_company" name="tell_company" id="tell_company" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">RegisterCompany</button>
-
-  </form>
-  <script>
-
-    $.Thailand({
-      $district: $('#district_company'), // input ของตำบล//ใช้idแต่ละinput
-      $amphoe: $('#amphoe'), // input ของอำเภอ ยังไม่มีในdb
-      $province: $('#province_company'), // input ของจังหวัด
-      $zipcode: $('#zipcode_company'), // input ของรหัสไปรษณีย์
-    });
-
-  </script>
-
+    </script>
 
 </body>
 

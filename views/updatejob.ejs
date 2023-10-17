@@ -13,6 +13,145 @@
 <body>
   
   <%- include('navbar') %>
+
+  <section style="background-color: #eeeeee; ">
+    <div class="container py-5 h-100">
+      <p class="label-profile">Addjob</p>
+    </div>
+
+    
+    <form action="/company/updatejob_company/<%= job.idjob_company %>" method="post">
+    <div class="row" style="justify-content:center;">
+
+
+        <div class="col-lg-6">
+          <div class="card p-5">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Name Job</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="name_job"  name="name_job"  value="<%= job.name_job %>"/>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Role</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="role" name= "role" value="<%= job.role %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Detail Work</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="detail_work"  name="detail_work" value="<%= job.detail_work %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Experience</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="experience" name= "experience"value="<%= job.experience %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Gender</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="gender"  name="gender" value="<%= job.gender %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Education</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="education" name= "education"value="<%= job.education %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Welfare</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="welfare"  name="welfare" value="<%= job.welfare %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Salary</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="salary"  name="salary" value="<%= job.salary %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Workday</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="workday" name= "workday"value="<%= job.workday %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Day Off</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="day_off"  name="day_off" value="<%= job.day_off %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Deadline Offer</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="datetime-local" id="deadline_offer" name= "deadline_offer"value="<%= job.deadline_offer %>" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    
+                    <input type="hidden" id="id_company" name= "id_company"/>
+                  </div>
+                  <div class="col-sm-9">
+                    <!-- <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Primary</button> -->
+                    <button type="submit" class="btn btn-outline-primary"  style="margin-left: 50vh;" data-mdb-ripple-color="dark">Submit</button>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+
+
+
+
+
+
+<!-- 
   <form action="/company/updatejob_company/<%= job.idjob_company %>" method="post">
 
     <div class="inputbox-regis">
@@ -86,7 +225,7 @@
         <button type="submit" class="btn btn-wanning">save</button> 
     
       </form> 
-      
+       -->
 </body>
 
 </html>
