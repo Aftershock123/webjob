@@ -32,14 +32,11 @@
       padding-top: 7px;
       height: 35px;
       flex-shrink: 0;
-      background: linear-gradient(180deg, #5D406A 0%, rgba(106, 64, 64, 0.00) 100%);
+      background: linear-gradient(180deg, #7E12C1 0%, rgba(126, 18, 193, 0.00) 100%);
       text-align-last: center;
     }
 
-    .con-mar {
-      margin-right: 36px;
-    }
-
+   
     .section-container {
       display: flex;
       justify-content: center;
@@ -55,6 +52,7 @@
   <%- include('navbar') %>
 
     <% if(resume=='undefined' || resume==null) { %>
+      <section style="background-color: #eeeeee; ">
       <div class="container py-5 h-100">
         <p class="label-profile">Resume</p>
 
@@ -74,8 +72,8 @@
                     <div class="col-sm-3">
                       <p class="mb-0">Professional Summary</p>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" id="professional_summary" name="professional_summary" />
+                    <div class="col-sm-7">
+                      <textarea type="text" id="professional_summary" name="professional_summary" class="form-control"  rows="4"></textarea>
                     </div>
                   </div>
                   <hr>
@@ -83,8 +81,8 @@
                     <div class="col-sm-3">
                       <p class="mb-0">Work Experience</p>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" id="work_experience" name="work_experience" />
+                    <div class="col-sm-7">
+                      <textarea type="text" id="work_experience" name="work_experience" class="form-control"  rows="4"></textarea>
                     </div>
                   </div>
                   <hr>
@@ -92,8 +90,8 @@
                     <div class="col-sm-3">
                       <p class="mb-0">Skills</p>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" id="skills" name="skills" />
+                    <div class="col-sm-7">
+                      <textarea type="text" id="skills" name="skills" class="form-control"  rows="4"></textarea>
                     </div>
                   </div>
                   <hr>
@@ -101,8 +99,8 @@
                     <div class="col-sm-3">
                       <p class="mb-0">Education</p>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" id="education" name="education" />
+                    <div class="col-sm-7">
+                      <textarea type="text" id="education" name="education" class="form-control"  rows="4"></textarea>
                     </div>
                   </div>
                   <hr>
@@ -110,8 +108,8 @@
                     <div class="col-sm-3">
                       <p class="mb-0">Languages</p>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" id="languages" name="languages" />
+                    <div class="col-sm-7">
+                      <textarea type="text" id="languages" name="languages" class="form-control"  rows="4"></textarea>
                     </div>
                   </div>
                   <hr>
@@ -119,8 +117,8 @@
                     <div class="col-sm-3">
                       <p class="mb-0">Interests</p>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" id="interests" name="interests" />
+                    <div class="col-sm-7">
+                      <textarea type="text" id="interests" name="interests"  class="form-control"  rows="4"></textarea>
                     </div>
                   </div>
                   <hr>
@@ -128,18 +126,19 @@
                     <div class="col-sm-3">
                       <p class="mb-0">Contact</p>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" id="contact" name="contact" />
+                    <div class="col-sm-7">
+                      <textarea type="text" id="contact" name="contact"  class="form-control"  rows="4"></textarea>
                     </div>
                   </div>
                   <hr>
-                  <button type="submit" class="btn btn-primary">save</button>
+                  <button type="submit" class="btn btn-outline-primary" style="margin-left: 70vh;" data-mdb-ripple-color="dark">save</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </form>
+    </section>
       <% } else { %>
         <section style="background-color: #eeeeee; ">
         <div class="container py-5 h-100">
@@ -158,9 +157,8 @@
                       <div class="col-sm-3">
                         <p class="mb-0">Professional Summary</p>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="text" id="professional_summary" name="professional_summary"
-                          value="<%= resume.professional_summary %>" />
+                      <div class="col-sm-7">
+                        <textarea type="text" class="form-control" id="professional_summary" name="professional_summary" rows="4" ><%= resume.professional_summary %></textarea>
                       </div>
                     </div>
                     <hr>
@@ -168,9 +166,8 @@
                       <div class="col-sm-3">
                         <p class="mb-0">Work Experience</p>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="text" id="work_experience" name="work_experience"
-                          value="<%= resume.work_experience %>" />
+                      <div class="col-sm-7">
+                        <textarea type="text" class="form-control" id="work_experience" name="work_experience" rows="4"><%= resume.work_experience %></textarea>
                       </div>
                     </div>
                     <hr>
@@ -178,8 +175,8 @@
                       <div class="col-sm-3">
                         <p class="mb-0">Skills</p>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="text" id="skills" name="skills" value="<%= resume.skills %>" />
+                      <div class="col-sm-7">
+                        <textarea type="text" id="skills" name="skills"class="form-control"  rows="4"><%= resume.skills %> </textarea>
                       </div>
                     </div>
                     <hr>
@@ -187,8 +184,8 @@
                       <div class="col-sm-3">
                         <p class="mb-0">Education</p>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="text" id="education" name="education" value="<%= resume.education %>" />
+                      <div class="col-sm-7">
+                        <textarea type="text" id="education" name="education" class="form-control"  rows="4" ><%= resume.education %></textarea>
                       </div>
                     </div>
                     <hr>
@@ -196,8 +193,8 @@
                       <div class="col-sm-3">
                         <p class="mb-0">Languages</p>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="text" id="languages" name="languages" value="<%= resume.languages %>" />
+                      <div class="col-sm-7">
+                        <textarea type="text" id="languages" name="languages" class="form-control"  rows="4" ><%= resume.languages %></textarea>
                       </div>
                     </div>
                     <hr>
@@ -205,8 +202,8 @@
                       <div class="col-sm-3">
                         <p class="mb-0">Interests</p>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="text" id="interests" name="interests" value="<%= resume.interests %>" />
+                      <div class="col-sm-7">
+                        <textarea type="text" id="interests" name="interests"  class="form-control"  rows="4"><%= resume.interests %></textarea>
                       </div>
                     </div>
                     <hr>
@@ -214,8 +211,8 @@
                       <div class="col-sm-3">
                         <p class="mb-0">Contact</p>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="text" id="contact" name="contact" value="<%= resume.contact %>" />
+                      <div class="col-sm-7">
+                        <textarea type="text" id="contact" name="contact"  class="form-control"  rows="4"><%= resume.contact %></textarea>
                       </div>
                     </div>
                     <hr>

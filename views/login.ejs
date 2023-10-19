@@ -12,10 +12,28 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/style.css">
+  
 </head>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 <body>
   <%- include('navbar') %>
+  <% if(locals.errors){ %>
+    <script type="text/javascript">
+      Swal.fire({
+        title: "<%= errors %>",
+        icon: 'warning',
+      })
+    </script>
+ <%}%>
+  <% if(locals.success){ %>
+    <script type="text/javascript">
+      Swal.fire({
+        title: "<%= success %>",
+        icon: 'success',
+      })
+    </script>
+    <%}%>
     <section class="sectionforlogin">
       <div class="form-box">
         <div class="form-value">

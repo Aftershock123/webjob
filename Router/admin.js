@@ -229,48 +229,67 @@ router.get(
   }
 );
 
-router.post("/ban/:id", loggedIn, async (req, res) => {
-  try {
-    let id = req.body.id;
+router.post("/updateStatus/:id", function (req, res, next) {
+  try{
+   let {id} =req.params;
+  let status =req.body.status;
 
-    let webpage;
-    [webpage] = await db.promise().query("SELECT * FROM webpage ");
+ db.promise().query(
+        "UPDATE users SET status = ? where users.id_user =?", 
+        [status, id]
+      );
+      res.status(200).send("สถานะถูกอัปเดตแล้ว");
+  
+  }
+  catch{
 
-    const [row] = await db
-      .promise()
-      .query("SELECT * FROM admins where admins.id_admin =? ", [id]);
-    let [companymanage] = await db.promise().query("SELECT * FROM companies ");
-    let admin;
-    let user;
-
-    await db
-      .promise()
-      .execute("UPDATE users SET status = ? WHERE id_user = ?", ["banned", id]);
-
-    // console.log(`User with ID ${id} has been banned.`);
-    const currentURL = req.get("Referer");
-    res.redirect(currentURL);
-  } catch (error) {
-    console.error("Error banning user:", error);
   }
 });
+  
 
-router.post("/unban/:id", loggedIn, async (req, res) => {
-  try {
-    let id = req.params.id;
-    let admin;
-    let user;
 
-    await db
-      .promise()
-      .execute("UPDATE users SET status = ? WHERE id_user = ?", ["active", id]);
-    // console.log(`User with ID ${id} has been unbanned.`);
-    const currentURL = req.get("Referer");
-    res.redirect(currentURL);
-  } catch (error) {
-    console.error("Error banning user:", error);
-  }
-});
+// router.post("/ban/:id", loggedIn, async (req, res) => {
+//   try {
+//     let id = req.body.id;
+
+//     let webpage;
+//     [webpage] = await db.promise().query("SELECT * FROM webpage ");
+
+//     const [row] = await db
+//       .promise()
+//       .query("SELECT * FROM admins where admins.id_admin =? ", [id]);
+//     let [companymanage] = await db.promise().query("SELECT * FROM companies ");
+//     let admin;
+//     let user;
+
+//     await db
+//       .promise()
+//       .execute("UPDATE users SET status = ? WHERE id_user = ?", ["banned", id]);
+
+//     // console.log(`User with ID ${id} has been banned.`);
+//     const currentURL = req.get("Referer");
+//     res.redirect(currentURL);
+//   } catch (error) {
+//     console.error("Error banning user:", error);
+//   }
+// });
+
+// router.post("/unban/:id", loggedIn, async (req, res) => {
+//   try {
+//     let id = req.params.id;
+//     let admin;
+//     let user;
+
+//     await db
+//       .promise()
+//       .execute("UPDATE users SET status = ? WHERE id_user = ?", ["active", id]);
+//     // console.log(`User with ID ${id} has been unbanned.`);
+//     const currentURL = req.get("Referer");
+//     res.redirect(currentURL);
+//   } catch (error) {
+//     console.error("Error banning user:", error);
+//   }
+// });
 
 ///////////////////////////////////---------------------------------------companymanagement-------------------///////////////////////////////
 

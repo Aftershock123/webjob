@@ -292,7 +292,8 @@ router.get("/", loggedIn, async (req, res) => {
 
         [webpage] = await db.promise().query("SELECT * FROM webpage ");
       } else {
-        return res.render("banuser", { status, user, company, admin, webpage });
+        [webpage] = await db.promise().query("SELECT * FROM webpage ");
+        return res.render("login",{  errors: "Your id has been banned",status, user, company, admin, webpage });
       }
     } else if (res.locals.companys) {
       status = "loggedIn";
@@ -327,7 +328,9 @@ router.get("/", loggedIn, async (req, res) => {
         // console.log(req.body.adminindex);
         [webpage] = await db.promise().query("SELECT * FROM webpage ");
       } else {
-        return res.render("bancompany", {
+        [webpage] = await db.promise().query("SELECT * FROM webpage ");
+        return res.render("login", {
+          errors: "Your id has been banned",
           status,
           user,
           company,

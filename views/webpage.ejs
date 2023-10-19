@@ -39,8 +39,6 @@
 height: 35px;
 flex-shrink: 0;
 background: linear-gradient(180deg, #7E12C1 0%, rgba(126, 18, 193, 0.00) 100%);
-
-
 text-align-last: center;
 }
 .input-mid{
@@ -81,7 +79,7 @@ text-align-last: center;
                     <p class="mb-0">Name Page</p>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" id="namepage"  name="namepage" value="<%= eweb.namepage %>"/>
+                    <input type="text" id="namepage" style="padding-right: 15vh;"  name="namepage" value="<%= eweb.namepage %>"/>
                   </div>
                 </div>
                 <hr>
@@ -89,8 +87,8 @@ text-align-last: center;
                   <div class="col-sm-3">
                     <p class="mb-0">Address</p>
                   </div>
-                  <div class="col-sm-9" >
-                    <input type="text" id="address" name= "address" style="padding-bottom:20vh ; padding-right: 20vh;" value="<%= eweb.address %>" />
+                  <div class="col-sm-6" >
+                    <textarea type="text" class="form-control" id="address" name= "address" style="padding-bottom:10vh ;" rows="4" ><%= eweb.address %></textarea>
                   
                   </div>
                 </div>
@@ -100,7 +98,7 @@ text-align-last: center;
                     <p class="mb-0">Email</p>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" id="email"  name="email" style="padding-right: 20vh;" value="<%= eweb.email %>"/>
+                    <input type="text" id="email"  name="email" style="padding-right: 15vh;" value="<%= eweb.email %>"/>
                   </div>
                 </div>
                 <hr>
@@ -109,7 +107,7 @@ text-align-last: center;
                     <p class="mb-0">Tol</p>
                   </div>
                   <div class="col-sm-9">
-                    <input type="text" id="call" name= "call" value="<%= eweb.call %>"/>
+                    <input type="text" id="call" name= "call" style="padding-right: 15vh;" value="<%= eweb.call %>"/>
                   </div>
                 </div>
                 <hr>
