@@ -245,6 +245,23 @@ router.post("/updateStatus/:id", function (req, res, next) {
 
   }
 });
+
+router.post("/updatecompanyStatus/:id", function (req, res, next) {
+  try{
+   let {id} =req.params;
+  let status =req.body.status;
+
+ db.promise().query(
+        "UPDATE companies SET status = ? where companies.id_company =?", 
+        [status, id]
+      );
+      res.status(200).send("สถานะถูกอัปเดตแล้ว");
+  
+  }
+  catch{
+
+  }
+});
   
 
 
@@ -324,45 +341,45 @@ router.get(
   }
 );
 
-router.post("/bancompany/:id", loggedIn, async (req, res) => {
-  try {
-    let id = req.params.id;
+// router.post("/bancompany/:id", loggedIn, async (req, res) => {
+//   try {
+//     let id = req.params.id;
 
-    let admin;
-    let user;
+//     let admin;
+//     let user;
 
-    await db
-      .promise()
-      .execute("UPDATE companies SET status = ? WHERE id_company = ?", [
-        "banned",
-        id,
-      ]);
-    // console.log(`User with ID ${id} has been banned.`);
-    const currentURL = req.get("Referer");
-    res.redirect(currentURL);
-  } catch (error) {
-    console.error("Error banning user:", error);
-  }
-});
+//     await db
+//       .promise()
+//       .execute("UPDATE companies SET status = ? WHERE id_company = ?", [
+//         "banned",
+//         id,
+//       ]);
+//     // console.log(`User with ID ${id} has been banned.`);
+//     const currentURL = req.get("Referer");
+//     res.redirect(currentURL);
+//   } catch (error) {
+//     console.error("Error banning user:", error);
+//   }
+// });
 
-router.post("/unbancompany/:id", loggedIn, async (req, res) => {
-  try {
-    let id = req.params.id;
-    let admin;
-    let user;
+// router.post("/unbancompany/:id", loggedIn, async (req, res) => {
+//   try {
+//     let id = req.params.id;
+//     let admin;
+//     let user;
 
-    await db
-      .promise()
-      .execute("UPDATE companies SET status = ? WHERE id_company = ?", [
-        "active",
-        id,
-      ]);
-    // console.log(`User with ID ${id} has been unbanned.`);
-    const currentURL = req.get("Referer");
-    res.redirect(currentURL);
-  } catch (error) {
-    console.error("Error banning user:", error);
-  }
-});
+//     await db
+//       .promise()
+//       .execute("UPDATE companies SET status = ? WHERE id_company = ?", [
+//         "active",
+//         id,
+//       ]);
+//     // console.log(`User with ID ${id} has been unbanned.`);
+//     const currentURL = req.get("Referer");
+//     res.redirect(currentURL);
+//   } catch (error) {
+//     console.error("Error banning user:", error);
+//   }
+// });
 
 module.exports = router;
