@@ -287,6 +287,81 @@ router.get(
     }
   }
 );
+
+router.get(
+  "/jobsended/:id",
+  loggedIn,
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      let company;
+      let admin;
+      let history;
+      let resume;
+      const { id } = req.params;
+
+      let [webpage] = await db.promise().query("SELECT * FROM webpage ");
+
+      const [rows] = await db
+        .promise()
+        .query("SELECT * FROM users  where id_user = ?", [id]);
+      // console.log(rows);
+      const [row] = await db
+        .promise()
+        .query("SELECT * FROM resume where resume.id_user = ?", [id]);
+      // console.log(row);
+
+      if (row.length < 1) {
+        res.render("profile", {
+          user: rows[0],
+          company,
+          admin,
+          webpage,
+          resume,
+          history,
+        });
+      } else {
+        let [webpage] = await db.promise().query("SELECT * FROM webpage ");
+
+        const [row] = await db
+          .promise()
+          .query("SELECT * FROM users  where id_user = ?", [id]);
+        // console.log("user: ", row);
+        const [rows] = await db
+          .promise()
+          .query("SELECT * FROM resume where resume.id_user = ?", [id]);
+        //  console.log("resume: ", rows);
+        const [row1] = await db
+          .promise()
+          .query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [
+            rows[0].id_resume,
+          ]);
+        // console.log("history: ", row1);
+
+        const [row2] = await db
+          .promise()
+          .query(
+            "SELECT * FROM job_company inner join companies on job_company.id_company = companies.id_company  inner join historyuser on job_company.idjob_company = historyuser.idjob_company where historyuser.id_resume = ? ",
+            [rows[0].id_resume]
+          );
+        //   console.log("job:" ,[rows[0].id_resume]);
+        console.log("job:", [row2]);
+
+        return res.render("jobsended", {
+          user: row[0],
+          company,
+          admin,
+          webpage,
+          resume: row[0],
+          history: row2,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
 //ได้แล้ว
 router.post(
   "/updateprofile/:id",
@@ -798,7 +873,8 @@ router.post("/apply/:userId/:jobId", loggedIn,
         }
       );
       let id=userId;
-res.redirect(`/user/profile/${id}`)
+    // res.redirect(`/user/profile/${id}`)
+    return res.status(200).json({ status: "success" });
     // res.render("profile", {
     //   user: roww[0],
     //   company,
