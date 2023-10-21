@@ -16,10 +16,10 @@
     .label-profile {
       width: 117px;
       padding-top: 7px;
-    height: 35px;
-    flex-shrink: 0;
-   background: #f6d365;
-    text-align-last: center;
+      height: 35px;
+      flex-shrink: 0;
+      background: #f6d365;
+      text-align-last: center;
     }
 
     .gradient-custom {
@@ -75,67 +75,67 @@
                 <form action="/user/registeruser" method="post" enctype="multipart/form-data">
 
                   <div class="container py-5 h-100">
-                    <p class="label-profile">Register</p>
+                    <p class="label-profile"><b>Register</b></p>
                     <div class="row d-flex justify-content-center align-items-center h-100 ">
                       <div class="col col-lg-6 mb-4 mb-lg-0 ">
                         <div class="card mb-3" style="border-radius: .5rem;">
                           <div class="row g-0">
                             <div class="col-md-5 gradient-custom text-center text-white"
-                              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                              <img id="imagePreview" src="/image/default.png" alt="Avatar"
-                                class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
-                              <input type="file" id="image" name="image" accept="image/*"
-                                onchange="displayImage(event)">
-
-
-
-                              <button type="submit" class="btn btn-colorless ">
-                                <i class="far fa-edit"></i> Submit
-                              </button>
+                              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; display: flex; flex-direction: column; justify-content: center;">
+                              <div>
+                                <img id="imagePreview" src="/image/default.png" alt="Avatar"
+                                  class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
+                                <input type="file" id="image" name="image" accept="image/*" class="ms-4"
+                                  onchange="displayImage(event)">
+                                <button type="submit" class="btn btn-colorless ">
+                                  <i class="far fa-edit"></i> Submit
+                                </button>
+                              </div>
                             </div>
                             <div class="col-md-5">
                               <div class="card-body p-4">
                                 <h6>Information</h6>
                                 <hr class="mt-0 mb-4">
                                 <div class="row pt-1">
-                                  
-                                    <h6>Username</h6>
-                                    <input type="text" name="username" class="form-control ms-2" id="username" />
-                                 
+
+                                  <h6>Username</h6>
+                                  <input type="text" name="username" class="form-control ms-2" id="username" />
+
                                 </div>
 
 
                                 <div class="row pt-1">
-                                  
-                                    <h6>Email</h6>
-                                    <input type="text" name="email"  class="form-control ms-2"id="email" />
+
+                                  <h6>Email</h6>
+                                  <input type="text" name="email" class="form-control ms-2" id="email" />
 
                                 </div>
 
-                                  <div class="row pt-1">
+                                <div class="row pt-1">
 
-                                    <h6>Password</h6>
-                                    <input type="password" name="password" id="password"  class="form-control ms-2  " 
-                                      placeholder="New Password" onkeyup='passConfirm();' />
-                                    <small id="message" style="color:red"> </small>
+                                  <h6>Password</h6>
+                                  <input type="password" name="password" id="password" class="form-control ms-2  "
+                                    placeholder="New Password" onkeyup='passConfirm();' />
+                                  <small id="message" style="color:red"> </small>
 
-                                  </div>
-                                    <div class="row pt-1">
-
-                                      <h6>Confirm Password</h6>
-
-                                      <input type="password" name="confirm_password" id="confirmpassword"   class="form-control ms-2" value=""
-                                        placeholder="Confirm Password" onkeyup='passConfirm();' />
-                                      <small id="Message" style="color:red"> </small>
-                                    </div>
-
-                                    </div>
-                                  </div>
                                 </div>
+                                <div class="row pt-1">
+
+                                  <h6>Confirm Password</h6>
+
+                                  <input type="password" name="confirm_password" id="confirmpassword"
+                                    class="form-control ms-2" value="" placeholder="Confirm Password"
+                                    onkeyup='passConfirm();' />
+                                  <small id="Message" style="color:red"> </small>
+                                </div>
+
                               </div>
                             </div>
                           </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
 
 
                 </form>

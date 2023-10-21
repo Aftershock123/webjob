@@ -370,11 +370,23 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
 });
 
 //ได้แล้ว
-router.post("/addresume/:id", loggedIn, async (req, res) => {
+router.post("/addresume/:id", loggedIn,[
+  check("professional_summary", "กรุณาป้อน professional_summary").not().isEmpty(),
+  check("work_experience", "กรุณาป้อน work_experience").not().isEmpty(),
+  check("skills", "กรุณาป้อน skills").not().isEmpty(),
+  check("education", "กรุณาป้อน education").not().isEmpty(),
+
+  check("languages", "กรุณาป้อน languages").not().isEmpty(),
+  check("interests", "กรุณาป้อน interests").not().isEmpty(),
+  check("contact", "กรุณาป้อน contact").not().isEmpty(),
+  
+], async (req, res) => {
   try {
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
+    const result = validationResult(req);
+    const errors = result.array();
     const { id } = req.params;
 
     const {
@@ -686,6 +698,8 @@ router.get("/pdf/:id", loggedIn, async (req, res) => {
 router.post("/apply/:userId/:jobId", loggedIn, 
    async (req, res) => {
   try {
+    const result = validationResult(req);
+    const errors = result.array();
 
     const userId = req.params.userId; // Extract the user ID
     const jobId = req.params.jobId; // Extract the order ID
@@ -693,9 +707,9 @@ router.post("/apply/:userId/:jobId", loggedIn,
     let admin;
     let user;
     let webpage;
-    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let history;
     let resume;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     // console.log(userId); //128
     // console.log(jobId); //14
     const [rows] = await db
@@ -768,14 +782,18 @@ res.redirect(`/user/profile/${id}`)
     //เรียกใช้router.get profile
   } catch (error) {
     console.log("Internal server error");
+    return res
+      .status(500)
+      .json({ status: "error", error: "Please add resume" });
 
-    const referer = req.headers.referer;
-    const viewName = referer.substring(referer.lastIndexOf("/") + 1);
-  console.log(referer);
-   return res.render("company/" + referer, {
-     errors: error,
-    
-   });
+    //    const referer = req.headers.referer;
+    //   const viewName = referer.substring(referer.lastIndexOf("/") + 1);
+    // console.log(referer);
+    //  return res.render(viewName, {
+    //    errors: errors,
+    //    webpage,
+       
+    //  });
   }
 });
 

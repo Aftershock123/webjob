@@ -29,7 +29,7 @@
       padding-top: 7px;
       height: 35px;
       flex-shrink: 0;
-     background: #f6d365;
+      background: #f6d365;
       text-align-last: center;
     }
 
@@ -54,21 +54,24 @@
       <form action="/company/registercompany" method="post" enctype="multipart/form-data">
 
         <div class="container py-5 h-100">
-          <p class="label-profile">Register</p>
+          <p class="label-profile"><b>Register</b></p>
 
           <div class="row d-flex justify-content-center align-items-center h-100 width-100 ">
             <div class="col col-lg-9 mb-4 mb-xl-0 ">
               <div class="card mb-5" style="border-radius: .5rem;">
                 <div class="row ">
                   <div class="col-md-3 gradient-custom text-center text-white"
-                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; ">
-                    <img id="imagePreview" src="/image/default.png" alt="Avatar" class="img-fluid my-5 rounded-circle"
-                      style="width: 100px; height: 100px;" />
-                    <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
-                    <button type="submit" class="btn btn-colorless ">
-                      <i class="far fa-edit"></i> Submit
-                    </button>
+                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem; display: flex; flex-direction: column; justify-content: center;">
+                    <div>
+                      <img id="imagePreview" src="/image/default.png" alt="Avatar" class="img-fluid my-5 rounded-circle"
+                        style="width: 100px; height: 100px;" />
+                      <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
+                      <button type="submit" class="btn btn-colorless">
+                        <i class="far fa-edit"></i> Submit
+                      </button>
+                    </div>
                   </div>
+
 
                   <div class="col-lg 9">
                     <div class="card-body p-4">
@@ -97,9 +100,9 @@
 
                       </div>
 
-                      
 
-                     
+
+
 
                       <div class="row pt-1">
                         <div class="col-5 mb-3">
@@ -112,7 +115,7 @@
                         </div>
                       </div>
 
-                      
+
 
                       <div class="row pt-1">
                         <div class="col-5 mb-3">
@@ -127,7 +130,7 @@
                         </div>
                       </div>
 
-                      
+
 
                       <div class="row pt-1">
                         <div class="col-5 mb-3">
@@ -141,7 +144,7 @@
                         </div>
                       </div>
 
-                      
+
 
                       <div class="row pt-1">
                         <div class="col-5 mb-3">
@@ -156,7 +159,7 @@
                         </div>
                       </div>
 
-                      
+
 
 
                       <div class="row pt-1">

@@ -50,6 +50,23 @@
 <body>
   <!--if resume.id_user ==undefined ให้แสดงหน้าaddแต่ถ้าไม่ให้แสดงhistory -->
   <%- include('navbar') %>
+  <% if(locals.errors){ %>
+    <% Object.values(errors).forEach(function(error){%>
+      <script type="text/javascript">
+        Swal.fire({
+          title: "<%= error.msg || errors  %>",
+          icon: 'warning',
+        })
+      </script>
+      <%})%>
+        <%} else if (locals.success) { %>
+          <script type="text/javascript">
+            Swal.fire({
+              title: "<%= success  %>",
+              icon: 'success',
+            })
+          </script>
+          <%}%>
 
     <% if(resume=='undefined' || resume==null) { %>
       <section style="background-color: #eeeeee; ">
