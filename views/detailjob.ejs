@@ -56,7 +56,7 @@
             })
           </script>
           <%}%>
-          
+
     <div class="container-fluid mb-5">
       <div class="pt-5 ps-5">
         <h6 class="label-profile text-dark-50">Detail</h6>
@@ -96,11 +96,12 @@
                   <button type="submit" class="btn btn-success fixed-button" style=" width: 100%;"
                     data-mdb-ripple-color="dark"><b>SAVE</b></button>
                 </form>
+                      <% } else if(company || admin) { %>
                       <% } else { %>
-                      <button onclick="lessondelete()" type="button" class="btn btn-success fixed-button" style=" width: 100%;">
-                        <b>SAVE</b>
-                      </button>
-                                          <% } %>
+                          <button onclick="lessondelete()" type="button" class="btn btn-success fixed-button" style=" width: 100%;">
+                            <b>SAVE</b>
+                          </button>
+                        <% }%>
               </div>
             </div>
             <!-- </div> -->
