@@ -341,7 +341,7 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
-
+    // const errors = req.query.errors ? JSON.parse(req.query.errors) : [];
     const { id } = req.params;
 
     const [rows] = await db
@@ -399,38 +399,65 @@ router.post("/addresume/:id", loggedIn,[
       contact,
     } = req.body;
 
-    await db.promise().query("INSERT INTO resume SET ?", {
-      professional_summary: professional_summary,
-      work_experience: work_experience,
-      skills: skills,
-      education: education,
-      languages: languages,
-      interests: interests,
-      contact: contact,
-      id_user: id,
-    });
-
+    if(!result.isEmpty()){
+      const referer = req.headers.referer;
+      const viewName = referer.substring(referer.lastIndexOf("/") + 1);
+    console.log(referer);
+    console.log(viewName);
     const [rows] = await db
       .promise()
-      .query("SELECT * FROM users where users.id_user = ?", [id]);
-    const [row] = await db
-      .promise()
-      .query(
-        "SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?",
-        [id]
-      );
+      .query("SELECT * FROM users WHERE id_user = ?", [id]);
 
-    if (rows.length === 0) {
-      return res.status(404).send("User not found");
-    }
-    // /updateresume/:id
+    // Fetch resume data
+    const [resumeRows] = await db
+      .promise()
+      .query("SELECT * FROM resume WHERE id_user = ?", [id]);
+
+  
     res.render("resume", {
       user: rows[0],
-      resume: row[0],
+      resume: resumeRows[0],
       company,
       admin,
-      webpage,
+      webpage,errors
     });
+
+    }else{
+
+      await db.promise().query("INSERT INTO resume SET ?", {
+        professional_summary: professional_summary,
+        work_experience: work_experience,
+        skills: skills,
+        education: education,
+        languages: languages,
+        interests: interests,
+        contact: contact,
+        id_user: id,
+      });
+  
+      const [rows] = await db
+        .promise()
+        .query("SELECT * FROM users where users.id_user = ?", [id]);
+      const [row] = await db
+        .promise()
+        .query(
+          "SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?",
+          [id]
+        );
+  
+      if (rows.length === 0) {
+        return res.status(404).send("User not found");
+      }
+      // /updateresume/:id
+      res.render("resume", {
+        user: rows[0],
+        resume: row[0],
+        company,
+        admin,
+        webpage,
+      });
+    }
+
     // res.redirect(`/updateresume/${id}`);
   } catch (error) {
     console.error(error);
@@ -720,6 +747,7 @@ router.post("/apply/:userId/:jobId", loggedIn,
       );
     // console.log(rows[0].id_company);
     // console.log("rows");
+    
     let emailcom = rows[0].id_company;
 
     const [row] = await db
