@@ -88,9 +88,10 @@
                         <% if (history.length> 0) { %>
                             <% history.forEach((historyItem)=> { %> <!-- Added ( before historyItem -->
                             <div class="col-md-3">
-                                <div class="card d-flex" style="width: 18rem; margin-top: 50px">
-                                    <img src="/image/<%= historyItem.image %>" class="card-img-top mt-1" alt="..."
-                                        style="height: 100px;width: 100px; object-fit: cover;">
+                                <div class="card d-flex" style="width: 18rem; margin-top: 50px ;">
+                                    <img src="/image/<%= historyItem.image %>" class="card-img-top mt-1 ms-auto me-auto
+                                    " alt="..."
+                                        style="height: 150px;width: 150px; object-fit: cover;">
                                     <div class="card-body">
                                         <h5 class="card-title">
                                             <%= historyItem.name_company %>
