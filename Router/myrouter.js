@@ -291,10 +291,12 @@ router.get("/", loggedIn, async (req, res) => {
         [resumeindex] = await db.promise().query("SELECT * FROM resume ");
 
         [webpage] = await db.promise().query("SELECT * FROM webpage ");
-      } else {
+      } else if(user.status === "banned"){
         [webpage] = await db.promise().query("SELECT * FROM webpage ");
         return res.render("login",{  errors: "Your id has been banned",status, user, company, admin, webpage });
-      }
+      }else{[webpage] = await db.promise().query("SELECT * FROM webpage ");
+      return res.render("login",{  errors: "Login fail please check your email or password",status, user, company, admin, webpage });}
+
     } else if (res.locals.companys) {
       status = "loggedIn";
       company = res.locals.companys;

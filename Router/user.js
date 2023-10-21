@@ -1,8 +1,8 @@
 const db = require("../Router/db-config");
 const bcrypt = require("bcryptjs");
 const express = require("express");
-const { validationResult } = require("express-validator");
-const { signUpValidation } = require("../controllers/validation");
+const { check,validationResult } = require("express-validator");
+
 const crypto = require("crypto");
 const router = express.Router();
 const loggedIn = require("../controllers/loggedin");
@@ -33,7 +33,30 @@ const upload = multer({ storage: storage, fileFilter: filefilter });
 router.post(
   "/registeruser",
   upload.single("image"),
-  signUpValidation,
+  [
+    check("email", "กรุณาป้อน Email").isEmail(),
+    check("password")
+      .notEmpty()
+      .withMessage("กรุณาป้อน Password")
+      .bail()
+      .isLength({ min: 8 })
+      .withMessage("Password ต้องมีอย่างน้อย 8 ตัวอักษร")
+      .bail()
+      .isLength({ max: 120 })
+      .withMessage("Password ต้องไม่เกิน 120 ตัวอักษร"),
+
+    check("username", "กรุณาป้อน Username").not().isEmpty(),
+    check("confirmpassword")
+    .notEmpty()
+    .withMessage("กรุณาป้อน Confirm Password")
+    .custom((value, { req }) => {
+      if (value === req.body.password) {
+        return true;
+      }
+      return false;
+    })
+    .withMessage("Confirm Password ไม่ถูกต้อง"),
+  ],
   async (req, res, err) => {
     let company;
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
@@ -41,15 +64,27 @@ router.post(
     let user;
     res.locals.status = "no";
     let status = res.locals.status;
-    const errors = validationResult(req);
+    const result = validationResult(req);
+    const errors = result.array();
 
     const image = req.file ? req.file.filename : "default.png";
-    const { username, email, password: Npassword } = req.body;
+    const { username,  password: Npassword } = req.body;
+const email =req.body.email;
+    console.log("Image:", email);
+    
+      
 
-    // console.log("Image:", image);
+    if (!email || !Npassword || !result.isEmpty()) {
+      
+      const referer = req.headers.referer;
+      const viewName = referer.substring(referer.lastIndexOf("/") + 1);
+    console.log(referer);
+     return res.render(viewName, {
+       errors: errors,
+       webpage,
+       
+     });
 
-    if (!email || !Npassword || errors.isEmpty()) {
-      return res.status(400).json({ status: "error", error: errors.array() });
     } else {
       db.query(
         "SELECT email FROM users WHERE email = ?",
@@ -648,17 +683,19 @@ router.get("/pdf/:id", loggedIn, async (req, res) => {
   }
 });
 
-router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
+router.post("/apply/:userId/:jobId", loggedIn, 
+   async (req, res) => {
   try {
+
     const userId = req.params.userId; // Extract the user ID
     const jobId = req.params.jobId; // Extract the order ID
     let company;
     let admin;
     let user;
     let webpage;
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let history;
     let resume;
-    [webpage] = await db.promise().query("SELECT * FROM webpage ");
     // console.log(userId); //128
     // console.log(jobId); //14
     const [rows] = await db
@@ -731,9 +768,14 @@ res.redirect(`/user/profile/${id}`)
     //เรียกใช้router.get profile
   } catch (error) {
     console.log("Internal server error");
-    return res
-      .status(500)
-      .json({ status: "error", error: "Please add resume" });
+
+    const referer = req.headers.referer;
+    const viewName = referer.substring(referer.lastIndexOf("/") + 1);
+  console.log(referer);
+   return res.render("company/" + referer, {
+     errors: error,
+    
+   });
   }
 });
 

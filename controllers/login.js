@@ -49,6 +49,7 @@ router.post("/login", async (req, res) => {
             httpOnly: true,
           };
           res.cookie("userRegistered", token, cookieOptions);
+         
           return res.status(200).redirect("/");
         }
       }

@@ -312,7 +312,7 @@
 
 
 <% if (status==="loggedIn" ) { %>
-  <% if (user) { %>
+  <% if (user && user.status === "active") { %>
     <div class="container-fluid d-flex justify-content-between align-items-center">
     
       <a class="navbar-brand" href="/">
@@ -350,7 +350,44 @@
   </div>
 </div>
 
-<% } else if(company){ %>
+<% } else if(user && user.status === "banned"){ %>
+  
+<div class="container-fluid d-flex justify-content-between align-items-center">
+        
+  <a class="navbar-brand" href="/">
+   
+    <h6 class="text-dark m-0 fs-2">
+      
+      <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
+    </h6>
+  </a>
+
+
+  <nav id="navbar" class="navbar order-last order-lg-0">
+    <ul>
+      <li><a class="active" href="/">Home</a></li>
+      
+    </ul>
+  
+  </nav><!-- .navbar -->
+
+  <div class="header-social-links">
+  
+    <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdown1"
+    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Login</a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+    <li><a class="dropdown-item" href="/login">Login</a></li>
+    <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
+    <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
+   
+  </ul>
+    
+  </div>
+</div>
+
+
+<% } else if(company &&company.status ==="active"){ %>
 
   <div class="container-fluid d-flex justify-content-between align-items-center">
     
@@ -390,7 +427,40 @@
         
       </div>
     </div>
-
+    <% } else if(company &&company.status ==="banned"){ %>
+      <div class="container-fluid d-flex justify-content-between align-items-center">
+        
+        <a class="navbar-brand" href="/">
+         
+          <h6 class="text-dark m-0 fs-2">
+            
+            <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
+          </h6>
+        </a>
+      
+      
+        <nav id="navbar" class="navbar order-last order-lg-0">
+          <ul>
+            <li><a class="active" href="/">Home</a></li>
+            
+          </ul>
+        
+        </nav><!-- .navbar -->
+      
+        <div class="header-social-links">
+        
+          <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdown1"
+          role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Login</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+          <li><a class="dropdown-item" href="/login">Login</a></li>
+          <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
+          <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
+         
+        </ul>
+          
+        </div>
+      </div>
     <% } else if(admin){ %>
 
       <div class="container-fluid d-flex justify-content-between align-items-center">

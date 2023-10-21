@@ -21,13 +21,34 @@ text-align-last: center;
   <!-- คิดว่าหน้านี้จะใช้สำหรับโชว์รายละเอียดและใส่เงื่อนไขเข้าไปเพื่ออัพเดต -->
   <%- include('navbar') %>
   
+  <% if(locals.errors){ %>
+    <% Object.values(errors).forEach(function(error){%>
+      <script type="text/javascript">
+        Swal.fire({
+          title: "<%= error.msg || errors  %>",
+          icon: 'warning',
+        })
+      </script>
+      <%})%>
+        <%} else if (locals.success) { %>
+          <script type="text/javascript">
+            Swal.fire({
+              title: "<%= success  %>",
+              icon: 'success',
+            })
+          </script>
+          <%}%>
+  
+
+
   <% if(user) { %>
+   
 
     <div class="container-fluid bg-dark">
           
       <div class="row" style="justify-content:center ; ">
-        <div class="container py-5 h-100" style="margin-left:15vh ;">
-          <p class="label-profile text-white-50" >Detail</p>
+        <div class="py-5 h-100" >
+          <p class="label-profile text-white-50"  >Detail</p>
         </div>
 
             <div class="row" style="justify-content:center ; ">
@@ -84,7 +105,7 @@ text-align-last: center;
             </div>
             <div class="row" style="justify-content:center ; margin-top: 5vh;">
 
-              <div class="container-fluid" style="margin-left:15vh ;">
+              <div  style="margin-left:15vh ; width: 100vh;" >
                 <p class="label-profile text-white-50">งาน</p>
               
                 <div class="col-md-10  border bg-light text-black" style="margin-top: 10vh;">
