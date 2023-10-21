@@ -32,7 +32,7 @@
       padding-top: 7px;
       height: 35px;
       flex-shrink: 0;
-      background: linear-gradient(180deg, #7E12C1 0%, rgba(126, 18, 193, 0.00) 100%);
+      background: #49ebd8;
       text-align-last: center;
     }
 
@@ -53,11 +53,9 @@
 
     <% if(resume=='undefined' || resume==null) { %>
       <section style="background-color: #eeeeee; ">
-      <div class="container py-5 h-100">
-        <p class="label-profile">Resume</p>
-
+      <div class="container py-5  d-flex align-items-center justify-content-center text-center">
+        <p class="label-profile"><b>Resume</b></p>
       </div>
-
 
 
       <form action="/user/addresume/<%= user.id_user %>" method="post">
