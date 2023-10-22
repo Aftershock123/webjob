@@ -6,8 +6,7 @@ const multer = require("multer");
 const loggedIn = require("../controllers/loggedin");
 const fs = require("fs");
 const crypto = require("crypto");
-const { validationResult } = require("express-validator");
-const { signUpValidation } = require("../controllers/validation");
+const { check,validationResult } = require("express-validator");
 
 const sendMail = require("../controllers/sendmail");
 const path = require("path");
@@ -34,7 +33,7 @@ const upload = multer({ storage: storage, fileFilter: filefilter });
 router.post(
   "/registercompany",
   upload.single("image"),
-  signUpValidation,
+
   async (req, res) => {
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let admin;
@@ -389,9 +388,11 @@ router.get("/profile/:id", loggedIn,upload.single("image"), async (req, res) => 
 router.post(
   "/updateprofile/:id",
   upload.single("image"),
-  loggedIn,
+ 
   async (req, res) => {
     try {
+      const result = validationResult(req);
+      const errors = result.array();
       let user;
       let admin;
       let [webpage] = await db.promise().query("SELECT * FROM webpage ");
@@ -416,8 +417,9 @@ router.post(
         email,
       } = req.body;
       const image = req.file ? req.file.filename : row[0].image;
-      // console.log(image)
-      const [rows] = await db
+      console.log("image")
+       
+      await db
         .promise()
         .query(
           "UPDATE companies SET name_company = ?, type_company = ?,namecontact_company = ? ,address_company = ? , province_company= ?,county_company = ?,district_company = ?,zipcode_company= ?,amphoe= ?,tell_company= ?,email= ?,username = ?,image= ? WHERE id_company = ?",
@@ -434,18 +436,21 @@ router.post(
             tell_company,
             email,username, image, id]
         );
-      const [upCompany] = await db
-        .promise()
-        .query("SELECT * FROM companies WHERE id_company = ?", [id]);
-      // console.log(upCompany[0]);
-
-      if (upCompany.length === 0) {
-        return res.status(404).send("companies not found");
-      }
-
-      // res.render("profilecompany", { company: upCompany[0], user, admin,webpage });
-      const currentURL = req.get("Referer");
-      res.redirect(currentURL);
+      
+          const [upCompany] = await db
+          .promise()
+          .query("SELECT * FROM companies WHERE id_company = ?", [id]);
+        // console.log(upCompany[0]);
+  
+        if (upCompany.length === 0) {
+          return res.status(404).send("companies not found");
+        }
+  
+        // res.render("profilecompany", { company: upCompany[0], user, admin,webpage });
+        const currentURL = req.get("Referer");
+        res.redirect(currentURL);
+         
+     
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");
@@ -479,8 +484,17 @@ router.get("/addjob_company/:id", loggedIn, async (req, res) => {
   }
 });
 //ได้แล้ว
-router.post("/addjob_company/:id", loggedIn, async (req, res) => {
+router.post("/addjob_company/:id", loggedIn, [
+  check("name_job", "กรุณาป้อน name_job").not().isEmpty(),
+  check("role", "กรุณาป้อน role").not().isEmpty(),
+  check("detail_work", "กรุณาป้อน detail_work").not().isEmpty(),
+  check("experience", "กรุณาป้อน experience").not().isEmpty(),
+  check("deadline_offer", "กรุณาป้อน deadline_offer").not().isEmpty(),
+ 
+] , async (req, res) => {
   try {
+    const result = validationResult(req);
+    const errors = result.array();
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let user;
     let admin;
@@ -501,35 +515,46 @@ router.post("/addjob_company/:id", loggedIn, async (req, res) => {
       day_off,
       deadline_offer,
     } = req.body;
-
-    await db.promise().query("INSERT INTO job_company SET ?", {
-      name_job: name_job,
-      role: role,
-      detail_work: detail_work,
-      experience: experience,
-      gender: gender,
-      education: education,
-      welfare: welfare,
-      salary: salary,
-      workday: workday,
-      day_off: day_off,
-      deadline_offer: deadline_offer,
-      id_company: id,
-    });
-    const [row] = await db
+    if(!result.isEmpty()){
+      const [rows] = await db
       .promise()
-      .query("SELECT * FROM job_company  where job_company.id_company = ?", [
-        id,
-      ]);
+      .query("SELECT * FROM companies  where companies.id_company = ?", [id]);
 
-    const [updatedCompany] = await db
-      .promise()
-      .query("SELECT * FROM companies  where id_company = ?", [id]);
-
-    if (updatedCompany.length === 0) {
-      return res.status(404).send("User not found");
+      res.render("addjob", {
+        company: rows[0], user, admin, webpage,errors
+      });
+    }else{
+      await db.promise().query("INSERT INTO job_company SET ?", {
+        name_job: name_job,
+        role: role,
+        detail_work: detail_work,
+        experience: experience,
+        gender: gender,
+        education: education,
+        welfare: welfare,
+        salary: salary,
+        workday: workday,
+        day_off: day_off,
+        deadline_offer: deadline_offer,
+        id_company: id,
+      });
+      const [row] = await db
+        .promise()
+        .query("SELECT * FROM job_company  where job_company.id_company = ?", [
+          id,
+        ]);
+  
+      const [updatedCompany] = await db
+        .promise()
+        .query("SELECT * FROM companies  where id_company = ?", [id]);
+  
+      if (updatedCompany.length === 0) {
+        return res.status(404).send("User not found");
+      }
+      res.redirect(`/company/joball/${id}`);
     }
-    res.redirect(`/company/joball/${id}`);
+
+    
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

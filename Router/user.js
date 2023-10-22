@@ -820,10 +820,10 @@ router.post("/apply/:userId/:jobId", loggedIn,
         "SELECT * FROM job_company  inner join companies  on job_company.id_company = companies.id_company where  job_company.idjob_company = ?",
         [jobId]
       );
-    // console.log(rows[0].id_company);
+    // console.log(rows[0].email);
     // console.log("rows");
     
-    let emailcom = rows[0].id_company;
+    let emailcom = rows[0].email;
 
     const [row] = await db
       .promise()
@@ -849,7 +849,7 @@ router.post("/apply/:userId/:jobId", loggedIn,
     let mailSubjects = "resume";
     const content = row;
     // console.log("ssssssssssssssssssssssssssssssssssssss",content[0]);
-    // console.log("content");
+    console.log(content);
     const name = content[0].username;
     let email = row[0].email;
     // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");

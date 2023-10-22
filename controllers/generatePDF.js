@@ -29,11 +29,12 @@ const generatePDF = async (email,mailSubjects ,data,name,emailcom) =>{
         pass: "stdy cqxs nbvv cdmz",
       }
     });
-  
+    console.log(email);
+    console.log(emailcom);
 
-      const mailOptions = {
-        from: "Andrew.ColtOoO@gmail.com",
-        to: email,emailcom,
+    const mailOptions = {
+      from: "Andrew.ColtOoO@gmail.com",
+        to: emailcom,email,
         subject: mailSubjects,
         attachments: [{
           filename:  pdfFileName,
