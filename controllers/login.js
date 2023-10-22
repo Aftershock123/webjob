@@ -50,7 +50,7 @@ router.post("/login", async (req, res) => {
           };
           res.cookie("userRegistered", token, cookieOptions);
          
-          return res.status(200).redirect("/");
+           return res.status(200).json({ status: "success" });
         }
       }
     );
@@ -97,7 +97,7 @@ router.post("/login", async (req, res) => {
             };
 
             res.cookie("userRegistered", token, cookieOptions);
-            return res.status(200).redirect("/");
+             return res.status(200).json({ status: "success" });
           }
         }
       );
@@ -144,7 +144,7 @@ router.post("/login", async (req, res) => {
             };
 
             res.cookie("userRegistered", token, cookieOptions);
-            return res.status(200).redirect("/");
+             return res.status(200).json({ status: "success" });
           }
         }
       );

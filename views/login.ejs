@@ -37,7 +37,7 @@
     <section class="sectionforlogin">
       <div class="form-box">
         <div class="form-value">
-          <form action='/api/login' method="post">
+          <form id="login-form" action='/api/login' method="post">
             <h2>Login</h2>
             <div class="inputbox">
               <ion-icon name="mail-outline"></ion-icon>
@@ -54,7 +54,7 @@
               <label for=""><input type="checkbox">Remember Me <a href="/forget">Forget Password</a></label>
 
             </div>
-            <button type="submit">Log in</button>
+            <button id="login-button" type="submit">Log in</button>
             <div class="register">
               <t>Don't have a account <a href="/registeruser">RegisterUser</a><br>or &nbsp;<a
                   href="/registercompany">RegisterCompany</a></p>
@@ -65,32 +65,47 @@
         </div>
       </div>
     </section>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const loginForm = document.getElementById("login-form");
+        const loginButton = document.getElementById("login-button");
+        const errorMessage = document.getElementById("error-message");
 
-    <!-- <script>
-      function submitLoginForm(event) {
-        event.preventDefault(); // Prevent page refresh on form submit
+        loginForm.addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent the form from submitting normally.
 
-        // Get data from the form
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+          // Collect form data
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
 
-        // Send data to the server
-        axios.post('/api/login', { email, password })
-          .then(response => {
-            // Successful response
-            console.log(response.data);
-            window.location.href = '/'; // Redirect to the profile page
-
+          // Send a POST request using AJAX
+          fetch("/api/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
           })
-          .catch(error => {
-            // Error response
-            const errorMessage = error.response.data;
-            document.getElementById('error-message').textContent = errorMessage;
-            document.getElementById('error-message').style.display = 'block';
-          });
-      }
-    </script> -->
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === "error") {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: data.error,
+                });
+              } else {
+                // Redirect to the home page upon successful login
+                window.location.href = "/";
+                console.log("login success")
+              }
+            })
+            .catch((error) => {
+              console.error("An error occurred:", error);
+            });
+        });
+      });
+    </script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
