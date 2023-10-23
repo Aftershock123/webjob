@@ -46,7 +46,7 @@ router.post(
       .withMessage("Password ต้องไม่เกิน 120 ตัวอักษร"),
 
     check("username", "กรุณาป้อน Username").not().isEmpty(),
-    check("confirmpassword")
+    check("confirm_password")
     .notEmpty()
     .withMessage("กรุณาป้อน Confirm Password")
     .custom((value, { req }) => {

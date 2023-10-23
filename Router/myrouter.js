@@ -272,7 +272,7 @@ router.get("/", loggedIn, async (req, res) => {
         let [jobindexdata] = await db
           .promise()
           .query(
-            'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
+            'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%d %H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
           );
         jobindex = [];
 
@@ -304,7 +304,7 @@ router.get("/", loggedIn, async (req, res) => {
         let [jobindexdata] = await db
           .promise()
           .query(
-            'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
+            'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%d %H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
           );
         jobindex = [];
 
@@ -346,7 +346,7 @@ router.get("/", loggedIn, async (req, res) => {
       let [jobindexdata] = await db
         .promise()
         .query(
-          'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%dT%H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
+          'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%d %H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
         );
       jobindex = [];
 

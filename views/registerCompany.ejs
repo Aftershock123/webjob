@@ -7,22 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>registerCompany</title>
 
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript"
-    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/JQL.min.js"></script>
-  <script type="text/javascript"
-    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/typeahead.bundle.js"></script>
-
-  <link rel="stylesheet"
-    href="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.css">
-  <script type="text/javascript"
-    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.js"></script>
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
   <style>
     .label-profile {
       width: 117px;
@@ -80,92 +69,74 @@
                       <div class="row pt-1">
                         <div class="col-5 mb-4 ">
                           <h6>Username</h6>
-                          <input type="text" name="username" id="username" class="form-control" />
+                          <input type="text" name="username" id="username" class="form-control" required/>
                         </div>
                         <div class="col-5 mb-4">
                           <h6>Email</h6>
-                          <input type="email" name="email" id="email" class="form-control" />
+                          <input type="email" name="email" id="email" class="form-control" required/>
                         </div>
                       </div>
 
                       <div class="row pt-1">
                         <div class="col-5 mb-4">
                           <h6>Password</h6>
-                          <input type="password" name="password" id="password" class="form-control" />
+                          <input type="password" name="password" id="password" class="form-control"required />
                         </div>
                         <div class="col-5 mb-4">
                           <h6>NameCompany</h6>
-                          <input type="name_company" name="name_company" id="name_company" class="form-control" />
+                          <input type="text" name="name_company" id="name_company" class="form-control" required/>
                         </div>
 
                       </div>
-
-
-
-
-
                       <div class="row pt-1">
                         <div class="col-5 mb-3">
                           <h6>TypeCompany</h6>
-                          <input type="type_company" name="type_company" id="type_company" class="form-control" />
+                          <input type="text" name="type_company" id="type_company" class="form-control"required />
                         </div>
                         <div class="col-5 mb-3">
                           <h6>CountyCompany</h6>
-                          <input type="county_company" name="county_company" id="county_company" class="form-control" />
+                          <input type="text" name="county_company" id="county_company" class="form-control" required/>
                         </div>
                       </div>
-
-
-
                       <div class="row pt-1">
                         <div class="col-5 mb-3">
                           <h6>ProvinceCompany </h6>
-                          <input type="province_company" name="province_company" id="province_company"
-                            class="form-control" />
+                          <input type="text" name="province_company" id="province"
+                            class="form-control"required />
                         </div>
                         <div class="col-5 mb-3">
                           <h6>namecontact_company</h6>
-                          <input type="namecontact_company" name="namecontact_company" id="namecontact_company"
-                            class="form-control" />
+                          <input type="text" name="namecontact_company" id="namecontact_company"
+                            class="form-control"required />
                         </div>
                       </div>
-
-
-
-                      <div class="row pt-1">
+                     <div class="row pt-1">
                         <div class="col-5 mb-3">
-                          <h6>amphoe</h6>
-                          <input type="amphoe" name="amphoe" id="amphoe" class="form-control" />
+                          <h6>AmphoeCompany</h6>
+                          <input type="text" name="amphoe" id="amphoe" class="form-control"required />
                         </div>
                         <div class="col-5 mb-3">
                           <h6>AddressCompany</h6>
-                          <input type="address_company" name="address_company" id="address_company"
-                            class="form-control" />
+                          <input type="text" name="address_company" id="address_company"
+                            class="form-control"required />
                         </div>
                       </div>
-
-
-
                       <div class="row pt-1">
                         <div class="col-5 mb-3">
                           <h6>DistrictCompany</h6>
-                          <input type="district_company" name="district_company" id="district_company"
-                            class="form-control" />
+                          <input type="text" name="district_company" id="district"
+                            class="form-control"required />
                         </div>
                         <div class="col-5 mb-3">
                           <h6>ZipCompany</h6>
-                          <input type="zipcode_company" name="zipcode_company" id="zipcode_company"
-                            class="form-control" />
+                          <input type="text" name="zipcode_company" id="zipcode"
+                            class="form-control"required />
                         </div>
                       </div>
-
-
-
-
                       <div class="row pt-1">
                         <div class="col-8 mb-3">
                           <h6>TellCompany</h6>
-                          <input type="tell_company" name="tell_company" id="tell_company" class="form-control" />
+                          <input type="text" name="tell_company" id="tell_company" class="form-control"required />
                         </div>
                       </div>
 
@@ -180,36 +151,26 @@
       </form>
     </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <script type="text/javascript"
+    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/JQL.min.js"></script>
+  
+  <script type="text/javascript"
+    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/typeahead.bundle.js"></script>
+  
+  <link rel="stylesheet"
+    href="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.css">
+  
+  <script type="text/javascript"
+    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.js"></script>
 
 
     <script>
 
-      $.Thailand({
-        $district: $('#district_company'), // input ของตำบล//ใช้idแต่ละinput
-        $amphoe: $('#amphoe'), // input ของอำเภอ ยังไม่มีในdb
-        $province: $('#province_company'), // input ของจังหวัด
-        $zipcode: $('#zipcode_company'), // input ของรหัสไปรษณีย์
+     $.Thailand({
+        $district: $('#district'),
+        $amphoe: $('#amphoe'),
+        $province: $('#province'),
+        $zipcode: $('#zipcode'),
       });
 
     </script>

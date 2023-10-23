@@ -5,8 +5,9 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
+  var{ email, password } = req.body;
+console.log(email);
+console.log(password);
   if (!email || !password) {
     return res
       .status(400)
@@ -27,30 +28,37 @@ router.post("/login", async (req, res) => {
         if (usersResult.length > 0) {
           const user = usersResult[0];
 
-          // console.log("usersResult");
-
+          console.log(user);
+      // console.log(!(await bcrypt.compare(password, user.password))); //f
           if (!(await bcrypt.compare(password, user.password))) {
             return res.json({
               status: "error",
               error: "Incorrect user email or password",
             });
+          }else if(user.status === "banned"){
+            return res.json({
+              status: "error",
+              error: "user ID has been ban",
+            });
+          }else{
+            const token = jwt.sign(
+              { id_user: user.id_user },
+              process.env.JWT_SECRET,
+              { expiresIn: process.env.JWT_EXPIRES }
+            );
+  
+            const cookieOptions = {
+              expires: new Date(
+                Date.now() + process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+              ),
+              httpOnly: true,
+            };
+            res.cookie("userRegistered", token, cookieOptions);
+           
+             return res.status(200).json({ status: "success" });
           }
 
-          const token = jwt.sign(
-            { id_user: user.id_user },
-            process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES }
-          );
-
-          const cookieOptions = {
-            expires: new Date(
-              Date.now() + process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-            ),
-            httpOnly: true,
-          };
-          res.cookie("userRegistered", token, cookieOptions);
          
-           return res.status(200).json({ status: "success" });
         }
       }
     );
@@ -81,24 +89,31 @@ router.post("/login", async (req, res) => {
                 status: "error",
                 error: "Incorrect company email or password",
               });
+            }else if(company.status === "banned"){
+              return res.json({
+                status: "error",
+                error: " company Ban",
+              });
+            }else{
+              const token = jwt.sign(
+                { id_company: company.id_company },
+                process.env.JWT_SECRET,
+                { expiresIn: process.env.JWT_EXPIRES }
+              );
+  
+              const cookieOptions = {
+                expires: new Date(
+                  Date.now() + process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                ),
+                httpOnly: true,
+              };
+  
+              res.cookie("userRegistered", token, cookieOptions);
+               return res.status(200).json({ status: "success" });
+            }
             }
 
-            const token = jwt.sign(
-              { id_company: company.id_company },
-              process.env.JWT_SECRET,
-              { expiresIn: process.env.JWT_EXPIRES }
-            );
-
-            const cookieOptions = {
-              expires: new Date(
-                Date.now() + process.env.COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-              ),
-              httpOnly: true,
-            };
-
-            res.cookie("userRegistered", token, cookieOptions);
-             return res.status(200).json({ status: "success" });
-          }
+           
         }
       );
     }

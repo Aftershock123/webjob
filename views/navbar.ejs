@@ -415,7 +415,7 @@ a{
     
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a class="active" href="/">Home</a></li>
+          <li><a  href="/">Home</a></li>
           <li><a href="/company/addjob_company/<%= company.id_company %>">AddJob</a></li>
           <li><a href="/company/joball/<%= company.id_company %>">MyJob</a></li>
           <!-- <li><a href="resume.html">Resume</a></li>
@@ -425,10 +425,16 @@ a{
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
+
+      
+      
+      
     
-      <div class="header-social-links">
-        <img src="/image/<%= company.image %>" alt="Profile" class="rounded-circle">
-        
+      <div class="row align-items-center">
+          <div class="col-auto">
+            <img src="/image/<%= company.image %>" alt="Profile" class="rounded-circle float-start" style="width: 50px; height: 40px;">
+          </div>
+          <div class="col">
         <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdowncompany"
         role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <%= company.username %></a>
@@ -437,7 +443,8 @@ a{
         <li><a class="dropdown-item" href="/company/resetpassword/<%= company.id_company %>">ResetPassword</a></li>
         <li><a class="dropdown-item" href="/logout">Logout</a></li>
       </ul>
-        
+    </div>
+  </div>
       </div>
     </div>
     <% } else if(company &&company.status ==="banned"){ %>
@@ -454,7 +461,7 @@ a{
       
         <nav id="navbar" class="navbar order-last order-lg-0">
           <ul>
-            <li><a class="active" href="/">Home</a></li>
+            <li><a  href="/">Home</a></li>
             
           </ul>
         
@@ -489,7 +496,7 @@ a{
         
           <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-              <li><a class="active" href="/">Home</a></li>
+              <li><a  href="/">Home</a></li>
               <li><a href="/admin/companymanagement/<%= admin.id_admin %>">CompanyManagement</a></li>
               <li class="nav-item me-auto">
                 <a class="nav-link" href="/admin/usermanagement/<%= admin.id_admin %>">

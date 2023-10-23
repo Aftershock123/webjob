@@ -79,9 +79,9 @@ border-color: #007BFF; /* Change border color when focused */
           <div class="row">
             <div class="col-lg-4">
               <div class="card mb-4">
-                <div class="card-body text-center">
-                  <img src="/image/<%= company.image %>" 
-                  alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
+                <div class="card-body text-center gradient-custom">
+                  <img src="/image/<%= company.image %>" alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 150px; height: 130px;" />
+
                   <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)" class="input-mid">
                  
                   <div class="row">
@@ -110,47 +110,72 @@ border-color: #007BFF; /* Change border color when focused */
               <div class="card mb-4">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <p class="mb-0">NameCompany</p>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="name_company" id="name_company" name="name_company" class="form-control-input"  value="<%= company.name_company %>" />
+                    <div class="col-sm-3">
+                      <input type="text" id="name_company" name="name_company" class="form-control-input"  value="<%= company.name_company %>" />
+                    </div>
+                    <div class="col-sm-3 text-center">
+                      <p class="mb-0">DistrictCompany</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" id="district" name="district_company" class="form-control-input"  value="<%= company.district_company %>" />
                     </div>
                   </div>
                   <hr>
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <p class="mb-0">Email</p>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-3">
                       <input type="email" id="email" name="email" class="form-control-input"  value="<%= company.email %>" />
                     </div>
+                  
+                  <div class="col-sm-3 text-center">
+                    <p class="mb-0">AmphoeCompany</p>
                   </div>
+                  <div class="col-sm-3">
+                    <input type="text" id="amphoe" name="amphoe" class="form-control-input"  value="<%= company.amphoe %>" />
+                  </div>
+                </div>
                   <hr>
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <p class="mb-0">Phone</p>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-3">
                       <input type="tell_company" id="tell_company" name="tell_company" class="form-control-input"  value="<%= company.tell_company %>" />
                     </div>
+                    <div class="col-sm-3 text-center">
+                      <p class="mb-0">ProvinceCompany</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" id="province" name="province_company" class="form-control-input"  value="<%= company.province_company %>" />
+                    </div>
                   </div>
                   <hr>
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <p class="mb-0">County</p>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-4">
                       <input type="county_company" id="county_company" name="county_company" class="form-control-input"  value="<%= company.county_company %>" />
+                    </div>
+                    <div class="col-sm-2">
+                      <p class="mb-o">ZipCompany</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" id="zipcode" name="zipcode_company" class="form-control-input"  value="<%= company.zipcode_company %>" />
                     </div>
                   </div>
                   <hr>
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <p class="mb-0">Address</p>
                     </div>
                     <div class="col-sm-9">
-                      <input type="address_company" id="address_company" name="address_company" class="form-control-input"  value="<%= company.address_company %>" />
+                      <textarea type="address_company" id="address_company" name="address_company" class="form-control-input w-100 h-100"><%= company.address_company %></textarea>
                     </div>
                     <button type="submit" class="btn btn-colorless ">
                       <i class="far fa-edit"></i> Submit
@@ -166,6 +191,29 @@ border-color: #007BFF; /* Change border color when focused */
       </section>
             
              
+    <script type="text/javascript"
+    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/JQL.min.js"></script>
+  
+  <script type="text/javascript"
+    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dependencies/typeahead.bundle.js"></script>
+  
+  <link rel="stylesheet"
+    href="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.css">
+  
+  <script type="text/javascript"
+    src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.js"></script>
+
+
+    <script>
+
+     $.Thailand({
+        $district: $('#district'),
+        $amphoe: $('#amphoe'),
+        $province: $('#province'),
+        $zipcode: $('#zipcode'),
+      });
+
+    </script>
 
              
                 <script>

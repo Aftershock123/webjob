@@ -58,7 +58,7 @@ router.post(
       tell_company,
       email,
     } = req.body;
-    if (!email || !Npassword || errors.isEmpty()) {
+    if (!email || !Npassword ) {
       return res.status(401).json({
         status: "error",
         error: "Please enter your email and password",

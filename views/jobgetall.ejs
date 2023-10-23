@@ -65,7 +65,8 @@ text-align-last: center;
                     <div class="card-body">
                       
                       <h5 class="card-title"><%= job.name_job %></h5>
-                      <p class="card-title"><%= job.detail_work %></p>
+                      <p class="card-title"><%= job.detail_work.substring(0, 100) %></p>
+
                       <p class="card-title"><%= job.deadline_offer %></p>
                       <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                       <a  class="nav-link a-edit " href="/company/updatejob_company/<%= job.idjob_company %>"> <i class="far fa-edit ">edit</i></a>
