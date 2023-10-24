@@ -312,7 +312,7 @@ router.get(
       // console.log(row);
 
       if (row.length < 1) {
-        res.render("profile", {
+        res.render("jobsended", {
           user: rows[0],
           company,
           admin,

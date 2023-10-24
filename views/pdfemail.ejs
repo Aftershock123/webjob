@@ -4,15 +4,129 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="../public/css/pdfstyle.css">
+  
+<style> 
+.first-name{
+  margin-top:30px;
+  }
+  .pic{
+    margin-right:100px;
+
+  }
+.limited-text {
+    width: 350px; /* กำหนดความกว้างของ <td> */
+   
+    overflow: hidden; /* ซ่อนข้อความที่เกินขอบของ <td> */
+    text-overflow: ellipsis; /* แสดงเครื่องหมาย ... เมื่อข้อความเกินขอบ */
+  }
+  .limited-skill {
+    width: 250px; /* กำหนดความกว้างของ <td> */
+   
+    overflow: hidden; /* ซ่อนข้อความที่เกินขอบของ <td> */
+    text-overflow: ellipsis; /* แสดงเครื่องหมาย ... เมื่อข้อความเกินขอบ */
+  }
+  td {
+    vertical-align: top; /* จัดข้อมูลชิดด้านบน */
+  }
+  
+ 
+</style>
+
 
 </head>
-<body>
 
-<div class="container">
+<body>
+  <div class="container">
+    <div>
+     <h4 class="first-name"><%= content[0].username %> </h4> 
+     
+     
+       </div>
+      
+  <table class="table caption-top">
+    
+    <thead>
+      <tr>
+        <th scope="col">Contact</th>
+        <th scope="col">ABOUT ME</th>
+      </tr>
+    </thead>
+    
+    
+    
+      
+      <tr>
+        <td scope="row"><h6>Address</h6><%= content[0].contact %><br><h6>Email</h6>
+          <%= content[0].email %><br>
+        </td>
+        
+        <td class="limited-text"><%= content[0].professional_summary %></td>
+        
+      </tr>
+          
+          
+          
+     <thead>
+      <tr>
+        <th scope="col">Contact</th>
+        <th scope="col">ABOUT ME</th>
+      </tr>
+    </thead>
+          
+          
+            <tr>
+              <td class="limited-skill"> <%= content[0].skills %></td>
+              <td ><%= content[0].work_experience%></td>
+            </tr>
+     
+          
+          
+            <tr>
+         
+            <th scope="row">Languages</th>
+        <th>Education</th>
+            </tr>
+          
+          
+          <thead>
+            <tr>
+              <td>
+                <%= content[0].languages%>
+ 
+              </td>
+              <td>
+                <%= content[0].education%>
+ 
+              </td>
+            </tr>
+          </thead>
+
+
+          <tr>
+            <th colspan="2" class="text-center">Interests</th>
+            
+          </tr>
+          <thead>
+            <tr >
+              
+              <td colspan="2" >
+                <%= content[0].interests%>
+                
+              </td>
+            </tr>
+          </thead>
+  
+  </table>
+
+
+
+      
+<!-- <div class="container">
   <div class="header">
     <div class="full-name">
       <span class="first-name"><%= content[0].username %> </span> 
@@ -25,7 +139,8 @@
       <span class="phone">Phone: </span>
       <span class="phone-val"><%= content[0].contact %> </span>
     </div>
-    
+  </div> -->
+<!--     
     <div class="about">
       <span class="position">Front-End Developer </span>
       <span class="desc">
@@ -166,6 +281,6 @@
      </div>
      </div>
   </div>
-</div>
+</div> -->
 </body>
-</html>
+</html> 
