@@ -94,7 +94,13 @@ console.log(password);
                 status: "error",
                 error: " company Ban",
               });
-            }else{
+              
+            } else if(company.status === "nonverify"){
+              return res.json({
+                status: "error",
+                error: "Please wait for verify 2-3 days",
+              });}
+              else{
               const token = jwt.sign(
                 { id_company: company.id_company },
                 process.env.JWT_SECRET,
