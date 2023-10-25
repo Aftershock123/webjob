@@ -69,68 +69,6 @@ text-align-last: center;
 
   <%- include('navbar') %>
   
-<!-- 
-  <form class="profile" action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
-
-  <section class="vh-100" style="background-color: #eeeeee;">
-    <div class="container py-5 h-100">
-      <p class="label-profile">Profile</p>
-      <div class="row d-flex justify-content-center align-items-center h-100 ">
-        <div class="col col-lg-8 mb-6 mb-lg-0 ">
-          <div class="card mb-3" style="border-radius: .5rem;">
-            <div class="row g-0">
-              <div class="col-md-4 gradient-custom text-center text-white"
-                style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                <img src="/image/<%= user.image %>" 
-                alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
-                <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)" class="input-mid">
-                
-                 <input type="text" id="username" name="username" class="colorless-input border-custom"  value="<%= user.username %>" />
-                
-                 <button type="submit" class="btn btn-colorless">
-                  <i class="far fa-edit"></i> Submit
-                </button>
-              </div>
-              <div class="col-md-8">
-                <div class="card-body p-4">
-                  <h6>Information</h6>
-                  <hr class="mt-0 mb-4">
-                  <div class="row pt-1">
-                    <div class="col-6 mb-3">
-                      <h6>Email</h6>
-                      <input type="email" id="email" name="email" value="<%= user.email %>" />
-                    </div>
-                    <div class="col-6 mb-3">
-                      <h6>Phone</h6>
-                      <p class="text-muted">123 456 789</p>
-                    </div>
-                  </div>
-                  <h6>Projects</h6>
-                  <hr class="mt-0 mb-4">
-                  <div class="row pt-1">
-                    <div class="col-6 mb-3">
-                      <h6>Recent</h6>
-                      <p class="text-muted">Lorem ipsum</p>
-                    </div>
-                    <div class="col-6 mb-3">
-                      <h6>Most Viewed</h6>
-                      <p class="text-muted">Dolor sit amet</p>
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-start">
-                    <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
-                    <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
-                    <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</form> -->
 
 <section style="background-color: #eeeeee; height: 100%;">
 <form   action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
@@ -200,6 +138,8 @@ text-align-last: center;
                           <h4 class="card-title"><%= historyItem.name_company %></h4>
                           <h5 class="card-title"><%= historyItem.name_job %></h5>
                           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <a href="/company/jobbyidjob/<%= historyItem.idjob_company %>"
+                            class="btn fixed-button" style="background: #49ebd8;"><b>Job Description</b></a>
                         </div>
                       </div>
                     </div>

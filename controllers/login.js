@@ -38,7 +38,7 @@ console.log(password);
           }else if(user.status === "banned"){
             return res.json({
               status: "error",
-              error: "user ID has been ban",
+              error: "Your account will be banned for violating regulation",
             });
           }else{
             const token = jwt.sign(
@@ -92,7 +92,7 @@ console.log(password);
             }else if(company.status === "banned"){
               return res.json({
                 status: "error",
-                error: " company Ban",
+                error: "Your account will be banned for violating regulation",
               });
               
             } else if(company.status === "nonverify"){
