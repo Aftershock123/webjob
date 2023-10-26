@@ -61,26 +61,26 @@ text-align-last: center;
           <% if( job != undefined) { %>
                 <div class="col-md-3">
                   <div class="card" style="width: 18rem; margin-top: 30px">
-                    
+                   
                     <div class="card-body">
                       
                       <h5 class="card-title"><%= job.name_job %></h5>
                       <p class="card-title"><%= job.detail_work.substring(0, 100) %></p>
 
-                      <p class="card-title"><%= job.deadline_offer %></p>
+                      <p class="card-title"><%= job.deadline_offer %></p><b><%= job.statusjob %></b>
                       <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                       <a  class="nav-link a-edit " href="/company/updatejob_company/<%= job.idjob_company %>"> <i class="far fa-edit ">edit</i></a>
                      <div class="button-ban">
-                      <form action="/company/banjob/<%= job.idjob_company %>" method="post">
+                      <form action="/company/closejob/<%= job.idjob_company %>" method="post">
                         <input type="hidden" name="id" value="<%= job.idjob_company %>">
-                        <button type="submit" class="btn btn-outline-primary btn-rounded" name="action" value="ban">Close Job</button>
+                        <button type="submit" class="btn btn-outline-primary btn-rounded" name="action" value="closejob">Close Job</button>
 
                       </form>
                     </div>
                       <div class="button-unban">
-                      <form action="/company/unbanjob/<%= job.idjob_company %>" method="post">
+                      <form action="/company/openjob/<%= job.idjob_company %>" method="post">
                         <input type="hidden" name="id" value="<%= job.idjob_company %>">
-                        <button type="submit" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" name="action" value="unban">Open Job</button>
+                        <button type="submit" class="btn btn-outline-primary btn-rounded" data-mdb-ripple-color="dark" name="action" value="openjob">Open Job</button>
                       </form>
                      </div>
                     </div>

@@ -410,9 +410,23 @@ router.post(
 
 ///////////////////////////////////----------------------------------------------------resume-------------------------------------//////////////////
 //รวมหน้าaddresume กับupdateresume
+
+const storagefile = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/pdf/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // ใช้ชื่อเดิมของไฟล์ที่ผู้ใช้เลือก
+  },
+});
+
+
+
+
 //ได้แล้ว
 router.get("/addresume/:id", loggedIn, async (req, res) => {
   try {
+    // const {  filename } = req.file;
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;

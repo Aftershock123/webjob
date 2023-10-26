@@ -563,7 +563,7 @@ router.post("/addjob_company/:id", loggedIn, [
 
 //ปุ้มปิดงาน
 
-router.post("/banjob/:id", loggedIn, async (req, res) => {
+router.post("/closejob/:id", loggedIn, async (req, res) => {
   try {
     let id = req.body.id;
 
@@ -576,7 +576,7 @@ router.post("/banjob/:id", loggedIn, async (req, res) => {
     await db
       .promise()
       .execute("UPDATE job_company SET statusjob = ? WHERE idjob_company = ?", [
-        "banned",
+        "closejob",
         id,
       ]);
 
@@ -588,7 +588,7 @@ router.post("/banjob/:id", loggedIn, async (req, res) => {
   }
 });
 
-router.post("/unbanjob/:id", loggedIn, async (req, res) => {
+router.post("/openjob/:id", loggedIn, async (req, res) => {
   try {
     let id = req.params.id;
     let admin;
@@ -597,7 +597,7 @@ router.post("/unbanjob/:id", loggedIn, async (req, res) => {
     await db
       .promise()
       .execute("UPDATE job_company SET statusjob = ? WHERE idjob_company = ?", [
-        "active",
+        "openjob",
         id,
       ]);
     // console.log(`User with ID ${id} has been unbanned.`);

@@ -29,8 +29,9 @@
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Image</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Username</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">status</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ban</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Verify</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
+     
             <th></th>
           </tr>
         </thead>
@@ -60,38 +61,68 @@
                 <span class="me-2 "><%= company.email %></span>
               </div>
             </td>
+            <!-- <td class="align-middle text-center">
+              <div class="d-flex align-items-center">
+                <span class="me-2 text-xs"><%= company.adverify %></span>
+              </div>
+            </td>
             <td class="align-middle text-center">
               <div class="d-flex align-items-center">
                 <span class="me-2 text-xs"><%= company.status %></span>
               </div>
+            </td> -->
+            <td class="align-middle text-center">
+              <div class="d-flex align-items-center form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="verify-toggle-<%= company.id_company%>"
+                <%=company.adverify==='verify' ? 'checked' : '' %> onchange="toggleVerify('<%= company.id_company %>')"
+                <span class="me-2 text-xs"><%= company.adverify %></span>
+              </div>
             </td>
+            
+            <script>
+              var companyverifyStatus = '<%= company.adverify %>';
+
+              if (companyverifyStatus === 'verify') {
+                var toggleCheckbox = document.getElementById('verify-toggle-<%= company.id_company %>');
+                toggleCheckbox.checked = true;
+              }
+
+             
+              function toggleVerify(companyId) {
+                var toggleCheckbox = document.getElementById('verify-toggle-' + companyId);
+                var adverify = toggleCheckbox.checked ? 'verify' : 'nonverify';
+
+                console.log('adverify:', adverify);
+
+                // Make AJAX request to update class status
+                $.ajax({
+                  url: "/admin/updatecompanyverifyStatus/" + companyId, // Update the AJAX URL
+                  method: 'POST',
+                  data: {
+                    companyId: companyId, // Pass userId ID
+                    adverify: adverify
+                  },
+                  success: function (response) {
+                    console.log('สถานะของคลาสถูกอัปเดตแล้ว');
+                    location.reload();
+                  },
+                  error: function (xhr, status, error) {
+                    console.error('เกิดข้อผิดพลาดในการอัปเดตสถานะของคลาส:', error);
+                  }
+                });
+            }
+            </script>
             <td class="align-middle text-center">
               <div class="d-flex align-items-center form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="status-toggle-<%= company.id_company%>"
-                  <%=company.status==='active' ? 'checked' : '' %> onchange="toggleStatus('<%= company.id_company %>')">
-
-
+                  <%=company.status==='active' ? 'checked' : '' %> onchange="toggleStatus('<%= company.id_company %>')"
+                  <span class="me-2 text-xs"><%= company.status %></span>
               </div>
             </td>
-            <!-- <td class="align-middle text-center">
-              <div class="d-flex align-items-center">
-                <form action="/admin/bancompany/<%= company.id_company %>" method="post">
-                  <input type="hidden" name="id" value="<%= company.id_company %>">
-                  <button type="submit" name="action" class="btn btn-outline-danger" value="ban">Ban Company</button>
-                </form>
-              </div>
-            </td>
-            <td class="align-middle text-center">
-              <div class="d-flex align-items-center">
-                <form action="/admin/unbancompany/<%=  company.id_company %>" method="post">
-                  <input type="hidden" name="id" value="<%= company.id_company %>">
-                  <button type="submit" name="action" class="btn btn-outline-dark" value="unban">Unban Company</button>
-                </form>
-              </div>
-            </td>
-             -->
+           
+           
   
-          
+
 
              <script>
               var companyStatus = '<%= company.status %>';
@@ -105,7 +136,7 @@
               // const unbanForm = document.getElementById("unbanForm");
               function toggleStatus(companyId) {
                 var toggleCheckbox = document.getElementById('status-toggle-' + companyId);
-                var classStatus = toggleCheckbox.checked ? 'active' : 'banned';
+                var classStatus = toggleCheckbox.checked ? 'active' : 'nonactive';
 
                 console.log('classStatus:', classStatus);
 

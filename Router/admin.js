@@ -262,6 +262,22 @@ router.post("/updatecompanyStatus/:id", function (req, res, next) {
 
   }
 });
+router.post("/updatecompanyverifyStatus/:id", function (req, res, next) {
+  try{
+   let {id} =req.params;
+  let adverify =req.body.adverify;
+
+ db.promise().query(
+        "UPDATE companies SET adverify = ? where companies.id_company =?", 
+        [adverify, id]
+      );
+      res.status(200).send("สถานะถูกอัปเดตแล้ว");
+  
+  }
+  catch{
+
+  }
+});
   
 
 

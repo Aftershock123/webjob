@@ -89,16 +89,17 @@ console.log(password);
                 status: "error",
                 error: "Incorrect company email or password",
               });
-            }else if(company.status === "banned"){
-              return res.json({
-                status: "error",
-                error: "Your account will be banned for violating regulation",
-              });
-              
-            } else if(company.status === "nonverify"){
+            }else if(company.adverify === "nonverify"){
               return res.json({
                 status: "error",
                 error: "Please wait for verify 2-3 days",
+              });
+              
+            } else if(company.status === "nonactive"){
+              return res.json({
+                status: "error",
+                error: "Your account will be nonactive please contact to email",
+                
               });}
               else{
               const token = jwt.sign(

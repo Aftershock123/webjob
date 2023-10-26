@@ -282,7 +282,7 @@ router.get("/", loggedIn, async (req, res) => {
 
           if (
             currentDatetime < maturityDatetime &&
-            jobindexdata.statusjob == "active"
+            jobindexdata.statusjob == "openjob"
           ) {
             jobindex.push(jobindexdata);
           }
@@ -300,7 +300,8 @@ router.get("/", loggedIn, async (req, res) => {
     } else if (res.locals.companys) {
       status = "loggedIn";
       company = res.locals.companys;
-      if (company.status === "active") {
+      console.log(company);
+      if (company.status === "active" && company.adverify ==="verify") {
         let [jobindexdata] = await db
           .promise()
           .query(
@@ -314,7 +315,7 @@ router.get("/", loggedIn, async (req, res) => {
 
           if (
             currentDatetime < maturityDatetime &&
-            jobindexdata.statusjob == "active"
+            jobindexdata.statusjob == "openjob"
           ) {
             jobindex.push(jobindexdata);
           }
@@ -356,7 +357,7 @@ router.get("/", loggedIn, async (req, res) => {
 
         if (
           currentDatetime < maturityDatetime &&
-          jobindexdata.statusjob == "active"
+          jobindexdata.statusjob == "openjob"
         ) {
           jobindex.push(jobindexdata);
         }
