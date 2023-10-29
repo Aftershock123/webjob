@@ -2,7 +2,7 @@ const db = require("../Router/db-config");
 const bcrypt = require("bcryptjs");
 const express = require("express");
 const { check,validationResult } = require("express-validator");
-
+const readAndConvertImage = require("../controllers/base64");
 const crypto = require("crypto");
 const router = express.Router();
 const loggedIn = require("../controllers/loggedin");
@@ -411,22 +411,13 @@ router.post(
 ///////////////////////////////////----------------------------------------------------resume-------------------------------------//////////////////
 //รวมหน้าaddresume กับupdateresume
 
-const storagefile = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/pdf/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // ใช้ชื่อเดิมของไฟล์ที่ผู้ใช้เลือก
-  },
-});
-
 
 
 
 //ได้แล้ว
 router.get("/addresume/:id", loggedIn, async (req, res) => {
   try {
-    // const {  filename } = req.file;
+    
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
@@ -441,6 +432,7 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
     const [resumeRows] = await db
       .promise()
       .query("SELECT * FROM resume WHERE id_user = ?", [id]);
+      
 
     // Check if resume data exists
     const resume = resumeRows.length > 0 ? resumeRows[0] : null;
@@ -458,26 +450,45 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
   }
 });
 
+const storagefile = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/pdf/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now() + file.originalname}`);
+  },
+});
+
+
+const uploadpdf = multer({ storage: storagefile});
 //ได้แล้ว
 router.post("/addresume/:id", loggedIn,[
-  check("professional_summary", "กรุณาป้อน professional_summary").not().isEmpty(),
-  check("work_experience", "กรุณาป้อน work_experience").not().isEmpty(),
-  check("skills", "กรุณาป้อน skills").not().isEmpty(),
-  check("education", "กรุณาป้อน education").not().isEmpty(),
+  // check("professional_summary", "กรุณาป้อน professional_summary").not().isEmpty(),
+  // check("work_experience", "กรุณาป้อน work_experience").not().isEmpty(),
+  // check("skills", "กรุณาป้อน skills").not().isEmpty(),
+  // check("education", "กรุณาป้อน education").not().isEmpty(),
 
-  check("languages", "กรุณาป้อน languages").not().isEmpty(),
-  check("interests", "กรุณาป้อน interests").not().isEmpty(),
-  check("contact", "กรุณาป้อน contact").not().isEmpty(),
+  // check("languages", "กรุณาป้อน languages").not().isEmpty(),
+  // check("interests", "กรุณาป้อน interests").not().isEmpty(),
+  // check("contact", "กรุณาป้อน contact").not().isEmpty(),
   
-], async (req, res) => {
+], uploadpdf.array('files'), async (req, res) => {
   try {
+    
+    if (req.files) { // เปลี่ยน req.file เป็น req.files
+      var files = req.files; 
+    } else {
+      var files = "No Image";
+    }
+    console.log(files);
+    
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
     const result = validationResult(req);
     const errors = result.array();
     const { id } = req.params;
-
+    
     const {
       professional_summary,
       work_experience,
@@ -487,29 +498,28 @@ router.post("/addresume/:id", loggedIn,[
       interests,
       contact,
     } = req.body;
+    console.log(id,professional_summary,work_experience,skills,education,languages,interests,contact,files);
 
     if(!result.isEmpty()){
-      const referer = req.headers.referer;
-      const viewName = referer.substring(referer.lastIndexOf("/") + 1);
-    console.log(referer);
-    console.log(viewName);
-    const [rows] = await db
-      .promise()
-      .query("SELECT * FROM users WHERE id_user = ?", [id]);
-
-    // Fetch resume data
-    const [resumeRows] = await db
-      .promise()
-      .query("SELECT * FROM resume WHERE id_user = ?", [id]);
-
+     
+      console.log("error validate ");
+      const [rows] = await db
+        .promise()
+        .query("SELECT * FROM users WHERE id_user = ?", [id]);
   
-    res.render("resume", {
-      user: rows[0],
-      resume: resumeRows[0],
-      company,
-      admin,
-      webpage,errors
-    });
+      // Fetch resume data
+      const [resumeRows] = await db
+        .promise()
+        .query("SELECT * FROM resume WHERE id_user = ?", [id]);
+        
+      res.render("resume", {
+        user: rows[0],
+        resume: resumeRows[0],
+        company,
+        admin,
+        webpage,
+        errors: result.array()
+      });
 
     }else{
 
@@ -523,7 +533,7 @@ router.post("/addresume/:id", loggedIn,[
         contact: contact,
         id_user: id,
       });
-  
+
       const [rows] = await db
         .promise()
         .query("SELECT * FROM users where users.id_user = ?", [id]);
@@ -533,9 +543,50 @@ router.post("/addresume/:id", loggedIn,[
           "SELECT * FROM resume  INNER JOIN users ON resume.id_user = users.id_user where resume.id_user = ?",
           [id]
         );
+        
+      if (!files || files.length === 0) {
+        const errors='ไม่พบไฟล์ที่จะอัพโหลด';
+        res.render("resume", {
+          user: rows[0],
+          resume: row[0],
+          company,
+          admin,
+          webpage,errors
+        });
+      }
+
+      const uploadedFileNames = [];
+    
+      for (const file of files) {
+        const { originalname } = file;
+        uploadedFileNames.push(originalname);
+    
+        // เพิ่มชื่อไฟล์ลงในฐานข้อมูล
+        const sql = 'INSERT INTO file_data SET id_resume = ? ,file_name =? ';
+        db.query(sql, [row[0].id_resume,originalname], (err, result) => {
+          if (err) {
+            console.log(err);
+            const errors='มีข้อผิดพลาดในการบันทึกข้อมูล';
+            res.render("resume", {
+              user: rows[0],
+              resume: row[0],
+              company,
+              admin,
+              webpage,errors
+            });
+          }
+        });
+      }
   
       if (rows.length === 0) {
-        return res.status(404).send("User not found");
+        const errors='User not found';
+        res.render("resume", {
+          user: rows[0],
+          resume: row[0],
+          company,
+          admin,
+          webpage,errors
+        });
       }
       // /updateresume/:id
       res.render("resume", {
@@ -550,7 +601,8 @@ router.post("/addresume/:id", loggedIn,[
     // res.redirect(`/updateresume/${id}`);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    // ส่งข้อผิดพลาดไปยัง middleware จัดการข้อผิดพลาด
+   
   }
 });
 
@@ -580,6 +632,13 @@ router.post("/updateresume/:id", loggedIn, async (req, res) => {
     const [row1] = await db
       .promise()
       .query("SELECT * FROM users WHERE id_user = ?", [id]);
+      const [ro] = await db
+      .promise()
+      .query("SELECT * FROM resume WHERE id_user = ?", [id]);
+      const [row2] = await db
+      .promise()
+      .query("SELECT * FROM file_data WHERE id_user = ?", [ro[0].id_resume]);
+      console.log(row2)
     const [rows] = await db
       .promise()
       .query(
@@ -848,7 +907,16 @@ router.post("/apply/:userId/:jobId", loggedIn,
     // console.log(row);
     // console.log("row");
     // console.log( row[0].id_resume);//11
-
+    const [rowa] = await db
+    .promise()
+    .query(
+      "SELECT file_name FROM file_data   where  file_data.id_resume = ?",
+      [row[0].id_resume]
+    );
+   
+    console.log(rowa);
+      
+      
     db.query("INSERT INTO historyuser SET ?", {
       id_resume: row[0].id_resume,
       idjob_company: jobId,
@@ -859,21 +927,29 @@ router.post("/apply/:userId/:jobId", loggedIn,
         row[0].id_resume,
       ]);
 
-    // console.log(rowss);
+    
     let mailSubjects = "resume";
     const content = row;
-    // console.log("ssssssssssssssssssssssssssssssssssssss",content[0]);
-    console.log(content);
+ 
+   
+    const imageFilename = content[0].image;
+    console.log("content image", content[0].image);
+    // readAndConvertImage(imageFilename)
+   
+
+    //รูปภาพส่งเมลได้ แต่ถ้าใช้base 64ก้อาจจะส่งไม่ได้บางเมล วิธีที่นิยมคือใช้url
     const name = content[0].username;
     let email = row[0].email;
-    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+   
+    
 
     const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
     const data = await ejs.renderFile(TemplatePath, { content });
+    
     // console.log(content[0].id_resume);
     // console.log(data);
     ///emailcom จริงๆไม่ต้องใช้emailก็ได้ที่ใช้เพราะเช็คค่า
-    await generatePDF(email, mailSubjects, data, name, emailcom);
+    await generatePDF(email, mailSubjects, data, name, emailcom,rowa);
     let [roww] = await db
       .promise()
       .query(

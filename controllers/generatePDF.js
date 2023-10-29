@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 const puppeteer = require('puppeteer');
 
 
-const generatePDF = async (email,mailSubjects ,data,name,emailcom) =>{
+const generatePDF = async (email,mailSubjects ,data,name,emailcom,rowa) =>{
   try{
     
     const pdfFolder = path.join(__dirname,"../public/pdf" );
@@ -29,18 +29,33 @@ const generatePDF = async (email,mailSubjects ,data,name,emailcom) =>{
         pass: "stdy cqxs nbvv cdmz",
       }
     });
-    console.log(email);
-    console.log(emailcom);
+    console.log(rowa);
+  
 
     const mailOptions = {
       from: "Andrew.ColtOoO@gmail.com",
-        to: emailcom,email,
-        subject: mailSubjects,
-        attachments: [{
-          filename:  pdfFileName,
-          path: pdfPath
-        }]
-      };
+      to: emailcom, email,
+      subject: mailSubjects,
+      attachments: [
+        {
+          filename: pdfFileName,
+          path: pdfPath // ต้องเป็นสตริงที่ระบุที่อยู่ไฟล์เต็ม
+        }
+      ]
+    };
+    
+    if (Array.isArray(rowa)) {
+      for (let i = 0; i < rowa.length; i++) {
+        const filename = rowa[i].file_name;
+        mailOptions.attachments.push({
+          filename,
+          path: path.join(__dirname, "../public/pdf", filename)
+        });
+      }
+    }
+    
+   
+    
     
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {

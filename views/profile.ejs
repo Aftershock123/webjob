@@ -137,10 +137,16 @@ text-align-last: center;
                           <!-- <h5 class="card-title"><%= historyItem.idjob_company %></h5> -->
                           <h4 class="card-title"><%= historyItem.name_company %></h4>
                           <h5 class="card-title"><%= historyItem.name_job %></h5>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <p class="card-text"><%= historyItem.detail_work.substring(0, 100) %></p>
                           <b><%= historyItem.statusjob %></b>
-                          <a href="/company/jobbyidjob/<%= historyItem.idjob_company %>"
-                            class="btn fixed-button" style="background: #49ebd8;"><b>Job Description</b></a>
+                          <% if (historyItem.statusjob =='closejob') { %>
+
+                            <%} else { %>
+
+
+                                <a href="/company/jobbyidjob/<%= historyItem.idjob_company %>"
+                                    class="btn fixed-button" style="background: #49ebd8;"><b>Job Description</b></a>
+                           <% } %>
                         </div>
                       </div>
                     </div>
