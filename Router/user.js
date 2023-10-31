@@ -484,52 +484,6 @@ const storagefile = multer.diskStorage({
 
 const uploadpdf = multer({ storage: storagefile });
 
-// const storageImage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "public/image/"); // Set your desired destination folder
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, `${Date.now() + file.originalname}`);
-//   },
-// });
-
-// const uploadImage = multer({ storage: storageImage });
-//ได้แล้ว
-
-// fs.readFile("public/image/" + imageFile, (err, data) => {
-//   if (err) {
-//     console.error(err);
-//   } else {
-//     const base64Data = data.toString('base64');
-
-//     // Insert data into the database inside the callback
-//     db.query(
-//       "INSERT INTO resume SET ?",
-//       {
-//         professional_summary: professional_summary,
-//         work_experience: work_experience,
-//         skills: skills,
-//         education: education,
-//         languages: languages,
-//         interests: interests,
-//         contact: contact,
-//         id_user: id,
-//         imageresume: base64Data,
-//       },
-//       (error, results) => {
-//         if (error) {
-//           console.error('Database insert error:', error);
-//           // Handle the error, e.g., by rendering an error page
-//           res.render('error', { message: 'Database insert error' });
-//         } else {
-//           console.log('Data inserted successfully');
-//           // Render the resume page or any other page as needed
-//           res.render('resume');
-//         }
-//       }
-//     );
-//   }
-// });
 
 router.post(
   "/addresume/:id",
@@ -553,15 +507,7 @@ router.post(
         var files = "No file";
       }
       console.log(files);
-      // if (req.files) { // เปลี่ยน req.file เป็น req.files
-      //   var imageresume = req.file.filename;
-      // } else {
-      //   var imageresume = "No Image";
-      // }
-      // console.log(files);
-      // const imageFile = req.file.imageresume;
-      //   const imageBase64 = imageFile.buffer.toString("base64");
-
+      
       let [webpage] = await db.promise().query("SELECT * FROM webpage ");
       let company;
       let admin;
@@ -591,28 +537,7 @@ router.post(
         files
       );
 
-      // if(!result.isEmpty()){
-
-      //   console.log("error validate ");
-      //   const [rows] = await db
-      //     .promise()
-      //     .query("SELECT * FROM users WHERE id_user = ?", [id]);
-
-      //   const [resumeRows] = await db
-      //     .promise()
-      //     .query("SELECT * FROM resume WHERE id_user = ?", [id]);
-
-      //   res.render("resume", {
-      //     user: rows[0],
-      //     resume: resumeRows[0],
-      //     resufile,
-      //     company,
-      //     admin,
-      //     webpage,
-      //     errors: result.array()
-      //   });
-
-      // }else{
+      
 
       await db.promise().query("INSERT INTO resume SET ?", {
         professional_summary: professional_summary,
@@ -712,10 +637,13 @@ router.post(
 //ได้แล้ว
 router.post(
   "/updateresume/:id",
-  uploadpdf.array("files", 5),
-  loggedIn,
+  
+  loggedIn,uploadpdf.array("files", 5),
   async (req, res) => {
     try {
+      console.log("Request Body: ", req.body);
+console.log("Request Files: ", req.files);
+
       if (req.files) {
         // เปลี่ยน req.file เป็น req.files
         var files = req.files;
@@ -752,7 +680,7 @@ router.post(
         .query("SELECT * FROM file_data WHERE id_resume = ?", [
           ro[0].id_resume,
         ]);
-      
+    
 
       await db
         .promise()
@@ -770,9 +698,10 @@ router.post(
           ]
         );
       if (!files || files.length === 0) {
+
         const errors = "ไม่พบไฟล์ที่จะอัพโหลด";
         res.render("resume", {
-          user: rows[0],
+          user: row1[0],
           resume: ro[0],
           resufile: row2,
           company,
@@ -783,7 +712,7 @@ router.post(
 
         for (const file of files) {
           const { originalname } = file;
-  
+         
           db.query(
             "INSERT INTO file_data SET id_resume = ? ,file_name =? ",
             [ro[0].id_resume, originalname],
@@ -800,7 +729,7 @@ router.post(
                   webpage,
                   errors,
                 });
-              } else {
+              } 
                 const [row] = await db
                   .promise()
                   .query(
@@ -813,20 +742,19 @@ router.post(
                     ro[0].id_resume,
                   ]);
   
+                  
                 // if (rows.length === 0) {
                 //   return res.status(404).send("User not found");
                 // }
-                // res.redirect(`/user/updateresume/${id}` );
+                // res.redirect(`/user/addresume/${id}` );
                 res.render("resume", {
                   user: row1[0],
-                  resume: ro[0],
-                  resufile: row2,
+                  resume: row[0],
+                  resufile: re,
                   company,
                   admin,
                   webpage,
-                  
                 });
-              }
             }
           );
         }
