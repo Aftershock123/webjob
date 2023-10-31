@@ -167,31 +167,78 @@
                                 </div>
                               </div>
                               <hr>
+                              <!-- <div class="row">
+                                <div class="col-sm-3">
+                                  <p class="mb-0">Picture files</p>
+                                </div>
+                                <div class="col-sm-7">
+                                  <input type="file" name="imageresume" id="fileimage" multiple>
+                                  
+                                </div>
+
+                              </div> -->
+                              <hr>
                               <div class="row">
                                 <div class="col-sm-3">
-                                  <p class="mb-0">Certificate Multiple files</p>
+                                  <p class="mb-0">Certificate files</p>
                                 </div>
-                                <input type="file" name="files" id="fileInput" multiple>
-                                <ul id="fileList"></ul>
+                                <div class="col-sm-7">
+                                  <input type="file" name="files" id="fileInput" multiple>
+                                  <!-- <ul id="fileList"></ul> -->
+                                </div>
                               </div>
-                              
+
                               <script>
-                               document.getElementById('fileInput').addEventListener('change', function (e) {
-  const fileList = document.getElementById('fileList');
-  const files = e.target.files;
+                                const fileInput = document.getElementById('fileInput');
+                                const fileList = document.getElementById('fileList');
+                                const uploadedFiles = [];
 
-  // วนลูปผ่านไฟล์ที่เลือกแล้วเพิ่มไปยังรายการ
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    const listItem = document.createElement('li');
-    listItem.textContent = file.name;
-    fileList.appendChild(listItem);
-  }
+                                fileInput.addEventListener('change', function () {
+                                  const files = fileInput.files;
 
-  // ไม่ต้องล้างรายการไฟล์ใน input เพราะคุณต้องการให้เลือกเพิ่มไฟล์ทีละหลายไฟล์
-});
+                                  for (const file of files) {
+                                    if (uploadedFiles.includes(file.name)) {
+                                      alert(`File "${file.name}" already uploaded and cannot be used again`);
+                                    } else {
+                                      // Create a new list item
+                                      const listItem = document.createElement('li');
+                                      listItem.classList.add('custom-list-item');
+
+                                      // Create an icon (Font Awesome)
+                                      const fileIcon = document.createElement('i');
+                                      fileIcon.classList.add('fas', 'fa-file');
+                                      listItem.appendChild(fileIcon);
+
+                                      // Add the file name
+                                      const fileNameLink = document.createElement('a');
+                                      fileNameLink.textContent = file.name;
+                                      fileNameLink.href = URL.createObjectURL(file);
+                                      fileNameLink.download = file.name;
+                                      listItem.appendChild(fileNameLink);
+
+                                      // Add a cancel button
+                                      const cancelButton = document.createElement('button');
+                                      cancelButton.textContent = 'Cancel';
+                                      cancelButton.addEventListener('click', function () {
+                                        listItem.remove();
+                                        const index = uploadedFiles.findIndex((uploadedFile) => uploadedFile.name === file.name);
+
+                                        if (index > -1) {
+                                          uploadedFiles.splice(index, 1);
+                                        }
+                                      });
+                                      listItem.appendChild(cancelButton);
+
+                                      fileList.appendChild(listItem);
+                                      uploadedFiles.push(file.name);
+                                    }
+                                  }
+
+
+                                });
+
                               </script>
-                              
+
 
                               <button type="submit" class="btn btn-outline-primary" style="margin-left: 70vh;"
                                 data-mdb-ripple-color="dark">save</button>
@@ -285,9 +332,27 @@
                                       rows="4"><%= resume.contact %></textarea>
                                   </div>
                                 </div>
+                                <hr>
+                                <div class="row">
+                                  <div class="col-sm-3">
+                                    <p class="mb-0">Picture files</p>
+                                  </div>
+                                  <div class="col-sm-7">
+                                    <input type="file" name="imageresume" id="fileimage" multiple>
+                                    
+                                  </div>
 
-
-
+                                </div>
+                                <hr>
+                                <div class="row">
+                                  <div class="col-sm-3">
+                                    <p class="mb-0">Certificate files</p>
+                                  </div>
+                                  <div class="col-sm-7">
+                                    <input type="text" name="files" id="fileInput" multiple><%= resume.file_name %>
+                                    
+                                  </div>
+                                </div>
                               </div>
                             </div>
 
@@ -301,6 +366,7 @@
                       </div>
                     </form>
                   </section>
+
                   <% } %>
 
                     <script>

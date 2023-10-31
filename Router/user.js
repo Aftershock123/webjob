@@ -11,7 +11,7 @@ const sendMail = require("../controllers/sendmail");
 const generatePDF = require("../controllers/generatePDF");
 const path = require("path");
 const ejs = require("ejs");
-
+const fs = require('fs').promises;
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/image/");
@@ -69,19 +69,17 @@ router.post(
 
     const image = req.file ? req.file.filename : "default.png";
     const { username,  password: Npassword } = req.body;
-const email =req.body.email;
+    const email =req.body.email;
     console.log("Image:", email);
-    
-      
 
     if (!email || !Npassword || !result.isEmpty()) {
       
       const referer = req.headers.referer;
       const viewName = referer.substring(referer.lastIndexOf("/") + 1);
-    console.log(referer);
-     return res.render(viewName, {
-       errors: errors,
-       webpage,
+      console.log(referer);
+      return res.render(viewName, {
+      errors: errors,
+      webpage,
        
      });
 
@@ -126,7 +124,7 @@ const email =req.body.email;
                     "../views/email.ejs"
                   );
                   const data = await ejs.renderFile(TemplatePath, { content });
-                  // console.log(" send data: ", data);
+                  
                   await sendMail(req.body.email, mailSubjects, data);
                   await db
                     .promise()
@@ -166,13 +164,9 @@ router.get("/verify", async (req, res) => {
     let admin;
     res.locals.status = "no";
     let status = res.locals.status;
-    // console.log('Request object:', req);
-    // console.log('Request URL:', req.url);
-    // console.log('Parsed Query Parameters:', req.query);
-    const token = req.query.token.trim();
-    // console.log('Token from request:', token);
-    // console.log('Token length:', token.length);
 
+    const token = req.query.token.trim();
+   
     db.query(
       "SELECT * FROM `users` WHERE `token` = ? limit 1",
       [token],
@@ -195,7 +189,6 @@ router.get("/verify", async (req, res) => {
                 return res.status(500).send("Internal Server Error");
               }
 
-              // console.log("Update result:", updateResult);
               return res.render("login", { user, company, admin, webpage });
             }
           );
@@ -230,12 +223,11 @@ router.get(
       const [rows] = await db
         .promise()
         .query("SELECT * FROM users  where id_user = ?", [id]);
-      // console.log(rows);
+      
       const [row] = await db
         .promise()
         .query("SELECT * FROM resume where resume.id_user = ?", [id]);
-      // console.log(row);
-
+      
       if (row.length < 1) {
         res.render("profile", {
           user: rows[0],
@@ -251,17 +243,17 @@ router.get(
         const [row] = await db
           .promise()
           .query("SELECT * FROM users  where id_user = ?", [id]);
-        // console.log("user: ", row);
+        
         const [rows] = await db
           .promise()
           .query("SELECT * FROM resume where resume.id_user = ?", [id]);
-        //  console.log("resume: ", rows);
+        
         const [row1] = await db
           .promise()
           .query("SELECT * FROM historyuser where historyuser.id_resume = ? ", [
             rows[0].id_resume,
           ]);
-        // console.log("history: ", row1);
+       
 
         const [row2] = await db
           .promise()
@@ -411,9 +403,6 @@ router.post(
 ///////////////////////////////////----------------------------------------------------resume-------------------------------------//////////////////
 //รวมหน้าaddresume กับupdateresume
 
-
-
-
 //ได้แล้ว
 router.get("/addresume/:id", loggedIn, async (req, res) => {
   try {
@@ -421,25 +410,25 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
     let admin;
-    // const errors = req.query.errors ? JSON.parse(req.query.errors) : [];
     const { id } = req.params;
 
     const [rows] = await db
       .promise()
       .query("SELECT * FROM users WHERE id_user = ?", [id]);
 
-    // Fetch resume data
+    
     const [resumeRows] = await db
       .promise()
       .query("SELECT * FROM resume WHERE id_user = ?", [id]);
       
-
-    // Check if resume data exists
+// const[rowq]= await db.promise().query("SELECT file_name FROM file_data WHERE id_resume = ?",[resumeRows[0].id_resume]);
+// console.log(rowq);
     const resume = resumeRows.length > 0 ? resumeRows[0] : null;
 
     res.render("resume", {
       user: rows[0],
       resume: resumeRows[0],
+      // resufile:rowq,
       company,
       admin,
       webpage,
@@ -449,6 +438,9 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+
+
 
 const storagefile = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -461,6 +453,18 @@ const storagefile = multer.diskStorage({
 
 
 const uploadpdf = multer({ storage: storagefile});
+
+
+const storageImage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images/"); // Set your desired destination folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now() + file.originalname}`);
+  },
+});
+
+const uploadImage = multer({ storage: storageImage });
 //ได้แล้ว
 router.post("/addresume/:id", loggedIn,[
   // check("professional_summary", "กรุณาป้อน professional_summary").not().isEmpty(),
@@ -471,8 +475,8 @@ router.post("/addresume/:id", loggedIn,[
   // check("languages", "กรุณาป้อน languages").not().isEmpty(),
   // check("interests", "กรุณาป้อน interests").not().isEmpty(),
   // check("contact", "กรุณาป้อน contact").not().isEmpty(),
-  
-], uploadpdf.array('files'), async (req, res) => {
+
+], uploadpdf.array('files',5), async (req, res) => {
   try {
     
     if (req.files) { // เปลี่ยน req.file เป็น req.files
@@ -481,6 +485,8 @@ router.post("/addresume/:id", loggedIn,[
       var files = "No Image";
     }
     console.log(files);
+    // const imageFile = req.file.imageresume; 
+    //   const imageBase64 = imageFile.buffer.toString("base64");
     
     let [webpage] = await db.promise().query("SELECT * FROM webpage ");
     let company;
@@ -500,14 +506,15 @@ router.post("/addresume/:id", loggedIn,[
     } = req.body;
     console.log(id,professional_summary,work_experience,skills,education,languages,interests,contact,files);
 
+
+   
     if(!result.isEmpty()){
      
       console.log("error validate ");
       const [rows] = await db
         .promise()
         .query("SELECT * FROM users WHERE id_user = ?", [id]);
-  
-      // Fetch resume data
+      
       const [resumeRows] = await db
         .promise()
         .query("SELECT * FROM resume WHERE id_user = ?", [id]);
@@ -523,6 +530,7 @@ router.post("/addresume/:id", loggedIn,[
 
     }else{
 
+
       await db.promise().query("INSERT INTO resume SET ?", {
         professional_summary: professional_summary,
         work_experience: work_experience,
@@ -533,6 +541,7 @@ router.post("/addresume/:id", loggedIn,[
         contact: contact,
         id_user: id,
       });
+      // imageresume:imageBase64
 
       const [rows] = await db
         .promise()
@@ -561,7 +570,6 @@ router.post("/addresume/:id", loggedIn,[
         const { originalname } = file;
         uploadedFileNames.push(originalname);
     
-        // เพิ่มชื่อไฟล์ลงในฐานข้อมูล
         const sql = 'INSERT INTO file_data SET id_resume = ? ,file_name =? ';
         db.query(sql, [row[0].id_resume,originalname], (err, result) => {
           if (err) {
