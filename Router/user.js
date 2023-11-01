@@ -70,12 +70,12 @@ router.post(
     const image = req.file ? req.file.filename : "default.png";
     const { username, password: Npassword } = req.body;
     const email = req.body.email;
-    console.log("Image:", email);
+    // console.log("Image:", email);
 
     if (!email || !Npassword || !result.isEmpty()) {
       const referer = req.headers.referer;
       const viewName = referer.substring(referer.lastIndexOf("/") + 1);
-      console.log(referer);
+      // console.log(referer);
       return res.render(viewName, {
         errors: errors,
         webpage,
@@ -258,7 +258,7 @@ router.get(
             [rows[0].id_resume]
           );
         //   console.log("job:" ,[rows[0].id_resume]);
-        console.log("job:", [row2]);
+        // console.log("job:", [row2]);
 
         return res.render("profile", {
           user: row[0],
@@ -333,7 +333,7 @@ router.get(
             [rows[0].id_resume]
           );
         //   console.log("job:" ,[rows[0].id_resume]);
-        console.log("job:", [row2]);
+        // console.log("job:", [row2]);
 
         return res.render("jobsended", {
           user: row[0],
@@ -448,7 +448,7 @@ router.get("/addresume/:id", loggedIn, async (req, res) => {
         .query("SELECT * FROM file_data WHERE id_resume = ?", [
           resumeRows[0].id_resume,
         ]);
-      console.log(Rows);
+      // console.log(Rows);
       res.render("resume", {
         user: rows[0],
         resume: resumeRows[0],
@@ -585,11 +585,12 @@ router.post(
         });
       } else {
         for (const file of files) {
-          const { originalname } = file;
+          const { filename } = file;
+         
 
           db.query(
             "INSERT INTO file_data SET id_resume = ? ,file_name =? ",
-            [row[0].id_resume, originalname],
+            [row[0].id_resume, filename],
             (err, result) => {
               if (err) {
                 console.log(err);
@@ -711,11 +712,11 @@ console.log("Request Files: ", req.files);
       }else{
 
         for (const file of files) {
-          const { originalname } = file;
+          const { filename } = file;
          
           db.query(
             "INSERT INTO file_data SET id_resume = ? ,file_name =? ",
-            [ro[0].id_resume, originalname],
+            [ro[0].id_resume, filename],
             async (err, result) => {
               if (err) {
                 console.log(err);
@@ -1018,7 +1019,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
     const content = row;
 
     const imageFilename = content[0].image;
-    console.log("content image", content[0].image);
+    // console.log("content image", content[0].image);
     // readAndConvertImage(imageFilename)
 
     //รูปภาพส่งเมลได้ แต่ถ้าใช้base 64ก้อาจจะส่งไม่ได้บางเมล วิธีที่นิยมคือใช้url

@@ -19,7 +19,7 @@ const generatePDF = async (email,mailSubjects ,data,name,emailcom,rowa) =>{
     await page.pdf({ path: pdfPath, format: 'A4' });
 
   await browser.close();
-
+// console.log("pdffolder",pdfFolder)
   console.log('PDF created at:', pdfPath);
 
     const transporter = nodemailer.createTransport({
@@ -29,9 +29,9 @@ const generatePDF = async (email,mailSubjects ,data,name,emailcom,rowa) =>{
         pass: "stdy cqxs nbvv cdmz",
       }
     });
-    console.log(rowa);
-  
-
+    // console.log(rowa);
+    
+    
     const mailOptions = {
       from: "Andrew.ColtOoO@gmail.com",
       to: emailcom, email,
@@ -49,11 +49,11 @@ const generatePDF = async (email,mailSubjects ,data,name,emailcom,rowa) =>{
         const filename = rowa[i].file_name;
         mailOptions.attachments.push({
           filename,
-          path: path.join(__dirname, "../public/pdf", filename)
+          path:path.join(__dirname, "../public/pdf", filename)
         });
+       
       }
     }
-    
    
     
     

@@ -210,7 +210,7 @@
 
 
                               <button type="submit" class="btn btn-outline-primary" style="margin-left: 70vh;"
-                                data-mdb-ripple-color="dark">save</button>
+                                data-mdb-ripple-color="dark" >save</button>
                             </div>
                           </div>
                         </div>
@@ -357,7 +357,13 @@
                            
 
                             <button type="submit" class="btn btn-outline-primary" style="margin-left: 70vh;"
-                              data-mdb-ripple-color="dark">Submit</button>
+                              data-mdb-ripple-color="dark"  id="submitButton">Submit</button>
+                  <script>
+                    // คำสั่งในการรีเฟรชหน้าเว็บเมื่อคลิกที่ปุ่ม "Submit"
+                    document.getElementById("submitButton").addEventListener("click", function() {
+                      location.reload(); // รีเฟรชหน้าเว็บ
+                    });
+                  </script>
                           </div>
                         </div>
                       </div>
