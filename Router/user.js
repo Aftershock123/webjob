@@ -1011,7 +1011,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
     // console.log("rows",rows[0].statusjob);
     const [existingRecord] = await db
     .promise()
-    .query("SELECT * FROM historyuser WHERE id_resume = ? AND statushis = 1", [row[0].id_resume]);
+    .query("SELECT * FROM historyuser WHERE id_resume = ? AND idjob_company = ? AND statushis = 1", [row[0].id_resume,jobId]);
 
     if (existingApplication.length === 0 ||existingRecord.length ===  0) {
 
