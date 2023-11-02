@@ -2,7 +2,7 @@ const db = require("../Router/db-config");
 const bcrypt = require("bcryptjs");
 const express = require("express");
 const { check, validationResult } = require("express-validator");
-const readAndConvertImage = require("../controllers/base64");
+
 const crypto = require("crypto");
 const router = express.Router();
 const loggedIn = require("../controllers/loggedin");

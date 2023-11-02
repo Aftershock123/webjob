@@ -6,13 +6,14 @@ const db =require("./Router/db-config")
 const app = express()
 const bodyParser =require('body-parser')
 const session = require('express-session');
+const updatejobstatus = require("./controllers/upjobstatus");
+
 // const createdadmin =require('./entity/admin')
 // const createduser =require('./entity/user')
 // const createdcompany =require('./entity/company')
 // const createdresume =require('./entity/resume')
 // const createdjobcompany =require('./entity/jobcompany')
-
-
+setInterval(updatejobstatus, 60000);
 
 //Set view engine
 
