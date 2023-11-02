@@ -983,7 +983,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
         [jobId]
       );
     // console.log(rows[0].email);
-    // console.log("rows");
+    
 
     let emailcom = rows[0].email;
 
@@ -1003,51 +1003,70 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
         [row[0].id_resume]
       );
 
-    console.log(rowa);
-
-    db.query("INSERT INTO historyuser SET ?", {
-      id_resume: row[0].id_resume,
-      idjob_company: jobId,
-    });
-    const [rowss] = await db
+    // console.log(rowa);
+    const [existingApplication] = await db
       .promise()
-      .query("SELECT * FROM historyuser   where  historyuser.id_resume = ?", [
-        row[0].id_resume,
-      ]);
+      .query("SELECT * FROM historyuser WHERE id_resume = ? AND idjob_company = ?", [row[0].id_resume, jobId]);
+    // console.log("existingApplication",existingApplication);//11
+    // console.log("rows",rows[0].statusjob);
+    const [existingRecord] = await db
+    .promise()
+    .query("SELECT * FROM historyuser WHERE id_resume = ? AND statushis = 1", [row[0].id_resume]);
 
-    let mailSubjects = "resume";
-    const content = row;
+    if (existingApplication.length === 0 ||existingRecord.length ===  0) {
 
-    const imageFilename = content[0].image;
-    // console.log("content image", content[0].image);
-    // readAndConvertImage(imageFilename)
-
-    //รูปภาพส่งเมลได้ แต่ถ้าใช้base 64ก้อาจจะส่งไม่ได้บางเมล วิธีที่นิยมคือใช้url
-    const name = content[0].username;
-    let email = row[0].email;
-
-    const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
-    const data = await ejs.renderFile(TemplatePath, { content });
-
-    // console.log(content[0].id_resume);
-    // console.log(data);
-    ///emailcom จริงๆไม่ต้องใช้emailก็ได้ที่ใช้เพราะเช็คค่า
-    await generatePDF(email, mailSubjects, data, name, emailcom, rowa);
-    let [roww] = await db
-      .promise()
-      .query(
-        "SELECT * FROM users WHERE users.id_user = ? ",
-        [userId],
-        async (error, result) => {
-          if (error) {
-            console.log("insert user error");
-            throw error;
+      db.query("INSERT INTO historyuser SET ?", {
+        id_resume: row[0].id_resume,
+        idjob_company: jobId,
+        statushis:1
+      });
+      const [rowss] = await db
+        .promise()
+        .query("SELECT * FROM historyuser   where  historyuser.id_resume = ?", [
+          row[0].id_resume,
+        ]);
+  
+      let mailSubjects = "resume";
+      const content = row;
+  
+      const imageFilename = content[0].image;
+      // console.log("content image", content[0].image);
+      // readAndConvertImage(imageFilename)
+  
+      //รูปภาพส่งเมลได้ แต่ถ้าใช้base 64ก้อาจจะส่งไม่ได้บางเมล วิธีที่นิยมคือใช้url
+      const name = content[0].username;
+      let email = row[0].email;
+  
+      const TemplatePath = path.join(__dirname, "../views/pdfemail.ejs");
+      const data = await ejs.renderFile(TemplatePath, { content });
+  
+      // console.log(content[0].id_resume);
+      // console.log(data);
+      ///emailcom จริงๆไม่ต้องใช้emailก็ได้ที่ใช้เพราะเช็คค่า
+      await generatePDF(email, mailSubjects, data, name, emailcom, rowa);
+      let [roww] = await db
+        .promise()
+        .query(
+          "SELECT * FROM users WHERE users.id_user = ? ",
+          [userId],
+          async (error, result) => {
+            if (error) {
+              console.log("insert user error");
+              throw error;
+            }
           }
-        }
-      );
-    let id = userId;
-    // res.redirect(`/user/profile/${id}`)
-    return res.status(200).json({ status: "success" });
+        );
+      let id = userId;
+      // res.redirect(`/user/profile/${id}`)
+      return res.status(200).json({ status: "success" });
+    }else{
+      return res.status(400).json({ status: "error", error: "You've already applied for this job" });
+        
+      
+        
+      
+
+    }
     // res.render("profile", {
     //   user: roww[0],
     //   company,

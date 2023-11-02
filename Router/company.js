@@ -579,6 +579,11 @@ router.post("/closejob/:id", loggedIn, async (req, res) => {
         "closejob",
         id,
       ]);
+      await db
+      .promise()
+      .execute("UPDATE historyuser SET statushis = 0 WHERE idjob_company = ?", [
+        id,
+      ]);
 
     // console.log(`User with ID ${id} has been banned.`);
     const currentURL = req.get("Referer");
