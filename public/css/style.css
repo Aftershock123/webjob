@@ -7,6 +7,13 @@ body{
   padding: 0;
   font-family: 'Kanit', sans-serif;
 }
+
+.kanit-light {
+  font-family: "Kanit", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
 .sectionforlogin{
   display: flex;
   justify-content: center;
@@ -47,6 +54,8 @@ h2{
   width: 310px;
   border-bottom: 2px solid #fff;
 }
+
+
 
 
 
@@ -106,14 +115,59 @@ input:valid ~ label{
 button{
   width: 100%;
   height: 40px;
-  border-radius: 40px;
+  border-radius: 6px;
   background: #fff;
   border: none;
   outline: none;
   cursor: pointer;
-  font-size: 1em;
+  font-size: 14px;
   font-weight: 600;
 }
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  gap: 20px;
+}
+
+.btn {
+  padding: 0px 15px;
+  height: 30px;
+  width: auto;
+  color: red;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 6px; 
+  outline: 2px solid red;
+}
+
+.btn:hover {
+  background-color: #d12528; /* สีเมื่อ hover */
+  color: white;
+}
+
+.btn-bold {
+  padding: 0px 15px;
+  height: 30px;
+  width: auto;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 6px; 
+  background-color: #ED2A30;
+  outline: 2px solid #ED2A30;
+}
+
+.btn-bold:hover {
+  background-color: #970003;
+  outline: 2px solid #970003;
+  color: white;
+}
+
+
 .register{
   font-size: .9em;
   color: #fff;
@@ -129,7 +183,15 @@ button{
   text-decoration: underline;
 }
 
+input.form-control:focus {
+  border-color: #ED2A30;
+  box-shadow: 0 0 5px rgba(237, 42, 48, 0.5); 
+  outline: none; 
+}
 
+input.form-control::placeholder {
+  color: #817E7E;
+}
 
 .sectionregister{
   align-items: center;
@@ -196,7 +258,6 @@ aside hr{
 .container-box{
 
   margin: 0;
-  font-family: Arial, sans-serif;
   display: flex;
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
@@ -210,7 +271,14 @@ flex-shrink: 0;
 background-color: rgb(130, 128, 128);
 }
 
-
+.label-profile{
+  width: 117px;
+  padding-top: 7px;
+height: 35px;
+flex-shrink: 0;
+background: #ED2A30;
+text-align-last: center;
+}
 
 
 

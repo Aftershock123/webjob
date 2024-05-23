@@ -13,7 +13,7 @@ const updatejobstatus = require("./controllers/upjobstatus");
 // const createdcompany =require('./entity/company')
 // const createdresume =require('./entity/resume')
 // const createdjobcompany =require('./entity/jobcompany')
-setInterval(updatejobstatus, 60000);
+// setInterval(updatejobstatus, 60000);
 
 //Set view engine
 
