@@ -387,8 +387,8 @@ a{
         </a>
         <span class="company-name"><%= user.username %></span>
     </div>        
-      <button class="btn" href="/user/resetpassword/<%= user.id_user %>">เปลี่ยนรหัสผ่าน</button>
-      <button class="btn-bold" href="/logout">ออกจากระบบ</button>
+      <button class="btn"><a href="/user/resetpassword/<%= user.id_user %>">เปลี่ยนรหัสผ่าน</a></button>
+      <button class="btn-bold"><a href="/logout">ออกจากระบบ</a></button>
   </div>      
 </div>
 </div>
@@ -443,16 +443,11 @@ a{
             <b style="letter-spacing: 2px; font-size: 14px;"><%= webpage[0].namepage %></b>
         </div>
     </a>
-
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a  href="/">หน้าหลัก</a></li>
           <li><a href="/company/addjob_company/<%= company.id_company %>">เพิ่มงาน</a></li>
           <li><a href="/company/joball/<%= company.id_company %>">งานของฉัน</a></li>
-          <!-- <li><a href="resume.html">Resume</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="portfolio.html">Portfolio</a></li>
-          <li><a href="contact.html">Contact</a></li> -->
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -465,8 +460,8 @@ a{
             </a>
             <span class="company-name"><%= company.username %></span>
         </div>        
-          <button class="btn" href="/company/resetpassword/<%= company.id_company %>">เปลี่ยนรหัสผ่าน</button>
-          <button class="btn-bold" href="/logout">ออกจากระบบ</button>
+          <button class="btn" ><a href="/company/resetpassword/<%= company.id_company %>">เปลี่ยนรหัสผ่าน</a></button>
+          <button class="btn-bold"><a href="/logout">ออกจากระบบ</a></button>
       </div>      
     </div>
   </div>
@@ -553,43 +548,26 @@ a{
       <% } else { %>
 <div class="container-fluid d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
         
-          <a class="navbar-brand" href="/">
-           
-            <h6 class="text-dark m-0 fs-2">
-              
-              <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
-            </h6>
-          </a>
-       
-        
+  <a class="navbar-brand" href="/">
+    <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
+        <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image" style="width: 50px; height: 32px;"/>
+        <b style="letter-spacing: 2px; font-size: 14px;"><%= webpage[0].namepage %></b>
+    </div>
+</a>        
           <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-              <li><a class="active" href="/">Home</a></li>
-              
+              <li><a class="active" href="/">หน้าหลัก</a></li>
             </ul>
           
           </nav><!-- .navbar -->
-        
-          <div class="header-social-links">
+          <button class="btn"><a href="/registercompany">RegisterCompany</a></button>
+          <button class="btn"><a href="/registeruser">RegisterUser</a></button>
+
+          <button class="btn-bold"><a href="/login">Login</a></button>
           
-            <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdown1"
-            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Login</a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-            <li><a class="dropdown-item" href="/login">Login</a></li>
-            <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
-            <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
-           
-          </ul>
-            
-          </div>
         </div>
 
         <% } %>
-
-
-
-
 
 
 

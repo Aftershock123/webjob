@@ -168,6 +168,22 @@ button{
 }
 
 
+.btn a{
+  color: red;
+}
+
+.btn:hover a{
+  color: white;
+}
+
+.btn-bold  a{
+  color: rgb(255, 255, 255);
+}
+
+.btn-bold :hover a{
+  color: white;
+}
+
 .register{
   font-size: .9em;
   color: #fff;
@@ -282,3 +298,231 @@ text-align-last: center;
 
 
 
+.label-profile2{
+  width: 117px;
+  padding-top: 7px;
+height: 35px;
+flex-shrink: 0;
+background: #49ebd8;
+text-align-last: center;
+}
+.label-profile3 {
+  width: 117px;
+  padding-top: 7px;
+  height: 35px;
+  flex-shrink: 0;
+  background: #49ebd8;
+  text-align-last: center;
+}
+
+.fixed-button1 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+.label-profile4{
+  width: 117px;
+  padding-top: 7px;
+height: 35px;
+flex-shrink: 0;
+background: #f6d365;
+text-align-last: center;
+}
+.label-profile5{
+  width: 117px;
+  padding-top: 7px;
+height: 35px;
+flex-shrink: 0;
+background: #f6d365;
+text-align-last: center;
+}
+.button-unban {
+
+  text-align: center;
+  margin-top: -38px;
+  padding-left: -15px;
+  margin-left: -50px;
+
+}
+
+.btn-rounded {
+  border-radius: 20px;
+  /* Adjust the value to control the roundness of the button */
+}
+
+.a-edit {
+  margin-left: -15px;
+}
+
+
+.button-ban {
+  padding-right: -10px;
+  margin-top: -38px;
+
+  text-align: right;
+
+}
+
+.label-profile7 {
+  width: 117px;
+  padding-top: 7px;
+  height: 35px;
+  flex-shrink: 0;
+  background: #49ebd8;
+  text-align-last: center;
+}
+
+.equal-height-cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.equal-height-cards .col-md-3 {
+  display: flex;
+  flex-direction: column;
+}
+
+.equal-height-cards .card {
+  flex: 1;
+}
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #f6d365;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+}
+
+.colorless-input {
+  background-color: transparent;
+  border: none;
+}
+
+.border-custom {
+  margin-top: 9px;
+  margin-bottom: 9px;
+  text-align-last: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 2px solid rgb(0, 0, 0);
+  /* Change the border style and color as needed */
+  border-radius: 5px;
+  /* Optional: Add rounded corners */
+}
+
+.label-profile9 {
+  width: 117px;
+  padding-top: 7px;
+  height: 35px;
+  flex-shrink: 0;
+  background: #f6d365;
+  text-align-last: center;
+}
+
+.input-mid {
+  padding-left: 35px;
+  margin-bottom: 10px;
+}
+
+.form-control-input {
+
+  padding: 10px;
+  /* Add some padding */
+  margin: 5px 0;
+  /* Add margin at the top and bottom */
+  box-sizing: border-box;
+  /* Include padding and border in the element's total width and height */
+  border: 1px solid #981818;
+  /* Add a border */
+  border-radius: 4px;
+  /* Add rounded corners */
+}
+
+/* Style for when the input is focused */
+.form-control-input {
+  border-color: #007BFF;
+  /* Change border color when focused */
+}
+.card-img-top {
+width: 100px;
+height: 100px;
+object-fit: contain;
+display: block;
+margin: 0 auto;
+}
+.first-name{
+  margin-top:30px;
+  }
+  .pic{
+    margin-right:100px;
+
+  }
+.limited-text {
+    width: 350px; /* กำหนดความกว้างของ <td> */
+   
+    overflow: hidden; /* ซ่อนข้อความที่เกินขอบของ <td> */
+    text-overflow: ellipsis; /* แสดงเครื่องหมาย ... เมื่อข้อความเกินขอบ */
+  }
+  .limited-skill {
+    width: 250px; /* กำหนดความกว้างของ <td> */
+   
+    overflow: hidden; /* ซ่อนข้อความที่เกินขอบของ <td> */
+    text-overflow: ellipsis; /* แสดงเครื่องหมาย ... เมื่อข้อความเกินขอบ */
+  }
+  .label-profile11{
+    width: 117px;
+    padding-top: 7px;
+  height: 35px;
+  flex-shrink: 0;     
+  background: #49ebd8;
+  text-align-last: center;
+  }
+  .label-profile12 {
+    width: 117px;
+    padding-top: 7px;
+    height: 35px;
+    flex-shrink: 0;
+    background: #f6d365;
+    text-align-last: center;
+  }
+
+  .gradient-custom11 {
+    /* fallback for old browsers */
+    background: #f6d365;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+  }
+  .label-profile34 {
+    width: 117px;
+    padding-top: 7px;
+    height: 35px;
+    flex-shrink: 0;
+    background: #f6d365;
+    text-align-last: center;
+  }
+
+  .gradient-custom22{
+    /* fallback for old browsers */
+    background: #f6d365;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+  }
+
+
+
+  .slanted-image {
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  }
+  
