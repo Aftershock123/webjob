@@ -15,54 +15,51 @@
   <%- include('navbar') %>
     <section style="background-color: #eeeeee; height: 100vh; ">
       <div class="container py-5 h-100">
-        <p class="label-profile7"><b>MyJob</b></p>
+        <h4><strong>งานของฉัน</strong></h4>
         <div class="container">
           <div class="row equal-height-cards">
             <% if(job.length> 0) { %>
               <% job.forEach((job)=> {%>
                 <% if( job !=undefined) { %>
                   <div class="col-md-3">
-                    <div class="card" style="width: 18rem; margin-top: 30px">
+                    <div class="card" style="width: 18rem; margin-top: 30px; position: relative;">
+                      <a class="nav-link a-edit" href="/company/updatejob_company/<%= job.idjob_company %>" style="position: absolute; top: 10px; right: 10px;">
+                        <b>แก้ไข</b>
+                      </a>
                       <div class="card-body">
                         <h5 class="card-title">
                           <%= job.name_job %>
                         </h5>
                         <p class="card-title">
                           <%= job.detail_work.substring(0, 100) %>
-                        </p>                                              
-                      </div>                      
-                      <div class="p-3">                          
-                        <button disabled class="mb-2 <%= job.statusjob === 'openjob' ? 'btn-success btn' : 'btn-danger btn' %>">
-                          <%= job.statusjob %>
-                          <small  class="card-title ms-5">
-                            <b><%= job.deadline_offer %></b>
+                        </p>
+                      </div>
+                      <div class="p-3 d-flex flex-column align-items-stretch">
+                        <div class="d-flex align-items-center mb-2">
+                          <box class="index-card-text custom-style <%= job.statusjob === 'openjob' ? 'open-job' : '' %>"
+                               style="display: inline-block; padding: 5px; padding-left: 15px; padding-right: 15px; border-radius: 3px;">
+                               <%= job.statusjob %>
+                          </box>
+                          <small class="card-title ms-2 " style="display: inline-block; margin-top: 10px;">
+                            <b id="formatted-deadline-" data-deadline="<%= job.deadline_offer %>"></b>
                           </small>
-                        </button>
-                        
-                        
-                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                        <a class="nav-link a-edit " href="/company/updatejob_company/<%= job.idjob_company %>"> <i
-                            class="far fa-edit ">edit</i></a>
-                        <div class="button-ban">
-                          <form action="/company/closejob/<%= job.idjob_company %>" method="post">
-                            <input type="hidden" name="id" value="<%= job.idjob_company %>">
-                            <button type="submit" class="btn btn-outline-danger btn-rounded" name="action"
-                              value="closejob">Close Job</button>
-
-                          </form>
                         </div>
-                        <div class="button-unban">
-                          <form action="/company/openjob/<%= job.idjob_company %>" method="post">
+                        <div class="d-flex justify-content-between">
+                          <form action="/company/closejob/<%= job.idjob_company %>" method="post" class="me-2 flex-fill">
                             <input type="hidden" name="id" value="<%= job.idjob_company %>">
-                            <button type="submit" class="btn btn-outline-success btn-rounded"
-                              data-mdb-ripple-color="dark" name="action" value="openjob">Open Job</button>
+                            <button type="submit" class="btn btn-outline-danger  w-100" name="action" value="closejob">ปิดรับสมัคร</button>
+                          </form>
+                          <form action="/company/openjob/<%= job.idjob_company %>" method="post" class="flex-fill">
+                            <input type="hidden" name="id" value="<%= job.idjob_company %>">
+                            <button type="submit" class="btn btn-outline-success  w-100" data-mdb-ripple-color="dark" name="action" value="openjob">เปิดรับสมัคร</button>
                           </form>
                         </div>
                       </div>
-
                     </div>
-                    
                   </div>
+                  
+                  
+                  
 
                   <% } else { %>
                     <p> something wrong</p>
@@ -83,3 +80,24 @@
 
 
 </html>
+<script>
+  function formatDateTime(dateTimeStr) {
+    const date = new Date(dateTimeStr);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    
+    return `${day}/${month}/${year} เวลา ${hours}:${minutes}`;
+  }
+
+  // Get all elements with a specific class or ID
+  document.addEventListener('DOMContentLoaded', function() {
+    const deadlineElements = document.querySelectorAll('[id^="formatted-deadline-"]');
+    deadlineElements.forEach(function(el) {
+      const deadlineOffer = el.getAttribute('data-deadline');
+      el.textContent = formatDateTime(deadlineOffer);
+    });
+  });
+</script>

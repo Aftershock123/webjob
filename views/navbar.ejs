@@ -340,6 +340,9 @@
 a{
   text-decoration: none;
 }
+.container{
+  background-color: #fff;
+}
 </style>
 
   <script>
@@ -387,8 +390,8 @@ a{
         </a>
         <span class="company-name"><%= user.username %></span>
     </div>        
-      <button class="btn"><a href="/user/resetpassword/<%= user.id_user %>">เปลี่ยนรหัสผ่าน</a></button>
-      <button class="btn-bold"><a href="/logout">ออกจากระบบ</a></button>
+      <button class="btnnav"><a href="/user/resetpassword/<%= user.id_user %>">เปลี่ยนรหัสผ่าน</a></button>
+      <button class="btnnav-bold"><a href="/logout">ออกจากระบบ</a></button>
   </div>      
 </div>
 </div>
@@ -398,7 +401,7 @@ a{
 
 <% } else if(user && user.status === "banned"){ %>
   
-<div class="container-fluid d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131; height: 50px;">
+<div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131; height: 50px;">
         
   <a class="navbar-brand" href="/">
    
@@ -419,7 +422,7 @@ a{
 
   <div class="header-social-links">
   
-    <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdown1"
+    <a class="nav-link dropdown-toggle  btnnav btnnav-light py-2 px-3" href="#" id="navbarDropdown1"
     role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Login</a>
   <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
@@ -435,7 +438,7 @@ a{
 
 <% } else if(company &&company.status ==="active"){ %>
 
-  <div class="container-fluid d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+  <div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
     
       <a class="navbar-brand" href="/">
         <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
@@ -460,15 +463,15 @@ a{
             </a>
             <span class="company-name"><%= company.username %></span>
         </div>        
-          <button class="btn" ><a href="/company/resetpassword/<%= company.id_company %>">เปลี่ยนรหัสผ่าน</a></button>
-          <button class="btn-bold"><a href="/logout">ออกจากระบบ</a></button>
+          <button class="btnnav" ><a href="/company/resetpassword/<%= company.id_company %>">เปลี่ยนรหัสผ่าน</a></button>
+          <button class="btnnav-bold"><a href="/logout">ออกจากระบบ</a></button>
       </div>      
     </div>
   </div>
       </div>
     </div>
     <% } else if(company &&company.status ==="banned"){ %>
-      <div class="container-fluid d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+      <div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
         
         <a class="navbar-brand" href="/">
          
@@ -489,7 +492,7 @@ a{
       
         <div class="header-social-links">
         
-          <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdown1"
+          <a class="nav-link dropdown-toggle  btnnav btnnav-light py-2 px-3" href="#" id="navbarDropdown1"
           role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Login</a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
@@ -503,7 +506,7 @@ a{
       </div>
     <% } else if(admin){ %>
 
-      <div class="container-fluid d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+      <div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
         
           <a class="navbar-brand" href="/">
            
@@ -531,7 +534,7 @@ a{
           <div class="header-social-links">
             <img src="/image/<%= admin.image %>" alt="Profile" class="rounded-circle">
             
-            <a class="nav-link dropdown-toggle  btn btn-light py-2 px-3" href="#" id="navbarDropdownuser"
+            <a class="nav-link dropdown-toggle  btnnav btnnav-light py-2 px-3" href="#" id="navbarDropdownuser"
             role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <%= admin.username %></a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownuser">
@@ -546,7 +549,7 @@ a{
 
       <% } %>
       <% } else { %>
-<div class="container-fluid d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+<div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
         
   <a class="navbar-brand" href="/">
     <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
@@ -560,11 +563,14 @@ a{
             </ul>
           
           </nav><!-- .navbar -->
-          <button class="btn"><a href="/registercompany">RegisterCompany</a></button>
-          <button class="btn"><a href="/registeruser">RegisterUser</a></button>
 
-          <button class="btn-bold"><a href="/login">Login</a></button>
-          
+          <div class="row align-items-center">
+            <div class="button-container">
+              <button class="btnnav"><a href="/registercompany">ลงทะเบียนบริษัท</a></button>
+              <button class="btnnav"><a href="/registeruser">ลงทะเบียนผู้ใช้</a></button>
+              <button class="btnnav-bold"><a href="/login">เข้าสู่ระบบ</a></button>
+          </div>      
+        </div>
         </div>
 
         <% } %>

@@ -376,11 +376,25 @@ router.get("/", loggedIn, async (req, res) => {
       status = "no";
       user = "nothing";
       company = "nothing";
-      [jobindex] = await db
+      let [jobindexdata] = await db
         .promise()
         .query(
           'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company   '
         );
+
+        jobindex = [];
+
+        const currentDatetime = new Date();
+        jobindexdata.filter((jobindexdata) => {
+          const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
+
+          if (
+            currentDatetime < maturityDatetime &&
+            jobindexdata.statusjob == "openjob"
+          ) {
+            jobindex.push(jobindexdata);
+          }
+        });
       // console.log(req.body.jobindex);
       [resumeindex] = await db.promise().query("SELECT * FROM resume ");
       // console.log(req.body.resumeindex);

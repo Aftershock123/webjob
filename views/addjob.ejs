@@ -9,7 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body style="background-color: #F1F1F1;">
   <%- include('navbar') %>
   <% if(locals.errors){ %>
     <% Object.values(errors).forEach(function(error){%>
@@ -28,136 +28,27 @@
             })
           </script>
           <%}%>
-
-  <section style="background-color: #eeeeee; ">
-  <div class="container py-5  d-flex align-items-center justify-content-center text-center">
-    <p class="label-profile"><b>Add Job</b></p>
-  </div>
-
-   <form action="/company/addjob_company/<%= company.id_company %>" method="post">
-    <div class="row" style="justify-content:center;">
-
-
-        <div class="col-lg-6">
-          <div class="card p-5 bg-light">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Name Job</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="name_job"  name="name_job" class="form-control"/>
-                  </div>
+          <div class="container d-flex  justify-content-center align-items-center" style="min-height: 100vh;background-color: #F1F1F1;padding: 20px;">
+            <div class="card col-md-8" style="padding:20px;">
+                <div class="text-center justify-content-center mb-2"  >
+                    <b>เพิ่มงาน</b>
                 </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Role</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="role" name= "role" class="form-control"/>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Detail Work</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <textarea type="text" id="detail_work"  name="detail_work" class="form-control" rows="4"></textarea>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Experience</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <textarea type="text" id="experience" name= "experience" class="form-control" rows="4" ></textarea>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Gender</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="gender"  name="gender" class="form-control" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Education</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="education" name= "education" class="form-control"/>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Welfare</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <textarea type="text" id="welfare"  name="welfare"  class="form-control" rows="4"></textarea>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Salary</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="salary"  name="salary" class="form-control" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Workday</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="workday" name= "workday"class="form-control" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Day Off</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="day_off"  name="day_off" class="form-control" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Deadline Offer</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="datetime-local" id="deadline_offer" name= "deadline_offer" class="form-control"/>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    
-                    <input type="hidden" id="id_company" name= "id_company"/>
-                  </div>
-                  <div class="col-sm-9">
-                    <button type="submit" class="btn btn-outline-primary" style="margin-left: 50vh;" data-mdb-ripple-color="dark">Submit</button>
-                  </div>
-                </div>
-                
-              </div>
+                <form action="/company/addjob_company/<%= company.id_company %>" method="post">
+                  <input type="text" id="name_job" name="name_job" class="form-control form-spacing" placeholder="Job Name"/>
+                  <input type="text" id="role" name="role" class="form-control form-spacing" placeholder="Role"/>
+                  <textarea id="detail_work" name="detail_work" class="form-control form-spacing" rows="4" placeholder="Work Details"></textarea>
+                  <textarea id="experience" name="experience" class="form-control form-spacing" rows="4" placeholder="Experience"></textarea>
+                  <input type="text" id="gender" name="gender" class="form-control form-spacing" placeholder="Gender"/>
+                  <input type="text" id="education" name="education" class="form-control form-spacing" placeholder="Education"/>
+                  <textarea id="welfare" name="welfare" class="form-control form-spacing" rows="4" placeholder="Welfare"></textarea>
+                  <input type="text" id="salary" name="salary" class="form-control form-spacing" placeholder="Salary"/>
+                  <input type="text" id="workday" name="workday" class="form-control form-spacing" placeholder="Workday"/>
+                  <input type="text" id="day_off" name="day_off" class="form-control form-spacing" placeholder="Day Off"/>
+                  <input type="datetime-local" id="deadline_offer" name="deadline_offer" class="form-control form-spacing"/>
+                  <input type="hidden" id="id_company" name="id_company"/>
+                  <button type="submit" style="background-color: #ED2A30;color: white; width: 100%; margin-top: 20px;">ยืนยัน</button>
+              </form>
             </div>
-          </div>
         </div>
-      </div>
-    </form>
-  </section>
 </body>
-
 </html>

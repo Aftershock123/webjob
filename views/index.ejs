@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,257 +12,100 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-<style>
-  .card{
-    justify-content: center;
-  align-items: center;
-    margin: auto;
-  display: flex;
-  }
-    .fixed-button {
-        position: absolute;
-        bottom: 20px;
-        left: 10;
-        width: 20%;
-    }
-    .card-img-top {
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto;
-}
 
-</style>
 <body>
   <%- include('navbar') %>
-
-
-
-
-    <% if(status==="loggedIn" ) { %>
-
-      <% if(user && user.status==="active" ) { %>
-
-        <div class="container-fluid">
-          
-          <% if(jobindex.length> 0) { %>
-            <% jobindex.forEach((jobindex)=> {%>
-              <% if( jobindex !=undefined) { %>
-
-                <div class="row mt-5 mb-5" style="justify-content:center ;">
-
-                  <div class="col-3 p-4 border bg-light">
-
-                    <div class="card  text-center" style="width: 15rem; height: 100%;">
-                      <img class="card-img-top" src="/image/<%= jobindex.image %>" alt="Card image cap">
-                      <div class="card-body">
-
-                        <p class="card-text">
-                          <%= jobindex.name_company %>
-                        </p>
-                      </div>
-                    </div>
-
+   <div class="container" style="justify-content:center ; display: flex; align-items: center; height:50vh;">
+      <div class="container" style="align-items: center;">
+        <h1><b style="color: black;">ค้นพบโอกาสงานในฝันของคุณที่นี่</b></h1>
+        <p class="mt-4">
+          ค้นพบงานในทุกสาขาอาชีพและทุกระดับของประสบการณ์
+          พบกับงานใหม่ๆ <br />
+          ที่อัพเดทตลอดเวลา
+          ใช้ฟิลเตอร์ค้นหางานที่เหมาะกับคุณได้ง่ายๆ
+        </p>
+      </div>
+      <img src="image/FINDJOB-Photoroom.png-Photoroom.png" width="35%" alt="Description of the image">
+    </div>
+    <div class="container-fluid background"
+      style="justify-content:center ; display: flex; align-items: center; height:40vh;">
+      <div class="container card-container">
+        <div class="card-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+            class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+            <path
+              d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+          </svg>
+          <p class="mt-2">งานทั้งหมด</p>
+          <h1><b>97,354</b></h1>
+        </div>
+        <div class="card-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+            class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+            <path
+              d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+          </svg>
+          <p class="mt-2">งานใหม่</p>
+          <h1><b>97,354</b></h1>
+        </div>
+        <div class="card-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+            class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+            <path
+              d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+          </svg>
+          <p class="mt-2">บริษัท</p>
+          <h1><b>97,354</b></h1>
+        </div>
+        <div class="card-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+            class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+            <path
+              d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+          </svg>
+          <p class="mt-2">ผู้ใช้งาน</p>
+          <h1><b>97,354</b></h1>
+        </div>
+      </div>
+    </div>
+    <div class="container mt-5">
+      <h3><b>งานที่แนะนำ</b></h3>
+      <% if(jobindex.length > 0) { %>
+        <div class="container index-card-container mt-5">
+          <% jobindex.forEach((jobindex)=> {%>
+            <% if( jobindex !=undefined) { %>
+              <div class="index-card-item">
+                <a style="color: black;" href="/company/jobbyidjob/<%= jobindex.idjob_company %>">
+                  <img class="card-img-top" src="/image/<%= jobindex.image %>" alt="Card image cap">
+                  <p class="mt-1">
+                    <%= jobindex.name_company %>
+                  </p>
+                  <b class="mt-1" style="font-size: 18px;">
+                    <%= jobindex.name_job %>
+                  </b>
+                  <p class="mt-1">
+                    <%= jobindex.detail_work.substring(0, 20) %>
+                  </p>
+                  <div style="display: flex; align-items: center;">
+                    <box class="index-card-text"
+                      style="color: #ff0000; background-color: #FFDBDB; padding: 5px; padding-left: 15px; padding-right: 15px; border-radius: 3px;">
+                      หมดเขต</box>
+                    <b class="ms-3" style="color: #767F8C;">
+                      <%= jobindex.deadline_offer %>
+                    </b>
                   </div>
-
-                  <div class="col-sm-8 p-4 border bg-light">
-                    <div class="card" style="height: 100%;">
-                      <div class="card-body">
-                        <h5 class="card-title">
-                          <b><%= jobindex.name_job %></b>
-                        </h5>
-                        <p class="card-text">
-                          <%= jobindex.detail_work.substring(0, 500) %>
-                        </p>
-                        <small class="card-text" style="color: #ba0000;">
-                          <b>หมดเขต : <%= jobindex.deadline_offer %></b>
-                        </small><br>
-                        <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>"
-                          class="btn fixed-button" style="background: #ED2A30;"><b>Job Description</b></a>
-                        <!-- <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">applyjob</a> -->
-                      </div>
-                    </div>
-                    <!-- </div> -->
-                  </div>
-                </div>
-                <% } else { %>
-                  <p> something wrong </p>
-                  <% } %>
-
-                    <% }) %>
-                      <% } else { %>
-                        <p> no data</p>
-                        <% } %>
-
-                          <% } else if(company && company.status==="active" ) { %>
-                            
-                            <div class="container-sm-width  ">
-                                    <% if(jobindex.length> 0) { %>
-                                      <% jobindex.forEach((jobindex)=> {%>
-                                        <% if( jobindex !=undefined) { %>
-                                   
-                                      <div class="row mt-5 mb-5"style="justify-content:center ;">
-                                        <div class="col-3 p-4 border bg-light">
-
-                                          <div class="card  text-center" style="width: 15rem;">
-                                            <img class="card-img-top" src="/image/<%= jobindex.image %>"
-                                              alt="Card image cap">
-                                            <div class="card-body">
-                                              <p class="card-text">
-                                                <%= jobindex.name_company %>
-                                              </p>
-                                            </div>
-                                          </div>
-
-                                        </div>
-
-                                        <div class="col-sm-8 p-4 border bg-light">
-                                          <div class="card" style="height: 100%;">
-                                            <div class="card-body">
-                                              <h5 class="card-title">
-                                                <b><%= jobindex.name_job %></b>
-                                              </h5>
-                                              <p class="card-text">
-                                                <%= jobindex.detail_work.substring(0, 500)%>
-                                              </p>
-                                              <small class="card-text" style="color: #0800ff;">
-                                                <b>หมดเขต :<%= jobindex.deadline_offer %></b>
-                                              </small><br>
-                                              <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>"
-                                                class="btn fixed-button" style="background: #49ebd8;"><b>Job Description</b></a>
-                                              <!-- <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">apply</a> -->
-                                            </div>
-                                          </div>
-                                        <!-- </div> -->
-                                      </div>
-                                    </div>
-                                    <% } else { %>
-                                      <p> something wrong </p>
-                                      <% } %>
-
-                                        <% }) %>
-                                          <% } else { %>
-                                            <p> no data</p>
-                                            <% } %>
-                                              <% } else { %>
-
-                                                
-                                                <div class="container-sm-width">
-                                                        <% if(jobindex.length> 0) { %>
-                                                          <% jobindex.forEach((jobindex)=> {%>
-                                                            <% if( jobindex !=undefined) { %>
-                                                        
-                                                          <div class="row mt-5 mb-5" style="justify-content:center ;">
-                                                            <div class="col-3 p-4 border bg-light">
-
-                                                              <div class="card  text-center" style="width: 15rem; height: 100%;">
-                                                                <img class="card-img-top"
-                                                                  src="/image/<%= jobindex.image %>"
-                                                                  alt="Card image cap">
-                                                                <div class="card-body">
-                                                                  <p class="card-text">
-                                                                    <%= jobindex.name_company %>
-                                                                  </p>
-                                                                </div>
-                                                              </div>
-
-                                                            </div>
-
-                                                            <div class="col-sm-8 p-4 border bg-light">
-                                                              <div class="card" style="height: 100%;">
-                                                                <div class="card-body">
-                                                                  <h5 class="card-title">
-                                                                    <b><%= jobindex.name_job %></b>
-                                                                  </h5>
-                                                                  <p class="card-text">
-                                                                    <%= jobindex.detail_work.substring(0, 500) %>
-                                                                  </p>
-                                                                  <small class="card-text" style="color: #0800ff;">
-                                                                    <b>หมดเขต : <%= jobindex.deadline_offer %></b>
-                                                                  </small><br>
-                                                                  <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>"
-                                                                    class="btn fixed-button"style="background: #49ebd8;"><b>Job Description</b></a>
-                                                                  <!-- <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">apply</a> -->
-                                                                </div>
-                                                              </div>
-                                                            <!-- </div> -->
-                                                          </div>
-                                                        </div>
-                                                        <% } else { %>
-                                                          <p> something wrong </p>
-                                                          <% } %>
-
-                                                            <% }) %>
-                                                              <% } else { %>
-                                                                <p> no data</p>
-                                                                <% } %>
-                                                                  <% } %>
-
-                                                                    <% } else { %>
-                                                                      
-                                                                      <div class="container-sm-width">
-                                                                              <% if(jobindex.length> 0) { %>
-                                                                                <% jobindex.forEach((jobindex)=> {%>
-                                                                                  <% if( jobindex !=undefined) { %>
-                                                                              
-                                                                                <div class="row mt-5 mb-5"style="justify-content:center ;">
-                                                                                  <div
-                                                                                    class="col-3 p-4 border bg-light">
-
-                                                                                    <div class="card  text-center"
-                                                                                      style="width: 15rem; height: 100%;">
-                                                                                      <img class="card-img-top"
-                                                                                        src="/image/<%= jobindex.image %>"
-                                                                                        alt="Card image cap">
-                                                                                      <div class="card-body">
-                                                                                        <p class="card-text">
-                                                                                          <%= jobindex.name_company %>
-                                                                                        </p>
-
-                                                                                      </div>
-                                                                                    </div>
-
-                                                                                  </div>
-
-                                                                                  <div
-                                                                                    class="col-sm-8 p-4 border bg-light">
-                                                                                    <div class="card" style="height: 100%;">
-                                                                                      <div class="card-body">
-                                                                                        <h5 class="card-title">
-                                                                                          <b><%= jobindex.name_job %></b>
-                                                                                        </h5>
-                                                                                        <p class="card-text">
-                                                                                          <%= jobindex.detail_work.substring(0, 500) %>
-                                                                                        </p>
-                                                                                        <small class="card-text" style="color: #0800ff;">
-                                                                                          <b>หมดเขต : <%= jobindex.deadline_offer %></b>
-                                                                                        </small><br>
-                                                                                        <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>"
-                                                                                          class="btn fixed-button" style="background: #49ebd8;"><b>Job Description</b></a>
-                                                                                        <!-- <a href="/company/jobbyidjob/<%= jobindex.idjob_company %>" class="btn btn-primary ">apply</a> -->
-
-                                                                                      </div>
-                                                                                    </div>
-                                                                                  <!-- </div> -->
-                                                                                </div>
-                                                                              </div>
-                                                                              <% } else { %>
-                                                                                <p> something wrong </p>
-                                                                                <% } %>
-
-                                                                                  <% }) %>
-                                                                                    <% } else { %>
-                                                                                      <p> no data</p>
-                                                                                      <% } %>
-                                                                                        <% } %>
-                                                                            </div>
-                                                      </div>
-                                  </div>
-                                  <%- include('Footer') %>
-
+                </a>
+              </div>
+            <% } %>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p>ไม่มีข้อมูล</p>
+      <% } %>
+    </div>
+    <%- include('Footer') %>
 </body>
 
 </html>

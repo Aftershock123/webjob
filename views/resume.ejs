@@ -60,7 +60,7 @@
   </style>
 </head>
 
-<body>
+<body style="background-color: #F1F1F1;">
   <!--if resume.id_user ==undefined ให้แสดงหน้าaddแต่ถ้าไม่ให้แสดงhistory -->
   <%- include('navbar') %>
 
@@ -83,242 +83,80 @@
             <%}%>
 
               <% if(resume=='undefined' || resume==null) { %>
-                <section style="background-color: #eeeeee; ">
-                  <div class="container py-5  d-flex align-items-center justify-content-center text-center">
-                    <p class="label-profile"><b>Resume</b></p>
+                <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #F1F1F1; padding: 20px;">
+                  <div class="card col-md-8" style="padding: 20px;">
+                    <div class="text-center justify-content-center mb-2">
+                      <b>เรซูเม่</b>
+                    </div>
+                
+                    <form action="/user/addresume/<%= user.id_user %>" method="post" enctype="multipart/form-data">
+                      <textarea type="text" id="professional_summary" name="professional_summary" class="form-control form-spacing" rows="4" placeholder="Professional Summary" required></textarea>
+                      <textarea type="text" id="work_experience" name="work_experience" class="form-control form-spacing" rows="4" placeholder="Work Experience" required></textarea>
+                      <textarea type="text" id="skills" name="skills" class="form-control form-spacing" rows="4" placeholder="Skills" required></textarea>
+                      <textarea type="text" id="education" name="education" class="form-control form-spacing" rows="4" placeholder="Education" required></textarea>
+                      <textarea type="text" id="languages" name="languages" class="form-control form-spacing" rows="4" placeholder="Languages" required></textarea>
+                      <textarea type="text" id="interests" name="interests" class="form-control form-spacing" rows="4" placeholder="Interests" required></textarea>
+                      <textarea type="text" id="contact" name="contact" class="form-control form-spacing" rows="4" placeholder="Contact" required></textarea>
+                      <input type="file" name="files" id="fileInput" class="form-control" multiple>
+                      <ul id="fileList"></ul>
+                
+                      <script>
+                        // เมื่อมีการเลือกไฟล์ใน input
+                        document.getElementById('fileInput').addEventListener('change', function (event) {
+                          const fileList = document.getElementById('fileList');
+                          fileList.innerHTML = ''; // เคลียร์รายการไฟล์ที่แสดงอยู่เดิม
+                
+                          const files = event.target.files; // รับรายการไฟล์ที่เลือก
+                
+                          // สร้างรายการแสดงไฟล์และลิงก์ดาวน์โหลดสำหรับแต่ละไฟล์
+                          for (const file of files) {
+                            const listItem = document.createElement('li');
+                            const downloadLink = document.createElement('a');
+                            downloadLink.href = URL.createObjectURL(file);
+                            downloadLink.download = file.name;
+                            downloadLink.innerText = file.name;
+                            listItem.appendChild(downloadLink);
+                            fileList.appendChild(listItem);
+                          }
+                        });
+                      </script>
+                
+                <button type="submit" style="background-color: #ED2A30;color: white; width: 100%; margin-top: 20px;">ยืนยัน</button>
+
+                    </form>
                   </div>
-
-
-                  <form action="/user/addresume/<%= user.id_user %>" method="post" enctype="multipart/form-data">
-                    <div class="row" style="justify-content:center;">
-
-
-                      <div class="col-lg-6">
-                        <div class="card p-5">
-                          <div class="card">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Professional Summary</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <textarea type="text" id="professional_summary" name="professional_summary"
-                                    class="form-control" rows="4" required></textarea>
-                                </div>
-                              </div>
-                              <hr>
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Work Experience</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <textarea type="text" id="work_experience" name="work_experience" class="form-control"
-                                    rows="4" required></textarea>
-                                </div>
-                              </div>
-                              <hr>
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Skills</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <textarea type="text" id="skills" name="skills" class="form-control" rows="4"
-                                    required></textarea>
-                                </div>
-                              </div>
-                              <hr>
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Education</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <textarea type="text" id="education" name="education" class="form-control" rows="4"
-                                    required></textarea>
-                                </div>
-                              </div>
-                              <hr>
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Languages</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <textarea type="text" id="languages" name="languages" class="form-control" rows="4"
-                                    required></textarea>
-                                </div>
-                              </div>
-                              <hr>
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Interests</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <textarea type="text" id="interests" name="interests" class="form-control" rows="4"
-                                    required></textarea>
-                                </div>
-                              </div>
-                              <hr>
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Contact</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <textarea type="text" id="contact" name="contact" class="form-control" rows="4"
-                                    required></textarea>
-                                </div>
-                              </div>
-                              <hr>
-                              <!-- <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Picture files</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <input type="file" name="imageresume" id="fileimage" multiple>
-                                  
-                                </div>
-
-                              </div> -->
-                              
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <p class="mb-0">Certificate files</p>
-                                </div>
-                                <div class="col-sm-7">
-                                  <input type="file" name="files" id="fileInput" class="form-control" multiple>
-                                  <ul id="fileList"></ul>
-                                </div>
-                              </div>
-                              <script>
-                                // เมื่อมีการเลือกไฟล์ใน input
-                                document.getElementById('fileInput').addEventListener('change', function (event) {
-                                  const fileList = document.getElementById('fileList');
-                                  fileList.innerHTML = ''; // เคลียร์รายการไฟล์ที่แสดงอยู่เดิม
-                              
-                                  const files = event.target.files; // รับรายการไฟล์ที่เลือก
-                              
-                                  // สร้างรายการแสดงไฟล์และลิงก์ดาวน์โหลดสำหรับแต่ละไฟล์
-                                  for (const file of files) {
-                                    const listItem = document.createElement('li');
-                                    const downloadLink = document.createElement('a');
-                                    downloadLink.href = URL.createObjectURL(file);
-                                    downloadLink.download = file.name;
-                                    downloadLink.innerText = file.name;
-                                    listItem.appendChild(downloadLink);
-                                    fileList.appendChild(listItem);
-                                  }
-                                });
-                              </script>
-
-
-                              <button type="submit" class="btn btn-outline-primary" style="margin-left: 70vh;"
-                                data-mdb-ripple-color="dark" >save</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </section>
+                </div>
+                
                 <% } else { %>
-                  <section style="background-color: #eeeeee; ">
-                    <div class="container py-5 h-100">
-                      <p class="label-profile"><b>Resume</b></p>
-
-                    </div>
-
+                  <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #F1F1F1; padding: 20px;">
+                    <div class="card col-md-8" style="padding: 20px;">
+                      <div class="text-center justify-content-center mb-2">
+                        <b>เรซูเม่</b>
+                      </div>
                     <form action="/user/updateresume/<%= user.id_user %>" method="post" enctype="multipart/form-data">
                       <div class="row" style="justify-content:center ;">
-
-                        <div class="col-lg-6">
-                          <div class="card  p-5">
-                            <div class="card">
-                              <div class="card-body">
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Professional Summary</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <textarea type="text" class="form-control" id="professional_summary"
+                                    <textarea type="text" class="form-control form-spacing" id="professional_summary"
                                       name="professional_summary" rows="4"><%= resume.professional_summary %></textarea>
-                                  </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Work Experience</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <textarea type="text" class="form-control" id="work_experience"
+                                  
+                                    <textarea type="text" class="form-control form-spacing" id="work_experience"
                                       name="work_experience" rows="4"><%= resume.work_experience %></textarea>
-                                  </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Skills</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <textarea type="text" id="skills" name="skills" class="form-control"
+                                 
+                                    <textarea type="text" id="skills" name="skills" class="form-control form-spacing"
                                       rows="4"><%= resume.skills %> </textarea>
-                                  </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Education</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <textarea type="text" id="education" name="education" class="form-control"
+                                 
+                                    <textarea type="text" id="education" name="education" class="form-control form-spacing"
                                       rows="4"><%= resume.education %></textarea>
-                                  </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Languages</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <textarea type="text" id="languages" name="languages" class="form-control"
+                                  
+                                    <textarea type="text" id="languages" name="languages" class="form-control form-spacing"
                                       rows="4"><%= resume.languages %></textarea>
-                                  </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Interests</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <textarea type="text" id="interests" name="interests" class="form-control"
+                                  
+                                    <textarea type="text" id="interests" name="interests" class="form-control form-spacing"
                                       rows="4"><%= resume.interests %></textarea>
-                                  </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Contact</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <textarea type="text" id="contact" name="contact" class="form-control"
+                                  
+                                    <textarea type="text" id="contact" name="contact" class="form-control form-spacing"
                                       rows="4"><%= resume.contact %></textarea>
-                                  </div>
-                                </div>
-                                <!-- <hr>
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Picture files</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <input type="file" name="imageresume" id="fileimage" multiple>
-                                    
-                                  </div> 
-
-                                </div>-->
-                                <hr>
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <p class="mb-0">Certificate files</p>
-                                  </div>
-                                  <div class="col-sm-7">
-                                    <input type="file" name="files" id="fileInput" class="form-control" multiple>
+                                  
+                                    <input type="file" name="files" id="fileInput" class="form-control form-spacing" multiple>
 
                                     
                                     <script>

@@ -131,7 +131,7 @@ button{
   gap: 20px;
 }
 
-.btn {
+.btnnav {
   padding: 0px 15px;
   height: 30px;
   width: auto;
@@ -142,13 +142,93 @@ button{
   border-radius: 6px; 
   outline: 2px solid red;
 }
+.custom-style {
+  color: #E1282E; 
+  background-color: #FFF2F2;
+  
+}
+.background{
+  background: rgb(255, 138, 0);
+  background: linear-gradient(180deg, rgba(255, 138, 0, 1) 3%, rgba(237, 42, 48, 1) 45%, rgba(135, 24, 27, 1) 100%);
+}
 
-.btn:hover {
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.card-item {
+    background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 20px;
+      margin: 10px;
+      flex: 1;
+      gap: 1rem;
+      max-width: 300px;
+      height: 80%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+}
+
+    .container.index-card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: start;
+      gap: 1.5rem;
+    }
+
+    .index-card-item {
+      flex: 0 0 calc(33.33% - 20px);
+      margin-bottom: 20px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: start;
+    }
+
+    .index-card-item:hover {
+      background-color: #cecece;
+    }
+
+    .index-card-item img {
+      width: 250px;
+      height: auto;
+      max-width: 100%;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .index-card-item p {
+      margin-top: 10px;
+    }
+
+    .index-fixed-button {
+      text-decoration: none;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+.open-job {
+  color: #006610; 
+  background-color: #E7FFDB;
+}
+
+.btnnav:hover {
   background-color: #d12528; /* สีเมื่อ hover */
   color: white;
 }
 
-.btn-bold {
+.btnnav-bold {
   padding: 0px 15px;
   height: 30px;
   width: auto;
@@ -161,26 +241,26 @@ button{
   outline: 2px solid #ED2A30;
 }
 
-.btn-bold:hover {
+.btnnav-bold:hover {
   background-color: #970003;
   outline: 2px solid #970003;
   color: white;
 }
 
 
-.btn a{
+.btnnav a{
   color: red;
 }
 
-.btn:hover a{
+.btnnav:hover a{
   color: white;
 }
 
-.btn-bold  a{
+.btnnav-bold  a{
   color: rgb(255, 255, 255);
 }
 
-.btn-bold :hover a{
+.btnnav-bold :hover a{
   color: white;
 }
 
@@ -222,8 +302,21 @@ input.form-control::placeholder {
 
 /* nav */
 
+.form-spacing {
+  margin-bottom: 15px;
+}
+
+/* Add this to your CSS file */
+.card .a-edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 
 
+.card .btn-rounded {
+  border-radius: 50px;
+}
 
 
 
