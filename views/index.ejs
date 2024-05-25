@@ -91,10 +91,11 @@
                   <div style="display: flex; align-items: center;">
                     <box class="index-card-text"
                       style="color: #ff0000; background-color: #FFDBDB; padding: 5px; padding-left: 15px; padding-right: 15px; border-radius: 3px;">
-                      หมดเขต</box>
-                    <b class="ms-3" style="color: #767F8C;">
-                      <%= jobindex.deadline_offer %>
-                    </b>
+                      หมดเขต
+                    </box>
+                    <b class="ms-3" style="color: #767F8C;" id="formatted-deadline-"
+                      data-deadline="<%= jobindex.deadline_offer %>">
+                   </b>
                   </div>
                 </a>
               </div>
@@ -106,6 +107,27 @@
       <% } %>
     </div>
     <%- include('Footer') %>
+    <script>
+      function formatDateTime(dateTimeStr) {
+          const date = new Date(dateTimeStr);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+          const hours = String(date.getHours()).padStart(2, '0');
+          const minutes = String(date.getMinutes()).padStart(2, '0');
+
+          return `${day}/${month}/${year} เวลา ${hours}:${minutes}`;
+      }
+
+      // Get all elements with a specific class or ID
+      document.addEventListener('DOMContentLoaded', function () {
+          const deadlineElements = document.querySelectorAll('[id^="formatted-deadline-"]');
+          deadlineElements.forEach(function (el) {
+              const deadlineOffer = el.getAttribute('data-deadline');
+              el.textContent = formatDateTime(deadlineOffer);
+          });
+      });
+  </script>
 </body>
 
 </html>

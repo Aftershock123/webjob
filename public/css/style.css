@@ -190,7 +190,7 @@ background: linear-gradient(180deg, rgba(255,222,89,1) 0%, rgba(243,158,74,1) 37
     }
 
     .index-card-item {
-      flex: 1 1 calc(25% - 20px); 
+      flex: 0 0 calc(25% - 20px); 
       margin-bottom: 20px;
       background-color: white;
       border: 1px solid #ddd;
