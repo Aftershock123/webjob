@@ -17,8 +17,8 @@
 
 <body>
   <%- include('navbar') %>
-   <div class="container" style="justify-content:center ; display: flex; align-items: center; height:50vh;">
-      <div class="container" style="align-items: center;">
+   <div class="container" style="justify-content:center ; display: flex; align-items: center; height:50vh;background-color: #F1F1F1;">
+      <div class="container" style="align-items: center;background-color: #F1F1F1;">
         <h1><b style="color: black;">ค้นพบโอกาสงานในฝันของคุณที่นี่</b></h1>
         <p class="mt-4">
           ค้นพบงานในทุกสาขาอาชีพและทุกระดับของประสบการณ์
@@ -31,7 +31,7 @@
     </div>
     <div class="container-fluid background"
       style="justify-content:center ; display: flex; align-items: center; height:40vh;">
-      <div class="container card-container">
+      <div class="container card-container" style="background-color: transparent;">
         <div class="card-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
             class="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
@@ -70,10 +70,10 @@
         </div>
       </div>
     </div>
-    <div class="container mt-5">
+    <div class="container mt-5" style="background-color: #F1F1F1;">
       <h3><b>งานที่แนะนำ</b></h3>
       <% if(jobindex.length > 0) { %>
-        <div class="container index-card-container mt-5">
+        <div class="container index-card-container mt-5" style="background-color: #F1F1F1;">
           <% jobindex.forEach((jobindex)=> {%>
             <% if( jobindex !=undefined) { %>
               <div class="index-card-item">

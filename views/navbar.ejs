@@ -361,9 +361,10 @@ a{
     });
 
   </script>
+  <div class="container-fluid" style="background-color: #fff;  border-bottom: 5px solid #FF3131;">
 <% if (status==="loggedIn" ) { %>
   <% if (user && user.status === "active") { %>
-    <div class="container-fluid d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+    <div class="container-fluid d-flex justify-content-between align-items-center" >
       <a class="navbar-brand" href="/">
         <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
             <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image" style="width: 50px; height: 32px;"/>
@@ -401,7 +402,7 @@ a{
 
 <% } else if(user && user.status === "banned"){ %>
   
-<div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131; height: 50px;">
+<div class="container d-flex justify-content-between align-items-center" style="height: 50px;">
         
   <a class="navbar-brand" href="/">
    
@@ -438,7 +439,7 @@ a{
 
 <% } else if(company &&company.status ==="active"){ %>
 
-  <div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+  <div class="container d-flex justify-content-between align-items-center" >
     
       <a class="navbar-brand" href="/">
         <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
@@ -471,7 +472,7 @@ a{
       </div>
     </div>
     <% } else if(company &&company.status ==="banned"){ %>
-      <div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+      <div class="container d-flex justify-content-between align-items-center" >
         
         <a class="navbar-brand" href="/">
          
@@ -506,7 +507,7 @@ a{
       </div>
     <% } else if(admin){ %>
 
-      <div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+      <div class="container d-flex justify-content-between align-items-center" >
         
           <a class="navbar-brand" href="/">
            
@@ -549,7 +550,7 @@ a{
 
       <% } %>
       <% } else { %>
-<div class="container d-flex justify-content-between align-items-center" style="  border-bottom: 5px solid #FF3131;">
+<div class="container d-flex justify-content-between align-items-center">
         
   <a class="navbar-brand" href="/">
     <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
@@ -574,7 +575,7 @@ a{
         </div>
 
         <% } %>
-
+      </div>
 
 
 

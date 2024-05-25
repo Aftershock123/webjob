@@ -18,7 +18,7 @@
   <script type="text/javascript"
     src="https://earthchie.github.io/jquery.Thailand.js/jquery.Thailand.js/dist/jquery.Thailand.min.js"></script>
 
-    <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -83,31 +83,39 @@
             <%}%>
 
               <% if(resume=='undefined' || resume==null) { %>
-                <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #F1F1F1; padding: 20px;">
+                <div class="container d-flex justify-content-center align-items-center"
+                  style="min-height: 100vh; background-color: #F1F1F1; padding: 20px;">
                   <div class="card col-md-8" style="padding: 20px;">
                     <div class="text-center justify-content-center mb-2">
                       <b>เรซูเม่</b>
                     </div>
-                
                     <form action="/user/addresume/<%= user.id_user %>" method="post" enctype="multipart/form-data">
-                      <textarea type="text" id="professional_summary" name="professional_summary" class="form-control form-spacing" rows="4" placeholder="Professional Summary" required></textarea>
-                      <textarea type="text" id="work_experience" name="work_experience" class="form-control form-spacing" rows="4" placeholder="Work Experience" required></textarea>
-                      <textarea type="text" id="skills" name="skills" class="form-control form-spacing" rows="4" placeholder="Skills" required></textarea>
-                      <textarea type="text" id="education" name="education" class="form-control form-spacing" rows="4" placeholder="Education" required></textarea>
-                      <textarea type="text" id="languages" name="languages" class="form-control form-spacing" rows="4" placeholder="Languages" required></textarea>
-                      <textarea type="text" id="interests" name="interests" class="form-control form-spacing" rows="4" placeholder="Interests" required></textarea>
-                      <textarea type="text" id="contact" name="contact" class="form-control form-spacing" rows="4" placeholder="Contact" required></textarea>
+                      <textarea type="text" id="professional_summary" name="professional_summary"
+                        class="form-control form-spacing" rows="4" placeholder="Professional Summary"
+                        required></textarea>
+                      <textarea type="text" id="work_experience" name="work_experience"
+                        class="form-control form-spacing" rows="4" placeholder="Work Experience" required></textarea>
+                      <textarea type="text" id="skills" name="skills" class="form-control form-spacing" rows="4"
+                        placeholder="Skills" required></textarea>
+                      <textarea type="text" id="education" name="education" class="form-control form-spacing" rows="4"
+                        placeholder="Education" required></textarea>
+                      <textarea type="text" id="languages" name="languages" class="form-control form-spacing" rows="4"
+                        placeholder="Languages" required></textarea>
+                      <textarea type="text" id="interests" name="interests" class="form-control form-spacing" rows="4"
+                        placeholder="Interests" required></textarea>
+                      <textarea type="text" id="contact" name="contact" class="form-control form-spacing" rows="4"
+                        placeholder="Contact" required></textarea>
                       <input type="file" name="files" id="fileInput" class="form-control" multiple>
                       <ul id="fileList"></ul>
-                
+
                       <script>
                         // เมื่อมีการเลือกไฟล์ใน input
                         document.getElementById('fileInput').addEventListener('change', function (event) {
                           const fileList = document.getElementById('fileList');
                           fileList.innerHTML = ''; // เคลียร์รายการไฟล์ที่แสดงอยู่เดิม
-                
+
                           const files = event.target.files; // รับรายการไฟล์ที่เลือก
-                
+
                           // สร้างรายการแสดงไฟล์และลิงก์ดาวน์โหลดสำหรับแต่ละไฟล์
                           for (const file of files) {
                             const listItem = document.createElement('li');
@@ -120,109 +128,77 @@
                           }
                         });
                       </script>
-                
-                <button type="submit" style="background-color: #ED2A30;color: white; width: 100%; margin-top: 20px;">ยืนยัน</button>
-
+                      <button type="submit"
+                        style="background-color: #ED2A30;color: white; width: 100%; margin-top: 20px;">ยืนยัน</button>
                     </form>
                   </div>
                 </div>
-                
                 <% } else { %>
-                  <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #F1F1F1; padding: 20px;">
+                  <div class="container d-flex justify-content-center align-items-center"
+                    style="min-height: 100vh; background-color: #F1F1F1; padding: 20px;">
                     <div class="card col-md-8" style="padding: 20px;">
                       <div class="text-center justify-content-center mb-2">
                         <b>เรซูเม่</b>
                       </div>
-                    <form action="/user/updateresume/<%= user.id_user %>" method="post" enctype="multipart/form-data">
-                      <div class="row" style="justify-content:center ;">
-                                    <textarea type="text" class="form-control form-spacing" id="professional_summary"
-                                      name="professional_summary" rows="4"><%= resume.professional_summary %></textarea>
-                                  
-                                    <textarea type="text" class="form-control form-spacing" id="work_experience"
-                                      name="work_experience" rows="4"><%= resume.work_experience %></textarea>
-                                 
-                                    <textarea type="text" id="skills" name="skills" class="form-control form-spacing"
-                                      rows="4"><%= resume.skills %> </textarea>
-                                 
-                                    <textarea type="text" id="education" name="education" class="form-control form-spacing"
-                                      rows="4"><%= resume.education %></textarea>
-                                  
-                                    <textarea type="text" id="languages" name="languages" class="form-control form-spacing"
-                                      rows="4"><%= resume.languages %></textarea>
-                                  
-                                    <textarea type="text" id="interests" name="interests" class="form-control form-spacing"
-                                      rows="4"><%= resume.interests %></textarea>
-                                  
-                                    <textarea type="text" id="contact" name="contact" class="form-control form-spacing"
-                                      rows="4"><%= resume.contact %></textarea>
-                                  
-                                    <input type="file" name="files" id="fileInput" class="form-control form-spacing" multiple>
+                      <form action="/user/updateresume/<%= user.id_user %>" method="post" enctype="multipart/form-data">
+                        <div class="row" style="justify-content:center ;">
+                          <textarea type="text" class="form-control form-spacing" id="professional_summary"
+                            name="professional_summary" rows="4"><%= resume.professional_summary %></textarea>
+                          <textarea type="text" class="form-control form-spacing" id="work_experience"
+                            name="work_experience" rows="4"><%= resume.work_experience %></textarea>
+                          <textarea type="text" id="skills" name="skills" class="form-control form-spacing"
+                            rows="4"><%= resume.skills %> </textarea>
+                          <textarea type="text" id="education" name="education" class="form-control form-spacing"
+                            rows="4"><%= resume.education %></textarea>
+                          <textarea type="text" id="languages" name="languages" class="form-control form-spacing"
+                            rows="4"><%= resume.languages %></textarea>
+                          <textarea type="text" id="interests" name="interests" class="form-control form-spacing"
+                            rows="4"><%= resume.interests %></textarea>
+                          <textarea type="text" id="contact" name="contact" class="form-control form-spacing"
+                            rows="4"><%= resume.contact %></textarea>
+                          <input type="file" name="files" id="fileInput" class="form-control form-spacing" multiple>
+                          <script>
+                            // เมื่อมีการเลือกไฟล์ใน input
+                            document.getElementById('fileInput').addEventListener('change', function (event) {
+                              const fileList = document.getElementById('fileList');
+                              fileList.innerHTML = ''; // เคลียร์รายการไฟล์ที่แสดงอยู่เดิม
 
-                                    
-                                    <script>
-                                      // เมื่อมีการเลือกไฟล์ใน input
-                                      document.getElementById('fileInput').addEventListener('change', function (event) {
-                                        const fileList = document.getElementById('fileList');
-                                        fileList.innerHTML = ''; // เคลียร์รายการไฟล์ที่แสดงอยู่เดิม
-                                    
-                                        const files = event.target.files; // รับรายการไฟล์ที่เลือก
-                                    
-                                        // สร้างรายการแสดงไฟล์และลิงก์ดาวน์โหลดสำหรับแต่ละไฟล์
-                                        for (const file of files) {
-                                          const listItem = document.createElement('li');
-                                          const downloadLink = document.createElement('a');
-                                          downloadLink.href = URL.createObjectURL(file);
-                                          downloadLink.download = file.name;
-                                          downloadLink.innerText = file.name;
-                                          listItem.appendChild(downloadLink);
-                                          fileList.appendChild(listItem);
-                                        }
-                                      });
-                                    </script>
-                                    <% if (resufile.length> 0) { %>
-                                      <% resufile.forEach((resufileItem)=> { %> 
-                                        
-                                        
-                                        <b><%= resufileItem.file_name %></b><a href="/user/delete/<%= resufileItem.id_resume %>/<%= resufileItem.idfile_data %>" class="btn fixed-button"><i class="fas fa-trash-alt"></i></a><br>
-                                                        
-                                                         <% }); %>
-                                                         <% } %>                             
-                                                        
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                           
+                              const files = event.target.files; // รับรายการไฟล์ที่เลือก
 
-                            <button type="submit" class="btn btn-outline-primary" style="margin-left: 70vh;"
-                              data-mdb-ripple-color="dark"  id="submitButton">Submit</button>
-                  <script>
-                    // คำสั่งในการรีเฟรชหน้าเว็บเมื่อคลิกที่ปุ่ม "Submit"
-                    document.getElementById("submitButton").addEventListener("click", function() {
-                      location.reload(); // รีเฟรชหน้าเว็บ
-                    });
-                  </script>
-                          </div>
+                              // สร้างรายการแสดงไฟล์และลิงก์ดาวน์โหลดสำหรับแต่ละไฟล์
+                              for (const file of files) {
+                                const listItem = document.createElement('li');
+                                const downloadLink = document.createElement('a');
+                                downloadLink.href = URL.createObjectURL(file);
+                                downloadLink.download = file.name;
+                                downloadLink.innerText = file.name;
+                                listItem.appendChild(downloadLink);
+                                fileList.appendChild(listItem);
+                              }
+                            });
+                          </script>
+                          <% if (resufile.length> 0) { %>
+                            <% resufile.forEach((resufileItem)=> { %>
+                              <b>
+                                <%= resufileItem.file_name %>
+                              </b>
+                              <a href="/user/delete/<%= resufileItem.id_resume %>/<%= resufileItem.idfile_data %>"
+                                class="btn fixed-button"><i class="fas fa-trash-alt"></i></a><br>
+                              <% }); %>
+                                <% } %>
+                                  <button type="submit"
+                                    style="background-color: #ED2A30;color: white; width: 100%; margin-top: 20px;">ยืนยัน</button>
                         </div>
-                      </div>
-                      </div>
-                      </div>
-                    </form>
-                  </section>
-
+                      </form>
+                      <script>
+                        // คำสั่งในการรีเฟรชหน้าเว็บเมื่อคลิกที่ปุ่ม "Submit"
+                        document.getElementById("submitButton").addEventListener("click", function () {
+                          location.reload(); // รีเฟรชหน้าเว็บ
+                        });
+                      </script>
+                    </div>
+                  </div>
                   <% } %>
-
-                    <script>
-
-                      $.Thailand({
-                        $district: $('#district_company'), // input ของตำบล//ใช้idแต่ละinput
-                        $amphoe: $('#amphoe'), // input ของอำเภอ ยังไม่มีในdb
-                        $province: $('#province_company'), // input ของจังหวัด
-                        $zipcode: $('#zipcode_company'), // input ของรหัสไปรษณีย์
-                      });
-
-                    </script>
-
 </body>
 
 </html>
