@@ -11,163 +11,67 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/style.css">
-  <style>.gradient-custom {
-    /* fallback for old browsers */
-    background: #f6d365;
-    
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
-    
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
-    
-    }
-    .colorless-input {
-background-color: transparent;
-border: none;
-}
-.border-custom {
-margin-top: 9px;
-margin-bottom: 9px;
-text-align-last: center;
-padding-top: 2px;
-padding-bottom: 2px;
-border: 2px solid rgb(0, 0, 0); /* Change the border style and color as needed */
-border-radius: 5px; /* Optional: Add rounded corners */
-}
-.label-profile{
-width: 117px;
-padding-top: 7px;
-height: 35px;
-flex-shrink: 0;
-background: #f6d365;
-text-align-last: center;
-}
-.input-mid{
-padding-left:35px ;
-margin-bottom: 10px;
-}
-.form-control-input {
+  <style>.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
 
-padding: 10px; /* Add some padding */
-margin: 5px 0; /* Add margin at the top and bottom */
-box-sizing: border-box; /* Include padding and border in the element's total width and height */
-border: 1px solid #981818; /* Add a border */
-border-radius: 4px; /* Add rounded corners */
-}
+  .upload-btn {
+    position: absolute;
+    margin-left: 50%;
+    padding-top: 20%;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-/* Style for when the input is focused */
-.form-control-input {
-border-color: #007BFF; /* Change border color when focused */
-}
+  .form-control-input {
+    margin-bottom: 10px;
+  }
 
 </style>
 </head>
 
 <body>
-  
   <%- include('navbar') %>
-
-
-
-  <section style="background-color: #eeeeee; height: 100vh;">
-    <form   action="/admin/updateprofile/<%= admin.id_admin %>" method="post" enctype="multipart/form-data">
-    
-        <div class="container py-5 h-100">
-          <p class="label-profile"><b>Profile</b></p>
-          <div class="row d-flex justify-content-center align-items-center h-100 ">
-            <div class="col col-lg-6 mb-4 mb-lg-0 ">
-              <div class="card mb-3" style="border-radius: .5rem;">
-                <div class="row g-0">
-                  <div class="col-md-5 gradient-custom text-center text-white"
-                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                    <img src="/image/<%= admin.image %>" 
-                    alt="Avatar" class="img-fluid my-5 rounded-circle" style="width: 100px; height: 100px;" />
-                    <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)" class="input-mid">
-                    
-                    
-                    
-                     <button type="submit" class="btn btn-colorless ">
-                      <i class="far fa-edit"></i> Submit
-                    </button>
-                  </div>
-                  <div class="col-md-5">
-                    <div class="card-body p-4">
-                      <h6>Information</h6>
-                      <hr class="mt-0 mb-4">
-                      <div class="row pt-1">
-                        <div class="col-6 mb-3 ">
-                          <h6>Username</h6>
-                           <input type="text" id="username" name="username"  class="form-control-input"  value="<%= admin.username %>" />
-                        </div>
-                    </div>
-                    <div class="row pt-1">
-                      <div class="col-6 mb-3">
-                        <h6>Email</h6>
-                        <input type="email" id="email" name="email" class="form-control-input"  value="<%= admin.email %>" />
-                      </div>
-                      
-                     
-                    
-                   
-                  </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  <section style="background-color:transparent; height: 100%;">
+    <form action="/admin/updateprofile/<%= admin.id_admin %>" method="post" enctype="multipart/form-data">
+      <div class="container d-flex justify-content-center py-5 h-100" style="gap: 1rem;background-color: transparent; ">
+        <div class="card text-center d-flex justify-content-center align-items-center  text-white background "
+          style="width: 300px;">
+          <label for="image" class="upload-btn"><i class="fas fa-camera fa-xs"></i></label>
+          <img id="imagePreview" src="/image/<%= admin.image %>" alt="Avatar" class="img-fluid profile-img "
+            style="background-color: #eeeeee;" />
+          <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)" class="d-none">
         </div>
-    
-        
-      </form>
-
-         
-                <!-- <form action="/admin/updateprofile/<%= admin.id_admin %>" method="post"enctype="multipart/form-data">
-
-                  <div >
-                    <input type="text" id="username" name="username" value="<%= admin.username %>" />
-                    <label for="username">username</label>
-                  </div>
-                  <label for="image">Image</label>
-                  <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)">
-                  <img id="imagePreview" src="/image/<%= admin.image %>" alt="Default Image" width="100" height="100">
-                  <div>
-                    <ion-icon name="mail-outline"></ion-icon>
-                    <input type="email" id="email" name="email" value="<%= admin.email %>" />
-                    <label for="email">Email</label>
-                  </div>
-                  
-                  <button type="submit" class="btn btn-primary">save</button>
-                  
-                </form>
- -->
-
-              
-                <script>
-                  function displayImage(event) {
-                    const imagePreview = document.getElementById('imagePreview');
-                    const file = event.target.files[0];
-      
-                    if (file) {
-                      const reader = new FileReader();
-      
-                      reader.onload = function (e) {
-                        imagePreview.src = e.target.result;
-                      }
-      
-                      reader.readAsDataURL(file);
-                    } else {
-                      if(user){
-                      imagePreview.src = '/image/<%= admin.image %>'; // Set default image
-                      } 
-                     
-                    }
-                  }
-      
-                </script>
-                  
-     
-
+        <div class="card p-4 " style="width: 500px;">
+          <p class="d-flex justify-content-center"><b>ข้อมูลผู้ใช้</b></p>
+          <hr class="mt-0 mb-4">
+          <input type="text" id="username" name="username" class="form-control mb-2"
+            value="<%= admin.username %>" />
+          <input type="email" id="email" name="email" class="form-control mb-4"
+            value="<%= admin.email %>" />
+          <button type="submit" class="btn w-100" style="color: #eeeeee ; background-color: #ED2A30;">ยืนยัน</button>
+        </div>
+      </div>
+    </form>
+  </section>
+  <script>
+    function displayImage(event) {
+      const image = document.getElementById('imagePreview');
+      image.src = URL.createObjectURL(event.target.files[0]);
+    }
+  </script>
 </body>
-
 </html>

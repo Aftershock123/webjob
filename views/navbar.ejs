@@ -4,7 +4,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Kanit:wght@300&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Kanit:wght@300&family=Open+Sans:wght@300&display=swap"
+  rel="stylesheet">
 
 <style>
   .content-with-space {
@@ -13,578 +15,581 @@
   }
 
   .rounded-circle {
-      width: 40px; /* Adjust the width as needed */
-      height: 40px; /* Adjust the height as needed */
-      border-radius: 50%; /* Create a circular shape */
-      object-fit: cover; /* Maintain the aspect ratio and fill the container */
-    }
-
-    #header {
-  background: #e9e8e6;
-  box-shadow: 0px 0px 25px 0 rgba(0, 0, 0, 0.08);
-  z-index: 997;
-  padding: 15px 0;
-}
-
-#header .logo {
-  font-size: 32px;
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-#header .logo a {
-  color: #222222;
-}
-
-#header .logo img {
-  max-height: 40px;
-}
-
-@media (max-width: 992px) {
-  #header .logo {
-    font-size: 28px;
+    width: 40px;
+    /* Adjust the width as needed */
+    height: 40px;
+    /* Adjust the height as needed */
+    border-radius: 50%;
+    /* Create a circular shape */
+    object-fit: cover;
+    /* Maintain the aspect ratio and fill the container */
   }
-}
 
-/*--------------------------------------------------------------
+  #header {
+    background: #e9e8e6;
+    box-shadow: 0px 0px 25px 0 rgba(0, 0, 0, 0.08);
+    z-index: 997;
+    padding: 15px 0;
+  }
+
+  #header .logo {
+    font-size: 32px;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  #header .logo a {
+    color: #222222;
+  }
+
+  #header .logo img {
+    max-height: 40px;
+  }
+
+  @media (max-width: 992px) {
+    #header .logo {
+      font-size: 28px;
+    }
+  }
+
+  /*--------------------------------------------------------------
 # Header Social Links
 --------------------------------------------------------------*/
-.header-social-links {
-  padding-right: 15px;
-}
-
-.header-social-links a {
-  color: #6f6f6f;
-  padding-left: 6px;
-  display: inline-block;
-  line-height: 0px;
-  transition: 0.3s;
-  font-size: 16px;
-}
-
-.header-social-links a:hover {
-  color: #FF3131;
-}
-
-.navbar {
-  padding: 0;
-}
-
-.navbar ul {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  list-style: none;
-  align-items: center;
-}
-
-.navbar li {
-  position: relative;
-  padding: 10px 0 10px 28px;
-}
-
-.navbar a,
-.navbar a:focus {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 15px;
-  font-weight: 600;
-  color: #888888;
-  white-space: nowrap;
-  transition: 0.3s;
-  position: relative;
-}
-
-.navbar a i,
-.navbar a:focus i {
-  font-size: 12px;
-  line-height: 0;
-  margin-left: 5px;
-}
-
-.navbar>ul>li>a:before {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -5px;
-  left: 0;
-  background-color: #FF3131;
-  visibility: hidden;
-  width: 0px;
-  transition: all 0.3s ease-in-out 0s;
-}
-
-.navbar a:hover:before,
-.navbar li:hover>a:before,
-.navbar .active:before {
-  visibility: visible;
-  width: 25px;
-}
-
-.navbar a:hover,
-.navbar .active,
-.navbar .active:focus,
-.navbar li:hover>a {
-  color: #222222 !important;
-}
-
-.navbar .dropdown ul {
-  display: block;
-  position: absolute;
-  left: 14px;
-  top: calc(100% + 30px);
-  margin: 0;
-  padding: 10px 0;
-  z-index: 99;
-  opacity: 0;
-  visibility: hidden;
-  background: #fff;
-  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-  transition: 0.3s;
-  border-radius: 4px;
-}
-
-.navbar .dropdown ul li {
-  min-width: 200px;
-  padding: 0;
-}
-
-.navbar .dropdown ul a {
-  padding: 10px 20px;
-  font-size: 15px;
-  text-transform: none;
-  font-weight: 600;
-}
-
-.navbar .dropdown ul a i {
-  font-size: 12px;
-}
-
-.navbar .dropdown ul a:hover,
-.navbar .dropdown ul .active:hover,
-.navbar .dropdown ul li:hover>a {
-  color: #FF3131;
-}
-
-.navbar .dropdown:hover>ul {
-  opacity: 1;
-  top: 100%;
-  visibility: visible;
-}
-
-.navbar .dropdown .dropdown ul {
-  top: 0;
-  left: calc(100% - 30px);
-  visibility: hidden;
-}
-
-.navbar .dropdown .dropdown:hover>ul {
-  opacity: 1;
-  top: 0;
-  left: 100%;
-  visibility: visible;
-}
-
-@media (max-width: 1366px) {
-  .navbar .dropdown .dropdown ul {
-    left: -90%;
+  .header-social-links {
+    padding-right: 15px;
   }
 
-  .navbar .dropdown .dropdown:hover>ul {
-    left: -100%;
+  .header-social-links a {
+    color: #6f6f6f;
+    padding-left: 6px;
+    display: inline-block;
+    line-height: 0px;
+    transition: 0.3s;
+    font-size: 16px;
   }
-}
 
-/**
-* Mobile Navigation 
-*/
-.mobile-nav-toggle {
-  color: #222222;
-  font-size: 28px;
-  cursor: pointer;
-  display: none;
-  line-height: 0;
-  transition: 0.5s;
-}
+  .header-social-links a:hover {
+    color: #FF3131;
+  }
 
-.mobile-nav-toggle.bi-x {
-  color: #fff;
-}
-
-@media (max-width: 991px) {
-  .mobile-nav-toggle {
-    display: block;
+  .navbar {
+    padding: 0;
   }
 
   .navbar ul {
-    display: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
   }
-}
 
-.navbar-mobile {
-  position: fixed;
-  overflow: hidden;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: rgba(9, 9, 9, 0.9);
-  transition: 0.3s;
-  z-index: 999;
-}
+  .navbar li {
+    position: relative;
+    padding: 10px 0 10px 28px;
+  }
 
-.navbar-mobile .mobile-nav-toggle {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-}
+  .navbar a,
+  .navbar a:focus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    color: #888888;
+    white-space: nowrap;
+    transition: 0.3s;
+    position: relative;
+  }
 
-.navbar-mobile ul {
-  display: block;
-  position: absolute;
-  top: 55px;
-  right: 15px;
-  bottom: 15px;
-  left: 15px;
-  padding: 10px 0;
-  border-radius: 10px;
-  background-color: #fff;
-  overflow-y: auto;
-  transition: 0.3s;
-}
+  .navbar a i,
+  .navbar a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+  }
 
-.navbar-mobile a,
-.navbar-mobile a:focus {
-  font-size: 15px;
-  padding-right: 15px;
-  color: #222222;
-}
+  .navbar>ul>li>a:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #FF3131;
+    visibility: hidden;
+    width: 0px;
+    transition: all 0.3s ease-in-out 0s;
+  }
 
-.navbar-mobile a:hover,
-.navbar-mobile .active,
-.navbar-mobile li:hover>a {
-  color: #FF3131;
-}
+  .navbar a:hover:before,
+  .navbar li:hover>a:before,
+  .navbar .active:before {
+    visibility: visible;
+    width: 25px;
+  }
 
-.navbar-mobile .getstarted,
-.navbar-mobile .getstarted:focus {
-  margin: 15px;
-}
+  .navbar a:hover,
+  .navbar .active,
+  .navbar .active:focus,
+  .navbar li:hover>a {
+    color: #222222 !important;
+  }
 
-.navbar-mobile .dropdown ul {
-  position: static;
-  display: none;
-  margin: 10px 20px;
-  padding: 10px 0;
-  z-index: 99;
-  opacity: 1;
-  visibility: visible;
-  background: #fff;
-  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
-}
+  .navbar .dropdown ul {
+    display: block;
+    position: absolute;
+    left: 14px;
+    top: calc(100% + 30px);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    transition: 0.3s;
+    border-radius: 4px;
+  }
 
-.navbar-mobile .dropdown ul li {
-  min-width: 200px;
-}
+  .navbar .dropdown ul li {
+    min-width: 200px;
+    padding: 0;
+  }
 
-.navbar-mobile .dropdown ul a {
-  padding: 10px 20px;
-}
+  .navbar .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 15px;
+    text-transform: none;
+    font-weight: 600;
+  }
 
-.navbar-mobile .dropdown ul a i {
-  font-size: 12px;
-}
+  .navbar .dropdown ul a i {
+    font-size: 12px;
+  }
 
-.navbar-mobile .dropdown ul a:hover,
-.navbar-mobile .dropdown ul .active:hover,
-.navbar-mobile .dropdown ul li:hover>a {
-  color: #FF3131;
-}
+  .navbar .dropdown ul a:hover,
+  .navbar .dropdown ul .active:hover,
+  .navbar .dropdown ul li:hover>a {
+    color: #FF3131;
+  }
 
-.navbar-mobile .dropdown>.dropdown-active {
-  display: block;
-}
+  .navbar .dropdown:hover>ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
 
-.company-name {
+  .navbar .dropdown .dropdown ul {
+    top: 0;
+    left: calc(100% - 30px);
+    visibility: hidden;
+  }
+
+  .navbar .dropdown .dropdown:hover>ul {
+    opacity: 1;
+    top: 0;
+    left: 100%;
+    visibility: visible;
+  }
+
+  @media (max-width: 1366px) {
+    .navbar .dropdown .dropdown ul {
+      left: -90%;
+    }
+
+    .navbar .dropdown .dropdown:hover>ul {
+      left: -100%;
+    }
+  }
+
+  /**
+* Mobile Navigation 
+*/
+  .mobile-nav-toggle {
+    color: #222222;
+    font-size: 28px;
+    cursor: pointer;
+    display: none;
+    line-height: 0;
+    transition: 0.5s;
+  }
+
+  .mobile-nav-toggle.bi-x {
+    color: #fff;
+  }
+
+  @media (max-width: 991px) {
+    .mobile-nav-toggle {
+      display: block;
+    }
+
+    .navbar ul {
+      display: none;
+    }
+  }
+
+  .navbar-mobile {
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(9, 9, 9, 0.9);
+    transition: 0.3s;
+    z-index: 999;
+  }
+
+  .navbar-mobile .mobile-nav-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+
+  .navbar-mobile ul {
+    display: block;
+    position: absolute;
+    top: 55px;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    padding: 10px 0;
+    border-radius: 10px;
+    background-color: #fff;
+    overflow-y: auto;
+    transition: 0.3s;
+  }
+
+  .navbar-mobile a,
+  .navbar-mobile a:focus {
+    font-size: 15px;
+    padding-right: 15px;
+    color: #222222;
+  }
+
+  .navbar-mobile a:hover,
+  .navbar-mobile .active,
+  .navbar-mobile li:hover>a {
+    color: #FF3131;
+  }
+
+  .navbar-mobile .getstarted,
+  .navbar-mobile .getstarted:focus {
+    margin: 15px;
+  }
+
+  .navbar-mobile .dropdown ul {
+    position: static;
+    display: none;
+    margin: 10px 20px;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 1;
+    visibility: visible;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+  }
+
+  .navbar-mobile .dropdown ul li {
+    min-width: 200px;
+  }
+
+  .navbar-mobile .dropdown ul a {
+    padding: 10px 20px;
+  }
+
+  .navbar-mobile .dropdown ul a i {
+    font-size: 12px;
+  }
+
+  .navbar-mobile .dropdown ul a:hover,
+  .navbar-mobile .dropdown ul .active:hover,
+  .navbar-mobile .dropdown ul li:hover>a {
+    color: #FF3131;
+  }
+
+  .navbar-mobile .dropdown>.dropdown-active {
+    display: block;
+  }
+
+  .company-name {
     display: none;
     position: absolute;
     background-color: white;
     padding: 5px;
     border: 1px solid black;
     border-radius: 5px;
-}
+  }
 
-.company-profile {
+  .company-profile {
     position: relative;
-}
+  }
 
-.company-profile:hover .company-name {
+  .company-profile:hover .company-name {
     display: block;
-}
+  }
 
-.company-profile img {
-    transition: box-shadow 0.3s ease-in-out; 
-}
+  .company-profile img {
+    transition: box-shadow 0.3s ease-in-out;
+  }
 
-.company-profile:hover img {
-    box-shadow: 0 0 10px #ED2A30; 
-}
+  .company-profile:hover img {
+    box-shadow: 0 0 10px #ED2A30;
+  }
 
 
-a{
-  text-decoration: none;
-}
-.container{
-  background-color: #fff;
-}
+  a {
+    text-decoration: none;
+  }
+
+  .container {
+    background-color: #fff;
+  }
 </style>
 
-  <script>
-    $(document).ready(function () {
-      var path = window.location.pathname; // Get the current URL path
-      $('#navbar ul li a').each(function () {
-        var href = $(this).attr('href');
-        if (path === href) {
-          $(this).addClass('active');
-        }
-      });
+<script>
+  $(document).ready(function () {
+    var path = window.location.pathname; // Get the current URL path
+    $('#navbar ul li a').each(function () {
+      var href = $(this).attr('href');
+      if (path === href) {
+        $(this).addClass('active');
+      }
     });
+  });
 
-    document.querySelectorAll('.company-name').forEach(function(element) {
-        element.style.display = 'none';
-    });
+  document.querySelectorAll('.company-name').forEach(function (element) {
+    element.style.display = 'none';
+  });
 
-  </script>
-  <div class="container-fluid" style="background-color: #fff;  border-bottom: 5px solid #FF3131;">
-<% if (status==="loggedIn" ) { %>
-  <% if (user && user.status === "active") { %>
-    <div class="container-fluid d-flex justify-content-between align-items-center" >
-      <a class="navbar-brand" href="/">
-        <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
-            <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image" style="width: 50px; height: 32px;"/>
-            <b style="letter-spacing: 2px; font-size: 14px;"><%= webpage[0].namepage %></b>
-        </div>
-    </a>
-
-  
-
-  <nav id="navbar" class="navbar order-last order-lg-0">
-    <ul>
-      <li><a href="/">หน้าหลัก</a></li>
-      <li><a href="/user/addresume/<%= user.id_user %>">เรซูเม่</a></li>
-      <li><a href="/user/jobsended/<%= user.id_user %>">งานที่สมัครแล้ว</a></li>
-    </ul>
-    <i class="bi bi-list mobile-nav-toggle"></i>
-  </nav>
-
-  <div class="row align-items-center">
-    <div class="button-container">
-      <div class="company-profile">
-        <a href="/user/profile/<%= user.id_user %>">
-            <img src="/image/<%= user.image %>" alt="Profile" class="rounded-circle img-icon">
+</script>
+<div class="container-fluid" style="background-color: #fff;  border-bottom: 5px solid #FF3131;">
+  <% if (status==="loggedIn" ) { %>
+    <% if (user && user.status==="active" ) { %>
+      <div class="container-fluid d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="/">
+          <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
+            <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image"
+              style="width: 50px; height: 32px;" />
+            <b style="letter-spacing: 2px; font-size: 14px;">
+              <%= webpage[0].namepage %>
+            </b>
+          </div>
         </a>
-        <span class="company-name"><%= user.username %></span>
-    </div>        
-      <button class="btnnav"><a href="/user/resetpassword/<%= user.id_user %>">เปลี่ยนรหัสผ่าน</a></button>
-      <button class="btnnav-bold"><a href="/logout">ออกจากระบบ</a></button>
-  </div>      
+
+
+
+        <nav id="navbar" class="navbar order-last order-lg-0">
+          <ul>
+            <li><a href="/">หน้าหลัก</a></li>
+            <li><a href="/user/addresume/<%= user.id_user %>">เรซูเม่</a></li>
+            <li><a href="/user/jobsended/<%= user.id_user %>">งานที่สมัครแล้ว</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+
+        <div class="row align-items-center">
+          <div class="button-container">
+            <div class="company-profile">
+              <a href="/user/profile/<%= user.id_user %>">
+                <img src="/image/<%= user.image %>" alt="Profile" class="rounded-circle img-icon">
+              </a>
+              <span class="company-name">
+                <%= user.username %>
+              </span>
+            </div>
+            <button class="btnnav"><a href="/user/resetpassword/<%= user.id_user %>">เปลี่ยนรหัสผ่าน</a></button>
+            <button class="btnnav-bold"><a href="/logout">ออกจากระบบ</a></button>
+          </div>
+        </div>
+      </div>
 </div>
 </div>
+</div>
+
+<% } else if(user && user.status==="banned" ){ %>
+
+  <div class="container d-flex justify-content-between align-items-center" style="height: 50px;">
+
+    <a class="navbar-brand" href="/">
+
+      <h6 class="text-dark m-0 fs-2">
+
+        <i class="fa fa-briefcase fa-1x ">
+          <%= webpage[0].namepage %>
+        </i>
+      </h6>
+    </a>
+
+
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul>
+        <li><a class="active" href="/">Home</a></li>
+
+      </ul>
+
+    </nav><!-- .navbar -->
+
+    <div class="header-social-links">
+
+      <a class="nav-link dropdown-toggle  btnnav btnnav-light py-2 px-3" href="#" id="navbarDropdown1" role="button"
+        data-bs-toggle="dropdown" aria-expanded="false">
+        Login</a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+        <li><a class="dropdown-item" href="/login">Login</a></li>
+        <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
+        <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
+
+      </ul>
+
+    </div>
   </div>
-</div>
-</div>
-
-<% } else if(user && user.status === "banned"){ %>
-  
-<div class="container d-flex justify-content-between align-items-center" style="height: 50px;">
-        
-  <a class="navbar-brand" href="/">
-   
-    <h6 class="text-dark m-0 fs-2">
-      
-      <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
-    </h6>
-  </a>
 
 
-  <nav id="navbar" class="navbar order-last order-lg-0">
-    <ul>
-      <li><a class="active" href="/">Home</a></li>
-      
-    </ul>
-  
-  </nav><!-- .navbar -->
+  <% } else if(company &&company.status==="active" ){ %>
 
-  <div class="header-social-links">
-  
-    <a class="nav-link dropdown-toggle  btnnav btnnav-light py-2 px-3" href="#" id="navbarDropdown1"
-    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Login</a>
-  <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-    <li><a class="dropdown-item" href="/login">Login</a></li>
-    <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
-    <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
-   
-  </ul>
-    
-  </div>
-</div>
+    <div class="container d-flex justify-content-between align-items-center">
 
-
-<% } else if(company &&company.status ==="active"){ %>
-
-  <div class="container d-flex justify-content-between align-items-center" >
-    
       <a class="navbar-brand" href="/">
         <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
-            <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image" style="width: 50px; height: 32px;"/>
-            <b style="letter-spacing: 2px; font-size: 14px;"><%= webpage[0].namepage %></b>
+          <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image"
+            style="width: 50px; height: 32px;" />
+          <b style="letter-spacing: 2px; font-size: 14px;">
+            <%= webpage[0].namepage %>
+          </b>
         </div>
-    </a>
+      </a>
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a  href="/">หน้าหลัก</a></li>
+          <li><a href="/">หน้าหลัก</a></li>
           <li><a href="/company/addjob_company/<%= company.id_company %>">เพิ่มงาน</a></li>
           <li><a href="/company/joball/<%= company.id_company %>">งานของฉัน</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-    
+
       <div class="row align-items-center">
         <div class="button-container">
           <div class="company-profile">
             <a href="/company/profile/<%= company.id_company %>">
-                <img src="/image/<%= company.image %>" alt="Profile" class="rounded-circle img-icon">
+              <img src="/image/<%= company.image %>" alt="Profile" class="rounded-circle img-icon">
             </a>
-            <span class="company-name"><%= company.username %></span>
-        </div>        
-          <button class="btnnav" ><a href="/company/resetpassword/<%= company.id_company %>">เปลี่ยนรหัสผ่าน</a></button>
+            <span class="company-name">
+              <%= company.username %>
+            </span>
+          </div>
+          <button class="btnnav"><a href="/company/resetpassword/<%= company.id_company %>">เปลี่ยนรหัสผ่าน</a></button>
           <button class="btnnav-bold"><a href="/logout">ออกจากระบบ</a></button>
-      </div>      
-    </div>
-  </div>
+        </div>
       </div>
     </div>
-    <% } else if(company &&company.status ==="banned"){ %>
-      <div class="container d-flex justify-content-between align-items-center" >
-        
+    </div>
+    </div>
+    <% } else if(company &&company.status==="banned" ){ %>
+      <div class="container d-flex justify-content-between align-items-center">
+
         <a class="navbar-brand" href="/">
-         
+
           <h6 class="text-dark m-0 fs-2">
-            
-            <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
+
+            <i class="fa fa-briefcase fa-1x ">
+              <%= webpage[0].namepage %>
+            </i>
           </h6>
         </a>
-      
-      
+
+
         <nav id="navbar" class="navbar order-last order-lg-0">
           <ul>
-            <li><a  href="/">Home</a></li>
-            
+            <li><a href="/">Home</a></li>
+
           </ul>
-        
+
         </nav><!-- .navbar -->
-      
+
         <div class="header-social-links">
-        
-          <a class="nav-link dropdown-toggle  btnnav btnnav-light py-2 px-3" href="#" id="navbarDropdown1"
-          role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Login</a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-          <li><a class="dropdown-item" href="/login">Login</a></li>
-          <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
-          <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
-         
-        </ul>
-          
+
+          <a class="nav-link dropdown-toggle  btnnav btnnav-light py-2 px-3" href="#" id="navbarDropdown1" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Login</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+            <li><a class="dropdown-item" href="/login">Login</a></li>
+            <li><a class="dropdown-item" href="/registercompany">RegisterCompany</a></li>
+            <li><a class="dropdown-item" href="/registeruser">RegisterUser</a></li>
+
+          </ul>
+
         </div>
       </div>
-    <% } else if(admin){ %>
+      <% } else if(admin){ %>
+        <div class="container d-flex justify-content-between align-items-center">
 
-      <div class="container d-flex justify-content-between align-items-center" >
-        
           <a class="navbar-brand" href="/">
-           
-            <h6 class="text-dark m-0 fs-2">
-              
-              <i class="fa fa-briefcase fa-1x "><%= webpage[0].namepage %></i>
-            </h6>
+            <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
+              <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image"
+                style="width: 50px; height: 32px;" />
+              <b style="letter-spacing: 2px; font-size: 14px;">
+                <%= webpage[0].namepage %>
+              </b>
+            </div>
           </a>
-        
-        
           <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-              <li><a  href="/">Home</a></li>
-              <li><a href="/admin/companymanagement/<%= admin.id_admin %>">CompanyManagement</a></li>
-              <li class="nav-item me-auto">
-                <a class="nav-link" href="/admin/usermanagement/<%= admin.id_admin %>">
-                  UserManagement
-                </a>
-              </li>
-            
+              <li><a href="/">หน้าหลัก</a></li>
+              <li><a href="/admin/companymanagement/<%= admin.id_admin %>">จัดการข้อมูลบริษัท</a></li>
+              <li><a href="/admin/usermanagement/<%= admin.id_admin %>">จัดการข้อมูลผู้ใช้</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
-          </nav><!-- .navbar -->
-        
-          <div class="header-social-links">
-            <img src="/image/<%= admin.image %>" alt="Profile" class="rounded-circle">
-            
-            <a class="nav-link dropdown-toggle  btnnav btnnav-light py-2 px-3" href="#" id="navbarDropdownuser"
-            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%= admin.username %></a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownuser">
-            <li><a class="dropdown-item" href="/admin/profile/<%= admin.id_admin %>">ProFile</a></li>
-            <li><a class="dropdown-item" href="/admin/webpage/<%= admin.id_admin %>">EditWeb</a></li>
-            <li><a class="dropdown-item" href="/logout">LogOut</a></li>
-          </ul>
-            
-          </div>
-        </div>
-
-
-      <% } %>
-      <% } else { %>
-<div class="container d-flex justify-content-between align-items-center">
-        
-  <a class="navbar-brand" href="/">
-    <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
-        <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image" style="width: 50px; height: 32px;"/>
-        <b style="letter-spacing: 2px; font-size: 14px;"><%= webpage[0].namepage %></b>
-    </div>
-</a>        
-          <nav id="navbar" class="navbar order-last order-lg-0">
-            <ul>
-              <li><a class="active" href="/">หน้าหลัก</a></li>
-            </ul>
-          
           </nav><!-- .navbar -->
 
           <div class="row align-items-center">
             <div class="button-container">
-              <button class="btnnav"><a href="/registercompany">ลงทะเบียนบริษัท</a></button>
-              <button class="btnnav"><a href="/registeruser">ลงทะเบียนผู้ใช้</a></button>
-              <button class="btnnav-bold"><a href="/login">เข้าสู่ระบบ</a></button>
-          </div>      
+              <div class="company-profile">
+                <a href="/admin/profile/<%= admin.id_admin %>">
+                  <img src="/image/<%= admin.image %>" alt="Profile" class="rounded-circle img-icon">
+                </a>
+                <span class="company-name">
+                  <%= admin.username %>
+                </span>
+              </div>
+              <button class="btnnav"><a href="/admin/webpage/<%= admin.id_admin %>">จัดการข้อมูลเว็บ</a></button>
+              <button class="btnnav-bold"><a href="/logout">ออกจากระบบ</a></button>
+            </div>
+          </div>
         </div>
-        </div>
-
         <% } %>
-      </div>
+          <% } else { %>
+            <div class="container d-flex justify-content-between align-items-center">
 
+              <a class="navbar-brand" href="/">
+                <div style="display: flex; flex-direction: column; align-items: center; color: #FF3131;">
+                  <img src="/image/FINDJOB-Photoroom.png-Photoroom (1).png" alt="Brand Image"
+                    style="width: 50px; height: 32px;" />
+                  <b style="letter-spacing: 2px; font-size: 14px;">
+                    <%= webpage[0].namepage %>
+                  </b>
+                </div>
+              </a>
+              <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                  <li><a class="active" href="/">หน้าหลัก</a></li>
+                </ul>
 
+              </nav><!-- .navbar -->
 
+              <div class="row align-items-center">
+                <div class="button-container">
+                  <button class="btnnav"><a href="/registercompany">ลงทะเบียนบริษัท</a></button>
+                  <button class="btnnav"><a href="/registeruser">ลงทะเบียนผู้ใช้</a></button>
+                  <button class="btnnav-bold"><a href="/login">เข้าสู่ระบบ</a></button>
+                </div>
+              </div>
+            </div>
 
-
-
-
-
-
-
-
-
+            <% } %>
+              </div>

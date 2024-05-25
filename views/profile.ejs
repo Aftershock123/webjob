@@ -44,7 +44,6 @@
 </head>
 
 <body>
-
   <%- include('navbar') %>
     <section style="background-color:transparent; height: 100%;">
       <form action="/user/updateprofile/<%= user.id_user %>" method="post" enctype="multipart/form-data">
@@ -67,14 +66,10 @@
           </div>
         </div>
       </form>
-
       <% if (history=='undefined' || history==null || resume==='undefined' || resume===null) { %>
-
       <%}else {%>
-          
            <%- include('jobsendcard') %>     
       <% } %>
-                  
     </section>
     <script>
       function displayImage(event) {
@@ -82,8 +77,6 @@
         image.src = URL.createObjectURL(event.target.files[0]);
       }
     </script>
-    </div>
-
 </body>
 
 </html>

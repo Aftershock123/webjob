@@ -6,160 +6,154 @@
   <meta http-equiv="X-UA-Compatible" content="chrome">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
+<body style="background-color: white;">
   <%- include('navbar') %>
+    <div class="container-fluid " style="background-color: white;height: 100vh;">
+      <div class="card container mt-5" style="background-color: white;">
+        <div class="table-responsive">
+          <table class="table align-items-center mb-0">
+            <% if (companymanage.length> 0) { %>
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Company ID</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Image</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Username</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Verify</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% companymanage.forEach((company)=> { %>
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2">
+                        <div>
+                          <%= company.id_company %>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <img src="/image/<%= company.image %>" class="avatar avatar-sm rounded-circle me-2">
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="d-flex align-items-center">
+                        <b>
+                          <%= company.username %>
+                        </b>
+                      </div>
+                    </td>
 
-  <div class="card">
-    <div class="table-responsive">
-      <table class="table align-items-center mb-0">
-        <% if (companymanage.length > 0) { %>
-        <thead>
-          <tr>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Company ID</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Image</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Username</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Verify</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-     
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% companymanage.forEach((company) => { %>
-          <tr>
-            <td>
-              <div class="d-flex px-2">
-                <div>
-                  <%= company.id_company %>
-                </div>
-              </div>
-            </td>
-            <td>
-              <img src="/image/<%= company.image %>" class="avatar avatar-sm rounded-circle me-2">
+                    <td class="align-middle text-center">
+                      <div class="d-flex align-items-center">
+                        <span class="me-2 ">
+                          <%= company.email %>
+                        </span>
+                      </div>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="d-flex align-items-center form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="verify-toggle-<%= company.id_company%>"
+                          <%=company.adverify==='verify' ? 'checked' : '' %> onchange="toggleVerify('<%=
+                          company.id_company %>')"
+                          <span class="me-2 text-xs">
+                            <%= company.adverify %>
+                          </span>
+                      </div>
+                    </td>
 
-            </td>
+                    <script>
+                      var companyverifyStatus = '<%= company.adverify %>';
 
-            <td class="align-middle text-center">
-              <div class="d-flex align-items-center">
-                <b><%= company.username %></b>
-              </div>
-            </td>
-            
-            <td class="align-middle text-center">
-              <div class="d-flex align-items-center">
-                <span class="me-2 "><%= company.email %></span>
-              </div>
-            </td>
-            <!-- <td class="align-middle text-center">
-              <div class="d-flex align-items-center">
-                <span class="me-2 text-xs"><%= company.adverify %></span>
-              </div>
-            </td>
-            <td class="align-middle text-center">
-              <div class="d-flex align-items-center">
-                <span class="me-2 text-xs"><%= company.status %></span>
-              </div>
-            </td> -->
-            <td class="align-middle text-center">
-              <div class="d-flex align-items-center form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="verify-toggle-<%= company.id_company%>"
-                <%=company.adverify==='verify' ? 'checked' : '' %> onchange="toggleVerify('<%= company.id_company %>')"
-                <span class="me-2 text-xs"><%= company.adverify %></span>
-              </div>
-            </td>
-            
-            <script>
-              var companyverifyStatus = '<%= company.adverify %>';
+                      if (companyverifyStatus === 'verify') {
+                        var toggleCheckbox = document.getElementById('verify-toggle-<%= company.id_company %>');
+                        toggleCheckbox.checked = true;
+                      }
+                      function toggleVerify(companyId) {
+                        var toggleCheckbox = document.getElementById('verify-toggle-' + companyId);
+                        var adverify = toggleCheckbox.checked ? 'verify' : 'nonverify';
 
-              if (companyverifyStatus === 'verify') {
-                var toggleCheckbox = document.getElementById('verify-toggle-<%= company.id_company %>');
-                toggleCheckbox.checked = true;
-              }
+                        console.log('adverify:', adverify);
 
-             
-              function toggleVerify(companyId) {
-                var toggleCheckbox = document.getElementById('verify-toggle-' + companyId);
-                var adverify = toggleCheckbox.checked ? 'verify' : 'nonverify';
+                        // Make AJAX request to update class status
+                        $.ajax({
+                          url: "/admin/updatecompanyverifyStatus/" + companyId, // Update the AJAX URL
+                          method: 'POST',
+                          data: {
+                            companyId: companyId, // Pass userId ID
+                            adverify: adverify
+                          },
+                          success: function (response) {
+                            console.log('สถานะของคลาสถูกอัปเดตแล้ว');
+                            location.reload();
+                          },
+                          error: function (xhr, status, error) {
+                            console.error('เกิดข้อผิดพลาดในการอัปเดตสถานะของคลาส:', error);
+                          }
+                        });
+                      }
+                    </script>
+                    <td class="align-middle text-center">
+                      <div class="d-flex align-items-center form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="status-toggle-<%= company.id_company%>"
+                          <%=company.status==='active' ? 'checked' : '' %> onchange="toggleStatus('<%=
+                          company.id_company %>')"
+                          <span class="me-2 text-xs">
+                            <%= company.status %>
+                          </span>
+                      </div>
+                    </td>
+                    <script>
+                      var companyStatus = '<%= company.status %>';
 
-                console.log('adverify:', adverify);
+                      if (companyStatus === 'active') {
+                        var toggleCheckbox = document.getElementById('status-toggle-<%= company.id_company %>');
+                        toggleCheckbox.checked = true;
+                      }
 
-                // Make AJAX request to update class status
-                $.ajax({
-                  url: "/admin/updatecompanyverifyStatus/" + companyId, // Update the AJAX URL
-                  method: 'POST',
-                  data: {
-                    companyId: companyId, // Pass userId ID
-                    adverify: adverify
-                  },
-                  success: function (response) {
-                    console.log('สถานะของคลาสถูกอัปเดตแล้ว');
-                    location.reload();
-                  },
-                  error: function (xhr, status, error) {
-                    console.error('เกิดข้อผิดพลาดในการอัปเดตสถานะของคลาส:', error);
-                  }
-                });
-            }
-            </script>
-            <td class="align-middle text-center">
-              <div class="d-flex align-items-center form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="status-toggle-<%= company.id_company%>"
-                  <%=company.status==='active' ? 'checked' : '' %> onchange="toggleStatus('<%= company.id_company %>')"
-                  <span class="me-2 text-xs"><%= company.status %></span>
-              </div>
-            </td>
-           
-           
-  
+                      // const banForm = document.getElementById("banForm");
+                      // const unbanForm = document.getElementById("unbanForm");
+                      function toggleStatus(companyId) {
+                        var toggleCheckbox = document.getElementById('status-toggle-' + companyId);
+                        var classStatus = toggleCheckbox.checked ? 'active' : 'nonactive';
 
+                        console.log('classStatus:', classStatus);
 
-             <script>
-              var companyStatus = '<%= company.status %>';
+                        // Make AJAX request to update class status
+                        $.ajax({
+                          url: "/admin/updatecompanyStatus/" + companyId, // Update the AJAX URL
+                          method: 'POST',
+                          data: {
+                            companyId: companyId, // Pass userId ID
+                            status: classStatus
+                          },
+                          success: function (response) {
+                            console.log('สถานะของคลาสถูกอัปเดตแล้ว');
+                            location.reload();
+                          },
+                          error: function (xhr, status, error) {
+                            console.error('เกิดข้อผิดพลาดในการอัปเดตสถานะของคลาส:', error);
+                          }
+                        });
+                      }
+                    </script>
 
-              if (companyStatus === 'active') {
-                var toggleCheckbox = document.getElementById('status-toggle-<%= company.id_company %>');
-                toggleCheckbox.checked = true;
-              }
-
-              // const banForm = document.getElementById("banForm");
-              // const unbanForm = document.getElementById("unbanForm");
-              function toggleStatus(companyId) {
-                var toggleCheckbox = document.getElementById('status-toggle-' + companyId);
-                var classStatus = toggleCheckbox.checked ? 'active' : 'nonactive';
-
-                console.log('classStatus:', classStatus);
-
-                // Make AJAX request to update class status
-                $.ajax({
-                  url: "/admin/updatecompanyStatus/" + companyId, // Update the AJAX URL
-                  method: 'POST',
-                  data: {
-                    companyId: companyId, // Pass userId ID
-                    status: classStatus
-                  },
-                  success: function (response) {
-                    console.log('สถานะของคลาสถูกอัปเดตแล้ว');
-                    location.reload();
-                  },
-                  error: function (xhr, status, error) {
-                    console.error('เกิดข้อผิดพลาดในการอัปเดตสถานะของคลาส:', error);
-                  }
-                });
-            }
-            </script>
-  
-          <% }); %>
-        </tbody>
-        <% } %>
-      </table>
-    </div>
+                    <% }); %>
+              </tbody>
+              <% } %>
+          </table>
+        </div>
+      </div>
     </div>
 </body>
 
