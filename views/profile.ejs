@@ -59,53 +59,24 @@
             <input type="file" id="image" name="image" accept="image/*" onchange="displayImage(event)" class="d-none">
           </div>
           <div class="card p-4 " style="width: 500px;">
-            <p class="d-flex justify-content-center"><b>Profile</b></p>
+            <p class="d-flex justify-content-center"><b>ข้อมูลผู้ใช้</b></p>
             <hr class="mt-0 mb-4">
-            <input type="text" id="username" name="username" class="form-control form-control-input"
+            <input type="text" id="username" name="username" class="form-control mb-2"
               value="<%= user.username %>" />
-            <input type="email" id="email" name="email" class="form-control form-control-input"
+            <input type="email" id="email" name="email" class="form-control mb-4"
               value="<%= user.email %>" />
-            <button type="submit" class="btn btn-primary w-100" style="background-color: #ED2A30;">ยืนยัน</button>
+            <button type="submit" class="btn w-100" style="color: #eeeeee ; background-color: #ED2A30;">ยืนยัน</button>
           </div>
         </div>
       </form>
 
       <% if (history=='undefined' || history==null || resume==='undefined' || resume===null) { %>
 
-        <%}else {%>
-          <p class="label-profile">Job sended</p>
-          <div class="container">
-            <div class="row">
-              <% if (history.length> 0) { %>
-                <% history.forEach((historyItem)=> { %> <!-- Added ( before historyItem -->
-                  <div class="col-md-3">
-                    <div class="card" style="width: 18rem; margin-top: 50px">
-                      <img src="/image/<%= historyItem.image %>" class="card-img-top" alt="...">
-                      <div class="card-body">
-                        <!-- <h5 class="card-title"><%= historyItem.idjob_company %></h5> -->
-                        <h4 class="card-title">
-                          <%= historyItem.name_company %>
-                        </h4>
-                        <h5 class="card-title">
-                          <%= historyItem.name_job %>
-                        </h5>
-                        <p class="card-text">
-                          <%= historyItem.detail_work.substring(0, 100) %>
-                        </p>
-                        <b>
-                          <%= historyItem.statusjob %>
-                        </b>
-                        <% if (historyItem.statusjob=='closejob' ) { %>
-                          <%} else { %>
-                            <a href="/company/jobbyidjob/<%= historyItem.idjob_company %>" class="btn fixed-button"
-                              style="background: #49ebd8;"><b>Job Description</b></a>
-                            <% } %>
-                      </div>
-                    </div>
-                  </div>
-                  <% }); %> <!-- Corrected the location of closing }); -->
-                    <% } %>
-                      <% } %>
+      <%}else {%>
+          
+           <%- include('jobsendcard') %>     
+      <% } %>
+                  
     </section>
     <script>
       function displayImage(event) {

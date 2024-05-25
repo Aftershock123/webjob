@@ -1,0 +1,63 @@
+<div class="container mt-5" style="background-color: #F1F1F1;">
+    <h3><b>งานที่สมัคร</b></h3>
+    <% if (!history || !resume) { %>
+        <div style="justify-content: center;" class="d-flex">
+            <h1>No Jobs Ended</h1>
+        </div>
+    <% } else { %>
+            <% if (history.length> 0) { %>
+                <div class="container index-card-container mt-5" style="background-color: #F1F1F1;">
+                    <% history.forEach((historyItem)=> { %>
+                        <div class="index-card-item">
+                            <a style="color: black;"
+                                href="/company/jobbyidjob/<%= historyItem.idjob_company  %>">
+                                <img src="/image/<%= historyItem.image %>" class="card-img-top"
+                                    alt="Card image cap">
+                                <p class="mt-1">
+                                    <%= historyItem.name_company %>
+                                </p>
+                                <b class="mt-1" style="font-size: 18px;">
+                                    <%= historyItem.name_job %>
+                                </b>
+                                <p class="mt-1">
+                                    <%= historyItem.detail_work.substring(0, 20) %>
+                                </p>
+                                <div style="display: flex; align-items: center;">
+                                    <box class="index-card-text"
+                                        style="color: #ff0000; background-color: #FFDBDB; padding: 5px; padding-left: 15px; padding-right: 15px; border-radius: 3px;">
+                                        หมดเขต
+                                    </box>
+                                    <b class="ms-3" style="color: #767F8C;" id="formatted-deadline-"
+                                        data-deadline="<%= historyItem.deadline_offer %>">
+                                    </b>
+                                </div>
+                            </a>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+    <% } %>
+ </div>
+
+
+<script>
+function formatDateTime(dateTimeStr) {
+    const date = new Date(dateTimeStr);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${day}/${month}/${year} เวลา ${hours}:${minutes}`;
+}
+
+// Get all elements with a specific class or ID
+document.addEventListener('DOMContentLoaded', function () {
+    const deadlineElements = document.querySelectorAll('[id^="formatted-deadline-"]');
+    deadlineElements.forEach(function (el) {
+        const deadlineOffer = el.getAttribute('data-deadline');
+        el.textContent = formatDateTime(deadlineOffer);
+    });
+});
+</script>
