@@ -263,150 +263,55 @@ router.get("/", loggedIn, async (req, res) => {
     let companyindex;
     let userindex;
     let webpage;
+    let jobindexdata;
+    [resumeindex] = await db.promise().query("SELECT * FROM resume ");
+    // console.log(req.body.resumeindex);
+    [userindex] = await db.promise().query("SELECT * FROM users ");
+    // console.log(req.body.userindex);
+    [companyindex] = await db.promise().query("SELECT * FROM companies ");
+    // console.log(req.body.companyindex);
+    [adminindex] = await db.promise().query("SELECT * FROM admins ");
+    // console.log(req.body.adminindex);
+    [webpage] = await db.promise().query("SELECT * FROM webpage ");
+    [jobindexdata] = await db
+      .promise()
+      .query(
+        'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%d %H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
+      );
+    jobindex = [];
+    joball = jobindexdata;
+    const currentDatetime = new Date();
+    jobindexdata.filter((jobindexdata) => {
+      const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
 
-    if (res.locals.users) {
+      if (
+        currentDatetime < maturityDatetime &&
+        jobindexdata.statusjob == "openjob"
+      ) {
+        jobindex.push(jobindexdata);
+      }
+    });
+    if (res.locals.users || res.locals.companys || res.locals.admins) {
       status = "loggedIn";
-      user = res.locals.users;
-      if (user.status === "active") {
-        [companyindex] = await db.promise().query("SELECT * FROM companies ");
-        let [jobindexdata] = await db
-          .promise()
-          .query(
-            'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%d %H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
-          );
-        jobindex = [];
+      user = res.locals.users ||null;
+      company = res.locals.companys ||null;
+      admin = res.locals.admins ||null;
 
-        const currentDatetime = new Date();
-        jobindexdata.filter((jobindexdata) => {
-          const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
-
-          if (
-            currentDatetime < maturityDatetime &&
-            jobindexdata.statusjob == "openjob"
-          ) {
-            jobindex.push(jobindexdata);
-          }
-        });
-
-        [resumeindex] = await db.promise().query("SELECT * FROM resume ");
-
-        [webpage] = await db.promise().query("SELECT * FROM webpage ");
-      } else if(user.status === "banned"){
-        [webpage] = await db.promise().query("SELECT * FROM webpage ");
-        return res.render("login",{  errors: "Your id has been banned",status, user, company, admin, webpage });
-      }else{[webpage] = await db.promise().query("SELECT * FROM webpage ");
-      return res.render("login",{  errors: "Login fail please check your email or password",status, user, company, admin, webpage });}
-
-    } else if (res.locals.companys) {
-      status = "loggedIn";
-      company = res.locals.companys;
-      console.log(company);
-      if (company.status === "active" && company.adverify ==="verify") {
-        let [jobindexdata] = await db
-          .promise()
-          .query(
-            'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%d %H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
-          );
-        jobindex = [];
-
-        const currentDatetime = new Date();
-        jobindexdata.filter((jobindexdata) => {
-          const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
-
-          if (
-            currentDatetime < maturityDatetime &&
-            jobindexdata.statusjob == "openjob"
-          ) {
-            jobindex.push(jobindexdata);
-          }
-        });
-
-        // console.log(jobindex);
-
-        [resumeindex] = await db.promise().query("SELECT * FROM resume ");
-        // console.log(req.body.resumeindex);
-        [userindex] = await db.promise().query("SELECT * FROM users ");
-        // console.log(req.body.userindex);
-        [adminindex] = await db.promise().query("SELECT * FROM admins ");
-        // console.log(req.body.adminindex);
-        [webpage] = await db.promise().query("SELECT * FROM webpage ");
-      } else {
-        [webpage] = await db.promise().query("SELECT * FROM webpage ");
+      if ((user && user.status === "banned") || (company &&( company.status === "nonactive" || company.adverify === "nonverify"))) {
         return res.render("login", {
-          errors: "Your id has been banned",
+          errors: "Your id has been banned or nonverify",
           status,
           user,
           company,
           admin,
           webpage,
         });
-      }
-    } else if (res.locals.admins) {
-      status = "loggedIn";
-      admin = res.locals.admins;
-      let [jobindexdata] = await db
-        .promise()
-        .query(
-          'SELECT *, DATE_FORMAT(deadline_offer, "%Y-%m-%d %H:%i") as deadline_offer FROM job_company INNER JOIN companies ON job_company.id_company = companies.id_company'
-        );
-      jobindex = [];
-
-      const currentDatetime = new Date();
-      jobindexdata.filter((jobindexdata) => {
-        const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
-
-        if (
-          currentDatetime < maturityDatetime &&
-          jobindexdata.statusjob == "openjob"
-        ) {
-          jobindex.push(jobindexdata);
-        }
-      });
-      // console.log(req.body.jobindex);
-      [resumeindex] = await db.promise().query("SELECT * FROM resume ");
-      // console.log(req.body.resumeindex);
-      [userindex] = await db.promise().query("SELECT * FROM users ");
-      // console.log(req.body.userindex);
-      [companyindex] = await db.promise().query("SELECT * FROM companies ");
-      // console.log(req.body.companyindex);
-      [webpage] = await db.promise().query("SELECT * FROM webpage ");
-
-      // console.log(res.locals.webpage);
+      } 
     } else {
       status = "no";
       user = "nothing";
       company = "nothing";
-      let [jobindexdata] = await db
-        .promise()
-        .query(
-          'SELECT * ,DATE_FORMAT(deadline_offer, "%d-%m-%y %h:%m ")as deadline_offer FROM job_company  inner join companies  on job_company.id_company = companies.id_company   '
-        );
-
-        jobindex = [];
-
-        const currentDatetime = new Date();
-        jobindexdata.filter((jobindexdata) => {
-          const maturityDatetime = new Date(jobindexdata.deadline_offer); // Assuming 'maturity_time' is a column name
-
-          if (
-            currentDatetime < maturityDatetime &&
-            jobindexdata.statusjob == "openjob"
-          ) {
-            jobindex.push(jobindexdata);
-          }
-        });
-      // console.log(req.body.jobindex);
-      [resumeindex] = await db.promise().query("SELECT * FROM resume ");
-      // console.log(req.body.resumeindex);
-      [userindex] = await db.promise().query("SELECT * FROM users ");
-      // console.log(req.body.userindex);
-      [companyindex] = await db.promise().query("SELECT * FROM companies ");
-      // console.log(req.body.companyindex);
-      [adminindex] = await db.promise().query("SELECT * FROM admins ");
-      // console.log(req.body.adminindex);
-      [webpage] = await db.promise().query("SELECT * FROM webpage ");
     }
-
     res.render("index.ejs", {
       status,
       user,
@@ -418,6 +323,7 @@ router.get("/", loggedIn, async (req, res) => {
       userindex,
       adminindex,
       webpage,
+      jobindexdata,
     });
   } catch (error) {
     console.error(error);

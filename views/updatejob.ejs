@@ -12,133 +12,29 @@
 <body>
   
   <%- include('navbar') %>
-
-  <section style="background-color: #eeeeee; ">
-    <div class="container py-5 h-100">
-      <p class="label-profile11"><b>Edit Job</b></p>
-    </div>
-    <form action="/company/updatejob_company/<%= job.idjob_company %>" method="post">
-    <div class="row" style="justify-content:center;">
-        <div class="col-lg-6">
-          <div class="card p-5">
-            <div class="card">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Name Job</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="name_job"  name="name_job" class="form-control" value="<%= job.name_job %>"/>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Role</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="role" name= "role"  class="form-control" value="<%= job.role %>" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Detail Work</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <textarea type="text" id="detail_work"  name="detail_work" class="form-control" rows="4" ><%= job.detail_work %></textarea>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Experience</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <textarea type="text" id="experience" name= "experience" class="form-control" rows="4"><%= job.experience %></textarea>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Gender</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="gender"  name="gender" class="form-control" value="<%= job.gender %>" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Education</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="education" name= "education" class="form-control" value="<%= job.education %>" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Welfare</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <textarea type="text" id="welfare"  name="welfare" class="form-control" rows="4"  ><%= job.welfare %></textarea>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Salary</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="salary"  name="salary" class="form-control" value="<%= job.salary %>" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Workday</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="workday" name= "workday" class="form-control"value="<%= job.workday %>" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Day Off</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" id="day_off"  name="day_off"  class="form-control"value="<%= job.day_off %>" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <p class="mb-0">Deadline Offer</p>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="datetime-local" id="deadline_offer" name= "deadline_offer" class="form-control" value="<%= job.deadline_offer %>" />
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    
-                    <input type="hidden" id="id_company" name= "id_company"/>
-                  </div>
-                  <div class="col-sm-9">
-                    <button type="submit" class="btn btn-outline-primary"  style="margin-left: 50vh;" data-mdb-ripple-color="dark">Submit</button>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
+  <div class="container d-flex  justify-content-center align-items-center" style="min-height: 100vh;background-color: #F1F1F1;padding: 20px;">
+    <div class="card col-md-8" style="padding:20px;">
+        <div class="text-center justify-content-center mb-2"  >
+            <b>เพิ่มงาน</b>
         </div>
-      </div>
-    </form>
-  </section>
+        <form action="/company/updatejob_company/<%= job.idjob_company %>" method="post">
+
+          <input type="text" id="name_job"  name="name_job" class="form-control form-spacing" value="<%= job.name_job %>"/>
+          <input type="text" id="role" name= "role"  class="form-control form-spacing" value="<%= job.role %>" />
+          <textarea type="text" id="detail_work"  name="detail_work" class="form-control form-spacing" rows="4" ><%= job.detail_work %></textarea>
+          <textarea type="text" id="experience" name= "experience" class="form-control form-spacing" rows="4"><%= job.experience %></textarea>
+          <input type="text" id="gender"  name="gender" class="form-control form-spacing" value="<%= job.gender %>" />
+          <input type="text" id="education" name= "education" class="form-control form-spacing" value="<%= job.education %>" />
+          <textarea type="text" id="welfare"  name="welfare" class="form-control form-spacing" rows="4"  ><%= job.welfare %></textarea>
+          <input type="text" id="salary"  name="salary" class="form-control form-spacing" value="<%= job.salary %>" />
+          <input type="text" id="workday" name= "workday" class="form-control form-spacing"value="<%= job.workday %>" />
+          <input type="text" id="day_off"  name="day_off"  class="form-control form-spacing"value="<%= job.day_off %>" />
+          <input type="datetime-local" id="deadline_offer" name= "deadline_offer" class="form-control form-spacing" value="<%= job.deadline_offer %>" />
+          <input type="hidden" id="id_company" name= "id_company"/>
+          <button type="submit" style="background-color: #ED2A30;color: white; width: 100%; margin-top: 20px;">ยืนยัน</button>
+      </form>
+    </div>
+</div>
 </body>
 
 </html>

@@ -22,10 +22,10 @@
                 <% if( job !=undefined) { %>
                   <div class="col-md-3">
                     <div class="card" style="width: 18rem; margin-top: 30px; position: relative;">
-                      <a class="nav-link a-edit" href="/company/updatejob_company/<%= job.idjob_company %>" style="position: absolute; top: 10px; right: 10px;">
+                      <a class="nav-link a-edit" href="/company/updatejob_company/<%= job.idjob_company %>" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
                         <b>แก้ไข</b>
                       </a>
-                      <div class="card-body">
+                      <div class="card-body mt-2" style="padding-top: 40px;">
                         <h5 class="card-title">
                           <%= job.name_job %>
                         </h5>
@@ -37,7 +37,7 @@
                         <div class="d-flex align-items-center mb-2">
                           <box class="index-card-text custom-style <%= job.statusjob === 'openjob' ? 'open-job' : '' %>"
                                style="display: inline-block; padding: 5px; padding-left: 15px; padding-right: 15px; border-radius: 3px;">
-                               <%= job.statusjob %>
+                               <%= job.statusjob === 'openjob' ? 'เปิดรับสมัคร' : 'ปิดรับสมัคร' %>
                           </box>
                           <small class="card-title ms-2 " style="display: inline-block; margin-top: 10px;">
                             <b id="formatted-deadline-" data-deadline="<%= job.deadline_offer %>"></b>

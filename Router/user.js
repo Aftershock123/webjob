@@ -381,8 +381,7 @@ router.post(
       let [row3] = await db
         .promise()
         .query("SELECT * FROM resume where resume.id_user = ?", [id]);
-
-      if (row3.length < 1) {
+      if (row3.length = 0) {
         const currentURL = req.get("Referer");
         res.redirect(currentURL);
       }
@@ -390,7 +389,7 @@ router.post(
       res.redirect(currentURL);
     } catch (error) {
       // res.render("profile", { user: row2[0], company, admin, webpage });
-      console.error(error);
+      console.error("errorq",error);
       res.status(500).send("Internal Server Error");
     }
   }
