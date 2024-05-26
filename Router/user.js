@@ -1057,9 +1057,9 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
         );
       let id = userId;
       // res.redirect(`/user/profile/${id}`)
-      return res.status(200).json({ status: "success" });
+      return res.status(200).json({ status: "success",success:"สมัครงานสำเร็จ" });
     }else{
-      return res.status(400).json({ status: "error", error: "You've already applied for this job" });
+      return res.status(400).json({ status: "error", error: "คุณได้สมัครงานนี้ไปแล้ว" });
         
       
         
@@ -1079,7 +1079,7 @@ router.post("/apply/:userId/:jobId", loggedIn, async (req, res) => {
     console.log("Internal server error");
     return res
       .status(500)
-      .json({ status: "error", error: "Please add resume" });
+      .json({ status: "error", error: "กรุณาเพิ่มเรซูเม่" });
 
     //    const referer = req.headers.referer;
     //   const viewName = referer.substring(referer.lastIndexOf("/") + 1);

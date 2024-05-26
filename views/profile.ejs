@@ -66,9 +66,14 @@
           </div>
         </div>
       </form>
-      <% if (history=='undefined' || history==null || resume==='undefined' || resume===null) { %>
+      <% if (history=='undefined' || history==null || history.length < 1 || resume==='undefined' || resume===null) { %>
+        <div style="height: 30vh;">
+        </div>
+        <%- include('Footer') %>
       <%}else {%>
-           <%- include('jobsendcard') %>     
+           <%- include('jobsendcard') %>  
+            <%- include('Footer') %>
+
       <% } %>
     </section>
     <script>
